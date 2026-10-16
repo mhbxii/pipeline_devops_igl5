@@ -4,6 +4,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.Set;
 
@@ -23,6 +26,7 @@ public class Participant implements Serializable {
     @Enumerated(EnumType.STRING)
     Tache tache;
     @ManyToMany
+    @JsonIgnoreProperties("participants")
     Set<Event> events;
 
 }

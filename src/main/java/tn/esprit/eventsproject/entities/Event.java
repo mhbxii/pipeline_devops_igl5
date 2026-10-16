@@ -4,6 +4,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
@@ -23,6 +26,7 @@ public class Event implements Serializable {
     LocalDate dateFin;
     float cout;
     @ManyToMany(mappedBy = "events")
+    @JsonIgnoreProperties("events")
     Set<Participant> participants;
     @OneToMany(fetch = FetchType.EAGER)
     Set<Logistics> logistics;

@@ -15,8 +15,13 @@ pipeline {
                 }
             }
         }
-        stage('Package') {
-            steps { sh 'mvn package -DskipTests' }
+        stage('Nexus') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'nexus-creds',
+                        usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+                    sh 'mvn deploy -DskipTests'
+                }
+            }
         }
     }
 

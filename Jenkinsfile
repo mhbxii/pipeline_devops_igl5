@@ -23,9 +23,13 @@ pipeline {
                 }
             }
         }
-        stage('Docker build') {
+        stage('Building our image') {
             steps {
                 sh 'docker build -t mhbx12/eventsproject:${BUILD_NUMBER} -t mhbx12/eventsproject:latest .'
+            }
+        }
+        stage('Deploy our image') {
+            steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
                         usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
                     sh 'echo $DH_PASS | docker login -u $DH_USER --password-stdin'

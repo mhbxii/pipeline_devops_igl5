@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-app
+  labels:
+    app: events-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: events-app
+  template:
+    metadata:
+      labels:
+        app: events-app
+    spec:
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox:1.36
+          command: ["sh", "-c", "until nc -z mysqldb 3306; do echo waiting for mysql; sleep 3; done"]
+      containers:
+        - name: events-app
+          image: mhbx12/eventsproject:IMAGE_TAG
+          ports:
+            - containerPort: 8089
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://mysqldb:3306/eventsProject?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "root"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "root"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+              value: "org.hibernate.dialect.MySQL8Dialect"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+          readinessProbe:
+            tcpSocket:
+              port: 8089
+            initialDelaySeconds: 30
+            periodSeconds: 10

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysqldb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysqldb
+  template:
+    metadata:
+      labels:
+        app: mysqldb
+    spec:
+      containers:
+        - name: mysqldb
+          image: mysql:8
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "eventsProject"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", "mysqladmin ping -h 127.0.0.1 -uroot -p$MYSQL_ROOT_PASSWORD"]
+            initialDelaySeconds: 20
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysqldb
+spec:
+  selector:
+    app: mysqldb
+  ports:
+    - port: 3306
+      targetPort: 3306

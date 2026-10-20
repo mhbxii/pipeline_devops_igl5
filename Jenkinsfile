@@ -7,6 +7,7 @@ pipeline {
         AWS_SESSION_TOKEN     = credentials('aws-session-token')
         AWS_DEFAULT_REGION    = 'us-east-1'
         TF_STATE              = "${env.HOME}/.tfstate/events.tfstate"
+        TF_PLUGIN_CACHE_DIR = "${env.HOME}/.terraform.d/plugin-cache"
     }
 
     stages {
@@ -58,6 +59,22 @@ pipeline {
                     sh 'terraform init -input=false'
                     sh 'terraform apply -auto-approve -input=false -state=$TF_STATE'
                 }
+            }
+        }
+        stage('Update kubeconfig') {
+            steps {
+                sh 'aws eks update-kubeconfig --name events-cluster --region us-east-1'
+                sh 'kubectl get nodes'
+            }
+        }
+        stage('Deploy to AWS Kubernetes') {
+            steps {
+                sh 'kubectl apply -f k8s/mysql.yaml'
+                sh 'kubectl rollout status deployment/mysqldb --timeout=300s'
+                sh 'sed "s|IMAGE_TAG|${BUILD_NUMBER}|" k8s/deployment.yaml | kubectl apply -f -'
+                sh 'kubectl apply -f k8s/service.yaml'
+                sh 'kubectl rollout status deployment/events-app --timeout=300s'
+                sh 'kubectl get pods,svc -o wide'
             }
         }
 }

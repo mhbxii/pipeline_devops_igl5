@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        AWS_SESSION_TOKEN     = credentials('aws-session-token')
+        AWS_DEFAULT_REGION    = 'us-east-1'
+        TF_STATE              = "${env.HOME}/.tfstate/events.tfstate"
+    }
+
     stages {
         stage('Mvn Clean') {
             steps { sh 'mvn clean' }
@@ -39,13 +47,17 @@ pipeline {
             }
         }
         stage('Test AWS credentials') {
-        steps {
-            withCredentials([
-                string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
-                string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
-                string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
-            ]) {
-                sh 'AWS_DEFAULT_REGION=us-east-1 aws sts get-caller-identity'
+            steps {
+                sh 'aws sts get-caller-identity'
+            }
+        }
+        stage('Setup Terraform') {
+            steps {
+                dir('terraform') {
+                    sh 'mkdir -p $HOME/.tfstate'
+                    sh 'terraform init -input=false'
+                    sh 'terraform apply -auto-approve -input=false -state=$TF_STATE'
+                }
             }
         }
 }

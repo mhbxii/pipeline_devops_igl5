@@ -80,6 +80,22 @@ pipeline {
 }
 
     post {
-        always { junit 'target/surefire-reports/*.xml' }
+        always {
+            junit 'target/surefire-reports/*.xml'
+        }
+        success {
+            emailext(
+                to: '$DEFAULT_RECIPIENTS',
+                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Build succeeded.\n${env.BUILD_URL}"
+            )
+        }
+        failure {
+            emailext(
+                to: '$DEFAULT_RECIPIENTS',
+                subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Build failed.\n${env.BUILD_URL}console"
+            )
+        }
     }
 }

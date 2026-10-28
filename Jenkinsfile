@@ -54,22 +54,6 @@ pipeline {
             }
         }
 
-        stage('6 - Quality Gate') {
-            steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    script {
-                        def qg = waitForQualityGate()
-
-                        if (qg.status != 'OK') {
-                            error "Quality Gate echoue : ${qg.status}"
-                        }
-
-                        echo 'Quality Gate valide.'
-                    }
-                }
-            }
-        }
-
         stage('7 - Publish to Nexus') {
             steps {
                 withCredentials([

@@ -3,6 +3,10 @@ package tn.esprit.eventsproject.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.eventsproject.dto.EventDTO;
+import tn.esprit.eventsproject.dto.EventMapper;
+import tn.esprit.eventsproject.dto.LogisticsDTO;
+import tn.esprit.eventsproject.dto.ParticipantDTO;
 import tn.esprit.eventsproject.entities.Event;
 import tn.esprit.eventsproject.entities.Logistics;
 import tn.esprit.eventsproject.entities.Participant;
@@ -19,24 +23,37 @@ public class EventRestController {
     private final IEventServices eventServices;
 
     @PostMapping("/addPart")
-    public Participant addParticipant(@RequestBody Participant participant){
-        return eventServices.addParticipant(participant);
+    public ParticipantDTO addParticipant(@RequestBody ParticipantDTO participantDTO){
+        Participant participant = EventMapper.toParticipantEntity(participantDTO);
+        Participant saved = eventServices.addParticipant(participant);
+        return EventMapper.toParticipantDTO(saved);
     }
+
     @PostMapping("/addEvent/{id}")
-    public Event addEventPart(@RequestBody Event event, @PathVariable("id") int idPart){
-        return eventServices.addAffectEvenParticipant(event, idPart);
+    public EventDTO addEventPart(@RequestBody EventDTO eventDTO, @PathVariable("id") int idPart){
+        Event event = EventMapper.toEventEntity(eventDTO);
+        Event saved = eventServices.addAffectEvenParticipant(event, idPart);
+        return EventMapper.toEventDTO(saved);
     }
+
     @PostMapping("/addEvent")
-    public Event addEvent(@RequestBody Event event){
-        return eventServices.addAffectEvenParticipant(event);
+    public EventDTO addEvent(@RequestBody EventDTO eventDTO){
+        Event event = EventMapper.toEventEntity(eventDTO);
+        Event saved = eventServices.addAffectEvenParticipant(event);
+        return EventMapper.toEventDTO(saved);
     }
+
     @PutMapping("/addAffectLog/{description}")
-    public Logistics addAffectLog(@RequestBody Logistics logistics,@PathVariable("description") String descriptionEvent){
-        return eventServices.addAffectLog(logistics,descriptionEvent);
+    public LogisticsDTO addAffectLog(@RequestBody LogisticsDTO logisticsDTO, @PathVariable("description") String descriptionEvent){
+        Logistics logistics = EventMapper.toLogisticsEntity(logisticsDTO);
+        Logistics saved = eventServices.addAffectLog(logistics, descriptionEvent);
+        return EventMapper.toLogisticsDTO(saved);
     }
+
     @GetMapping("/getLogs/{d1}/{d2}")
-    public List<Logistics> getLogistiquesDates (@PathVariable("d1") LocalDate date_debut, @PathVariable("d2") LocalDate date_fin){
-        return eventServices.getLogisticsDates(date_debut,date_fin);
+    public List<LogisticsDTO> getLogistiquesDates (@PathVariable("d1") LocalDate date_debut, @PathVariable("d2") LocalDate date_fin){
+        List<Logistics> logistics = eventServices.getLogisticsDates(date_debut, date_fin);
+        return EventMapper.toLogisticsDTOList(logistics);
     }
 
     // ==========================================
@@ -44,27 +61,33 @@ public class EventRestController {
     // ==========================================
 
     @PostMapping("/saveEvent")
-    public Event saveEvent(@RequestBody Event event) {
-        log.info("REST request to save Event: {}", event != null ? event.getDescription() : null);
-        return eventServices.addEvent(event);
+    public EventDTO saveEvent(@RequestBody EventDTO eventDTO) {
+        log.info("REST request to save Event: {}", eventDTO != null ? eventDTO.getDescription() : null);
+        Event event = EventMapper.toEventEntity(eventDTO);
+        Event saved = eventServices.addEvent(event);
+        return EventMapper.toEventDTO(saved);
     }
 
     @GetMapping("/getAllEvents")
-    public List<Event> getAllEvents() {
+    public List<EventDTO> getAllEvents() {
         log.info("REST request to get all Events");
-        return eventServices.retrieveAllEvents();
+        List<Event> events = eventServices.retrieveAllEvents();
+        return EventMapper.toEventDTOList(events);
     }
 
     @GetMapping("/getEvent/{id}")
-    public Event getEventById(@PathVariable("id") int idEvent) {
+    public EventDTO getEventById(@PathVariable("id") int idEvent) {
         log.info("REST request to get Event by ID: {}", idEvent);
-        return eventServices.retrieveEvent(idEvent);
+        Event event = eventServices.retrieveEvent(idEvent);
+        return EventMapper.toEventDTO(event);
     }
 
     @PutMapping("/updateEvent")
-    public Event updateEvent(@RequestBody Event event) {
-        log.info("REST request to update Event ID: {}", event != null ? event.getIdEvent() : null);
-        return eventServices.updateEvent(event);
+    public EventDTO updateEvent(@RequestBody EventDTO eventDTO) {
+        log.info("REST request to update Event ID: {}", eventDTO != null ? eventDTO.getIdEvent() : null);
+        Event event = EventMapper.toEventEntity(eventDTO);
+        Event updated = eventServices.updateEvent(event);
+        return EventMapper.toEventDTO(updated);
     }
 
     @DeleteMapping("/deleteEvent/{id}")

@@ -48,7 +48,7 @@ pipeline {
 
         stage('5 - SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('SonarQubeLocal') {
                     bat 'mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
                 }
             }

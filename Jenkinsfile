@@ -2,10 +2,6 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven'
-    }
-
     options {
         timestamps()
         disableConcurrentBuilds()
@@ -15,14 +11,20 @@ pipeline {
 
         stage('1 - Checkout') {
             steps {
-                echo 'Recuperation du code source depuis Git...'
                 checkout scm
             }
         }
 
-        stage('2 - Build and Test') {
+        stage('2 - Verify Tools') {
             steps {
-                echo 'Compilation et execution des tests Maven...'
+                bat 'git --version'
+                bat 'mvn -version'
+                bat 'java -version'
+            }
+        }
+
+        stage('3 - Build and Test') {
+            steps {
                 bat 'mvn -B clean verify'
             }
             post {
@@ -35,20 +37,25 @@ pipeline {
             }
         }
 
-        stage('3 - SonarQube Analysis') {
+        stage('4 - Archive JAR') {
             steps {
-                echo 'Analyse du code avec SonarQube...'
+                archiveArtifacts(
+                    artifacts: 'target/*.jar',
+                    fingerprint: true
+                )
+            }
+        }
 
+        stage('5 - SonarQube Analysis') {
+            steps {
                 withSonarQubeEnv('SonarQube') {
-                    bat 'mvn -B sonar:sonar'
+                    bat 'mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
                 }
             }
         }
 
-        stage('4 - Quality Gate') {
+        stage('6 - Quality Gate') {
             steps {
-                echo 'Verification du Quality Gate SonarQube...'
-
                 timeout(time: 10, unit: 'MINUTES') {
                     script {
                         def qg = waitForQualityGate()
@@ -63,10 +70,8 @@ pipeline {
             }
         }
 
-        stage('5 - Publish to Nexus') {
+        stage('7 - Publish to Nexus') {
             steps {
-                echo 'Publication de l artefact dans Nexus...'
-
                 withCredentials([
                     usernamePassword(
                         credentialsId: 'nexus_secret',
@@ -82,15 +87,15 @@ pipeline {
 
     post {
         success {
-            echo 'SUCCES : tests, analyse SonarQube et publication Nexus termines.'
+            echo 'Succes : build, tests, SonarQube et publication Nexus.'
         }
 
         failure {
-            echo 'ECHEC : consultez la console Jenkins pour identifier le probleme.'
+            echo 'Echec : consultez la Console Output de Jenkins.'
         }
 
         always {
-            echo 'Fin de l execution du pipeline.'
+            echo 'Pipeline termine.'
         }
     }
 }

@@ -104,5 +104,20 @@
             </plugin>
         </plugins>
     </build>
+    
+<distributionManagement>
+    <repository>
+        <id>events-nexus</id>
+        <name>Events Releases</name>
+        <url>http://localhost:8081/repository/events-releases/</url>
+    </repository>
+    <snapshotRepository>
+        <id>events-nexus</id>
+        <name>Events Snapshots</name>
+        <url>http://localhost:8081/repository/events-snapshots/</url>
+    </snapshotRepository>
+</distributionManagement>
+
 
 </project>
+

@@ -16,9 +16,10 @@ Profil local -> MySQL Compose sur 3307 ; déploiement Docker vérifié avec runt
 Kubernetes kind 1.32.2 : namespace events-tache, application et MySQL prêts, PVC MySQL.
 Terraform : namespace events-monitoring, quota, ConfigMap, PVC, Deployment et Service
 Prometheus. Apply approuvé et vérifié ; scrape Actuator UP.
-Jenkins #4 orchestre tests, Sonar/gate, Nexus, image et livraison kind.
+Jenkins #7 a verifie la livraison publique complete. Le SCM lit maintenant GitHub
+Tache par HTTPS avec polling H/5 ; validation du declenchement automatique en cours.
 Grafana provisionne quatre panneaux Prometheus dans events-grafana.
-Docker Hub public autorise pour ayyoub1/events-tache ; publication en cours.
+Docker Hub public verifie : ayyoub1/events-tache.
 
 ```mermaid
 flowchart LR

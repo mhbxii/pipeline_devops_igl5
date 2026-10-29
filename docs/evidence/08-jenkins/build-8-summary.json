@@ -1,0 +1,223 @@
+{
+  "number": 8,
+  "url": "http://localhost:8080/job/tache-ci/8",
+  "result": "SUCCESS",
+  "durationMillis": 149906,
+  "timestampMillis": 1793287477384,
+  "stages": {
+    "_links": {
+      "self": {
+        "href": "/job/tache-ci/8/wfapi/describe"
+      },
+      "artifacts": {
+        "href": "/job/tache-ci/8/wfapi/artifacts"
+      }
+    },
+    "id": "8",
+    "name": "#8",
+    "status": "SUCCESS",
+    "startTimeMillis": 1793287477399,
+    "endTimeMillis": 1793287627305,
+    "durationMillis": 149906,
+    "queueDurationMillis": 15,
+    "pauseDurationMillis": 0,
+    "stages": [
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/10/wfapi/describe"
+          }
+        },
+        "id": "10",
+        "name": "Validate configuration",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793287509822,
+        "durationMillis": 447,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/18/wfapi/describe"
+          }
+        },
+        "id": "18",
+        "name": "Checkout",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793287510325,
+        "durationMillis": 16985,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/28/wfapi/describe"
+          }
+        },
+        "id": "28",
+        "name": "Compile",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793287527359,
+        "durationMillis": 8922,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/33/wfapi/describe"
+          }
+        },
+        "id": "33",
+        "name": "Tests and coverage",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793287536332,
+        "durationMillis": 23454,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/40/wfapi/describe"
+          }
+        },
+        "id": "40",
+        "name": "SonarQube analysis",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793287559847,
+        "durationMillis": 28733,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/53/wfapi/describe"
+          }
+        },
+        "id": "53",
+        "name": "Quality gate",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793287588631,
+        "durationMillis": 4386,
+        "pauseDurationMillis": 3671
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/62/wfapi/describe"
+          }
+        },
+        "id": "62",
+        "name": "Package",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793287593071,
+        "durationMillis": 21890,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/67/wfapi/describe"
+          }
+        },
+        "id": "67",
+        "name": "Publish Nexus",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793287615009,
+        "durationMillis": 249,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/72/wfapi/describe"
+          }
+        },
+        "id": "72",
+        "name": "Build Docker image",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793287615306,
+        "durationMillis": 9919,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/77/wfapi/describe"
+          }
+        },
+        "id": "77",
+        "name": "Publish Docker image",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793287625305,
+        "durationMillis": 183,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/82/wfapi/describe"
+          }
+        },
+        "id": "82",
+        "name": "Deploy local kind",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793287625572,
+        "durationMillis": 193,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/87/wfapi/describe"
+          }
+        },
+        "id": "87",
+        "name": "Deploy Kubernetes",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793287625840,
+        "durationMillis": 188,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/92/wfapi/describe"
+          }
+        },
+        "id": "92",
+        "name": "Verify deployment",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793287626118,
+        "durationMillis": 206,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/8/execution/node/97/wfapi/describe"
+          }
+        },
+        "id": "97",
+        "name": "Declarative: Post Actions",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793287626404,
+        "durationMillis": 459,
+        "pauseDurationMillis": 0
+      }
+    ]
+  }
+}

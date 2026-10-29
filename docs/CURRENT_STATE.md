@@ -68,3 +68,15 @@ Bootstrap, Compose et parametres adaptes ; image Jenkins reconstruite et contene
 recree avec ses volumes. Aucun build automatique encore revendique.
 Prochaine action : push du commit de configuration, reactiver le job puis observer
 la vraie cause SCMTriggerCause et le SHA GitHub sans declenchement manuel.
+
+### Migration SCM : etat de polling historique
+Le premier poll conserve aussi /git-src depuis le dernier build reussi ; ce chemin
+n'est plus monte. Les logs reels sont conserves dans github-migration-initial-poll.log.
+Build #8 demande manuellement comme baseline : checkout GitHub, tests et Sonar,
+sans publication Nexus/Docker Hub ni rollout. Le build automatique sera valide
+separement apres le prochain commit source et avec SCMTriggerCause reel.
+
+Baseline #8 SUCCESS : checkout GitHub 02fe596, 38 tests, gate OK ; pas de publication
+ni de rollout. La migration du SCM est initialisee. Prochain commit : correction
+du lecteur de polling log par build et captures automatiques de la nouvelle preuve.
+Attendre ensuite le vrai timer SCM pour prouver detection du nouveau commit.

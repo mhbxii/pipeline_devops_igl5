@@ -5,6 +5,7 @@ from playwright.sync_api import sync_playwright
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--build", type=int, default=4)
+parser.add_argument("--include-scm", action="store_true", help="Capture the genuine per-build polling log for an SCM-triggered run")
 args = parser.parse_args()
 values = environment()
 with sync_playwright() as p:
@@ -41,4 +42,9 @@ with sync_playwright() as p:
     page.wait_for_timeout(1500)
     page.screenshot(path=str(ROOT / "docs/evidence/08-jenkins/jenkins-tests.png"), full_page=True)
     print("Captured actual Jenkins pipeline and JUnit report.")
+    if args.include_scm:
+        page.goto(f"http://localhost:8080/job/tache-ci/{args.build}/pollingLog/", wait_until="domcontentloaded")
+        page.wait_for_timeout(2000)
+        page.screenshot(path=str(ROOT / "docs/evidence/08-jenkins/github-polling-page.png"), full_page=True)
+        print("Captured the build's genuine SCM polling log page.")
     browser.close()

@@ -5,7 +5,7 @@
   "scriptPath": "Jenkinsfile",
   "excludedRegions": "docs/.*",
   "polling": "H/5 * * * *",
-  "disabled": true,
+  "disabled": false,
   "anonymousSourceRead": true,
   "parameters": {
     "RUN_SONAR": true,

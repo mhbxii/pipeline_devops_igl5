@@ -14,6 +14,8 @@ $items = @(
     @{ File='01-project-setup/setup-03-database-blocker'; Title='Blocage MySQL | lecture des journaux sauvegardes'; Command="Select-String baseline-startup.log -Pattern 'Access denied'; Get-Content baseline-api.txt"; Text=(@((Select-String docs/evidence/01-project-setup/baseline-startup.log -Pattern 'Access denied' | Select-Object -First 3 | ForEach-Object { $_.Line }); ''; (Get-Content docs/evidence/01-project-setup/baseline-api.txt)) | Out-String) }
 )
 $extra = @(
+    @{File='08-jenkins/github-scm-config'; Title='Jenkins | SCM GitHub direct et polling H/5'; Source='08-jenkins/github-scm-config.json'},
+    @{File='08-jenkins/github-trigger'; Title='Jenkins | declenchement automatique SCM et revision GitHub'; Source='08-jenkins/github-trigger.json'},
     @{File='09-docker/dockerhub-verification'; Title='Docker Hub | depot public et manifeste accessibles sans compte'; Source='09-docker/dockerhub-verification.json'},
     @{File='12-final-validation/local-delivery'; Title='Livraison | Jenkins, Nexus et JAR du pod compares'; Source='12-final-validation/local-delivery.json'},
     @{File='12-final-validation/legacy-dto-api'; Title='Compatibilite | quatre routes historiques et MySQL'; Source='12-final-validation/legacy-dto-api.json'},
@@ -38,6 +40,15 @@ foreach ($entry in $extra) {
             $proof = Get-Content $source -Raw -Encoding UTF8 | ConvertFrom-Json
             $display = @("Result: $($proof.result)", ($proof.operations | Format-Table method,path,status -AutoSize | Out-String), $proof.note) | Out-String
             $operation = "Get-Content $source | ConvertFrom-Json; operations | Format-Table (preuve sauvegardee)"
+        }
+        if ($entry.Source -eq '08-jenkins/github-scm-config.json') {
+            $proof = Get-Content $source -Raw -Encoding UTF8 | ConvertFrom-Json
+            $display = @("Job: $($proof.job)", "Source: $($proof.sourceUrl)", "Branch: $($proof.branch)",
+                "Script: $($proof.scriptPath)", "Polling: $($proof.polling)", "Excluded: $($proof.excludedRegions)",
+                "Disabled: $($proof.disabled)", "Anonymous source read: $($proof.anonymousSourceRead)",
+                "Publish Docker Hub: $($proof.parameters.PUBLISH_IMAGE)", "Deploy Kubernetes: $($proof.parameters.DEPLOY_K8S)",
+                "Destination: $($proof.parameters.DOCKER_REPOSITORY)") | Out-String
+            $operation = "Get-Content $source | ConvertFrom-Json (configuration observee)"
         }
         $items += @{File=$entry.File; Title=$entry.Title; Command=$operation; Text=$display}
     }

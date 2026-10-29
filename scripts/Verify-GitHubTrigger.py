@@ -31,7 +31,7 @@ while time.monotonic() < deadline:
         proof = {"build": number, "commit": args.expected_commit, "sourceUrls": matching[0]["remoteUrls"],
                  "causes": causes, "timestampMillis": build["timestamp"], "observedWithoutManualTrigger": True}
         (ROOT / "docs/evidence/08-jenkins/github-trigger.json").write_text(json.dumps(proof, indent=2), encoding="utf-8")
-        response = api.session.get(job + "/scmPollLog/pollingLog", timeout=20)
+        response = api.session.get(f"{job}/{number}/pollingLog/pollingLog", timeout=20)
         response.raise_for_status()
         (ROOT / "docs/evidence/08-jenkins/github-polling.log").write_text(response.text, encoding="utf-8")
         print(json.dumps(proof, indent=2), flush=True)

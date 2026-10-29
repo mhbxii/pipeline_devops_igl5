@@ -31,3 +31,17 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Local credentials and generated evidence
+.env
+.env.*
+!.env.example
+.local/
+*.log
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+!*.tfvars.example
+crash.log

@@ -1,0 +1,78 @@
+name: events-devops
+services:
+  jenkins:
+    build: ./devops/jenkins
+    user: root
+    restart: unless-stopped
+    ports: ["127.0.0.1:8080:8080"]
+    environment:
+      JAVA_OPTS: -Djenkins.install.runSetupWizard=false -Xmx768m
+      CASC_JENKINS_CONFIG: /var/jenkins_home/casc.yaml
+      JENKINS_ADMIN_PASSWORD: ${JENKINS_ADMIN_PASSWORD:?Run scripts/Initialize-Lab.ps1}
+      NEXUS_PASSWORD: ${NEXUS_PASSWORD:?Run scripts/Initialize-Lab.ps1}
+      SONAR_TOKEN: ${SONAR_TOKEN:-pending-bootstrap}
+      DOCKERHUB_USERNAME: ${DOCKERHUB_USERNAME:-unconfigured}
+      DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN:-unconfigured}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      REPOSITORY_URL: https://github.com/mhbxii/pipeline_devops_igl5.git
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./devops/jenkins/casc.yaml:/var/jenkins_home/casc.yaml:ro
+      - ./.local/kube:/var/jenkins_home/.kube:ro
+      - ./:/opt/project:ro
+    mem_limit: 1536m
+  sonar-db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_DB: sonar
+      POSTGRES_PASSWORD: ${SONAR_DB_PASSWORD:?Run scripts/Initialize-Lab.ps1}
+    volumes: ["sonar_db:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sonar"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    mem_limit: 256m
+  sonarqube:
+    image: sonarqube:community
+    restart: unless-stopped
+    depends_on:
+      sonar-db: {condition: service_healthy}
+    ports: ["127.0.0.1:9000:9000"]
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://sonar-db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: ${SONAR_DB_PASSWORD}
+      SONAR_ES_JAVAOPTS: -Xms512m -Xmx512m
+      SONAR_WEB_JAVAOPTS: -Xms256m -Xmx512m
+      SONAR_CE_JAVAOPTS: -Xms256m -Xmx512m
+    volumes:
+      - sonar_data:/opt/sonarqube/data
+      - sonar_extensions:/opt/sonarqube/extensions
+      - sonar_logs:/opt/sonarqube/logs
+    ulimits:
+      nofile: {soft: 131072, hard: 131072}
+      nproc: 8192
+    mem_limit: 2560m
+  nexus:
+    image: sonatype/nexus3:latest
+    restart: unless-stopped
+    ports: ["127.0.0.1:8081:8081"]
+    environment:
+      INSTALL4J_ADD_VM_PARAMS: -Xms512m -Xmx1024m -XX:MaxDirectMemorySize=512m -Djava.util.prefs.userRoot=/nexus-data/javaprefs
+    volumes: ["nexus_data:/nexus-data"]
+    mem_limit: 2048m
+networks:
+  default:
+    name: events-devops
+volumes:
+  jenkins_home:
+  sonar_db:
+  sonar_data:
+  sonar_extensions:
+  sonar_logs:
+  nexus_data:

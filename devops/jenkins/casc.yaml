@@ -1,0 +1,46 @@
+jenkins:
+  systemMessage: "Events DevOps lab — logistics module"
+  numExecutors: 1
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: admin
+          password: "${JENKINS_ADMIN_PASSWORD}"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - usernamePassword:
+              scope: GLOBAL
+              id: nexus-credentials
+              username: admin
+              password: "${NEXUS_PASSWORD}"
+          - string:
+              scope: GLOBAL
+              id: sonar-token
+              secret: "${SONAR_TOKEN}"
+          - string:
+              scope: GLOBAL
+              id: mysql-password
+              secret: "${MYSQL_PASSWORD}"
+          - string:
+              scope: GLOBAL
+              id: mysql-root-password
+              secret: "${MYSQL_ROOT_PASSWORD}"
+          - usernamePassword:
+              scope: GLOBAL
+              id: dockerhub-credentials
+              username: "${DOCKERHUB_USERNAME}"
+              password: "${DOCKERHUB_TOKEN}"
+unclassified:
+  location:
+    url: http://localhost:8080/
+  sonarGlobalConfiguration:
+    installations:
+      - name: SonarQube
+        serverUrl: http://sonarqube:9000
+        credentialsId: sonar-token

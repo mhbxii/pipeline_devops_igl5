@@ -1,0 +1,7 @@
+workflow-aggregator
+git
+credentials-binding
+junit
+sonar
+configuration-as-code
+pipeline-stage-view

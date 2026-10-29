@@ -29,7 +29,7 @@ services:
     mem_limit: 2g
   nexus:
     profiles: ["nexus"]
-    image: sonatype/nexus3:latest
+    image: sonatype/nexus3@sha256:4b9a0efb605808c15927c751107b3f3308ae306c4b22715c96bf9bbabbb0e736
     ports:
       - "127.0.0.1:8081:8081"
     environment:

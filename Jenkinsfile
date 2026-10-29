@@ -86,7 +86,10 @@ pipeline {
                         trap 'rm -rf "$DOCKER_CONFIG"' EXIT
                         printf '%s' "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USER" --password-stdin
                         docker tag events-tache:$IMAGE_TAG "$DOCKER_REPOSITORY:$IMAGE_TAG"
-                        docker push "$DOCKER_REPOSITORY:$IMAGE_TAG"
+                        mkdir "$DOCKER_CONFIG/image"
+                        docker image save --platform=linux/amd64 -o "$DOCKER_CONFIG/image.tar" events-tache:$IMAGE_TAG
+                        tar -xf "$DOCKER_CONFIG/image.tar" -C "$DOCKER_CONFIG/image"
+                        java ci/PushRegistry.java "$DOCKER_CONFIG/image" "$DOCKER_REPOSITORY" "$IMAGE_TAG"
                     '''
                 }
             }

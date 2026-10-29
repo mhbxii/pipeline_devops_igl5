@@ -1,6 +1,7 @@
 """Trigger and record a real Jenkins run; all publication stays local by default."""
 import argparse
 import json
+import re
 import time
 from urllib.parse import urlparse
 from local_ci import ROOT, Jenkins, environment
@@ -60,6 +61,7 @@ while True:
 response = api.session.get(build_url + "/consoleText", timeout=30)
 response.raise_for_status()
 console = response.text
+console = re.sub(r'https?://[^\s"\']+/blobs/uploads/[^\s"\']+', '[registry upload URL redacted]', console)
 for key, value in environment().items():
     if value and ("PASSWORD" in key or "TOKEN" in key or "SECRET" in key):
         console = console.replace(value, "[redacted]")

@@ -3,7 +3,7 @@
 | Critère | Points | Statut | Fichiers et vérification | Preuve et slides | Question / réponse |
 |---|---:|---|---|---|---|
 | Jenkins | 2 | Chaîne publique vérifiée | Jenkinsfile, ci/ ; #7 SUCCESS ; tests, gate, Nexus, Docker Hub, rollout et HTTP | 08-jenkins ; 8 et 12 | Un échec bloque-t-il le rollout ? Oui, #5 le démontre. |
-| Git Flow | 1 | Partiel | Branche Tache, vrais commits par jalon ; aucun push distant | 05-git ; 3 | Pourquoi isoler ? Préserver les modules et permettre la revue. |
+| Git Flow | 1 | Synchronisé | Branche Tache, vrais commits ; push autorisé et SHA distant identique | 05-git ; 3 | Pourquoi isoler ? Préserver les modules et permettre la revue. |
 | JUnit | 1 | Vérifié | 38 tests, Mockito, MVC, mapping, JPA/H2 ; MySQL vérifié séparément | 04-unit-tests, 12-final-validation ; 8–9 et 13 | H2 prouve MySQL ? Non : appels HTTP/MySQL distincts. |
 | Sonar | 1 | Vérifié | Gate OK avec conditions ; 81,9 % nouveau code, 49,6 % global ; zéro vulnérabilité | 06-sonarqube ; 10–11 | Les deux couvertures ? Périmètres différents, pas des valeurs interchangeables. |
 | Nexus | 1 | Vérifié | ci/settings.xml, Maven deploy ; archive Jenkins/Nexus/pod de SHA-256 identique | 07-nexus, 12-final-validation ; 24–25 | Coordonnées ? tn.esprit:eventsProject:1.0.0-SNAPSHOT. |

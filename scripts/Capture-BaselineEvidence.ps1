@@ -7,7 +7,7 @@ Add-Type -AssemblyName System.Drawing
 $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
 $items = @(
-    @{ File='05-git/git-01-branch-history'; Title='Git | commandes executees maintenant'; Command='git branch --show-current; git log -5 --oneline'; Text=(@(git branch --show-current; git log -5 --oneline) | Out-String) },
+    @{ File='05-git/git-01-branch-history'; Title='Git | branche suivie, commits et confirmation distante'; Command='git branch -vv; git log -3 --oneline; Get-Content remote-sync.txt (verification sauvegardee)'; Text=(@((git branch -vv | Select-String '^\*'); git log -3 --oneline; ''; Get-Content docs/evidence/05-git/remote-sync.txt) | Out-String) },
     @{ File='01-project-setup/setup-02-tache-model'; Title='Sources actuelles | Tache.java et Participant.java'; Command='Get-Content Tache.java; Get-Content Participant.java (paths: src/main/java/tn/esprit/eventsproject/entities)' ; Text=(@(Get-Content src/main/java/tn/esprit/eventsproject/entities/Tache.java; Get-Content src/main/java/tn/esprit/eventsproject/entities/Participant.java) | Out-String) },
     @{ File='02-maven/maven-01-toolchain'; Title='Maven / Java | commande executee maintenant'; Command='. ./scripts/Use-ProjectJava.ps1'; Text=((. ./scripts/Use-ProjectJava.ps1) | Out-String) },
     @{ File='02-maven/maven-02-baseline-build'; Title='Compilation | lecture du journal sauvegarde'; Command='Get-Content docs/evidence/02-maven/baseline-compile.log -Tail 10'; Text=((Get-Content docs/evidence/02-maven/baseline-compile.log -Tail 10) | Out-String) },

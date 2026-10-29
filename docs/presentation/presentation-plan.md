@@ -1,11 +1,11 @@
 # Plan de soutenance
 
 25 diapositives, descriptions francaises visibles, aucune note orateur.
-Build #7 : chaine publique complete verifiee.
+Build #7 : chaine publique complete verifiee ; branche Tache synchronisee.
 
 1. Contribution Tache
 2. Un périmètre respecté
-3. Une branche dédiée
+3. Une branche dédiée et synchronisée
 4. Maven et Java
 5. La compilation initiale
 6. Le blocage initial : MySQL

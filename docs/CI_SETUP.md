@@ -42,7 +42,8 @@ git --git-dir=.local/jenkins-repo fetch origin refs/heads/Tache:refs/heads/Tache
 ```
 
 Le polling H/5 surveille ce miroir local. Aucun webhook GitHub public n'est démontré.
-Aucun push distant ni fusion des branches des autres membres n'a été effectué.
+La branche Tache est publiee apres accord ; aucune fusion des branches des autres membres.
+Le job SCM continue de lire le miroir local ; aucun webhook GitHub public n'est configure.
 
 ## Gate et livrables
 

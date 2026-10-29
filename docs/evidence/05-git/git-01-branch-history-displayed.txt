@@ -1,6 +1,13 @@
-﻿Tache
+﻿
+* Tache c3c58e3 [origin/Tache] docs: verify public delivery build 7 and finalize the 25-slide presentation
+c3c58e3 docs: verify public delivery build 7 and finalize the 25-slide presentation
 da8b094 docs: capture verified Jenkins Sonar and Grafana results in the French presentation
 b822c01 fix(delivery): pin the verified runtime and resume interrupted registry chunks safely
-8bc5732 fix(ci): publish exact OCI layers in small chunks through the Desktop proxy
-2e8b39d ci: enable approved registry delivery and provision Grafana monitoring
-05fae57 fix(api): whitelist legacy creation inputs and enforce verified local delivery
+
+Observed UTC: 2026-10-29T14:56:02.6920355+00:00
+Operation: git push -u origin Tache
+Remote: https://github.com/mhbxii/pipeline_devops_igl5.git
+Branch: Tache
+Local HEAD: c3c58e365ef9159543bd18c920f59c58af74f05a
+Remote HEAD: c3c58e365ef9159543bd18c920f59c58af74f05a
+Result: MATCH; new branch created; no merge or force-push

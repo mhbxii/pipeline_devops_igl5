@@ -43,8 +43,8 @@ Présentation éditable : 25 slides françaises, descriptions visibles et zéro 
 orateur. Captures Windows et dashboards authentiques, vérification XML et export
 complet. Index : presentation/screenshots-index.md ; défense : ORAL_DEFENSE.md.
 
-Les commits décrivent de vrais jalons et portent leurs dates réelles. Aucun push
-Git distant ni fusion de branche partagée effectué. La publication publique Docker
+Les commits décrivent de vrais jalons et portent leurs dates réelles. Branche Tache
+publiee apres accord ; aucune fusion de branche partagee. La publication publique Docker
 Hub vers ayyoub1/events-tache a réussi avec Jenkins #7 ; manifeste accessible anonymement et identique au local.
 Le build #4 est une chaîne locale complète ; ne pas le présenter comme une
 publication externe. H2 Sonar et socket Docker Jenkins sont des choix de laboratoire.

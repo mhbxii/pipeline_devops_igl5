@@ -12,9 +12,9 @@ Tache est un enum persisté en chaîne dans Participant ; le modèle partagé es
 
 Preuve : 01-project-setup/setup-02-tache-model.png
 
-## 3. Une branche dédiée
+## 3. Une branche dédiée et synchronisée
 
-Branche locale Tache et commits vérifiés ; synchronisation distante encore à réaliser.
+Branche Tache publiée sur origin après accord ; historique préservé et révisions locale/distante identiques.
 
 Preuve : 05-git/git-01-branch-history.png
 

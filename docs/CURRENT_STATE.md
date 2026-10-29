@@ -45,8 +45,9 @@ La publication est réellement exécutée dans Jenkins, sans runtime supplément
 Sonar utilise H2 dans ce laboratoire personnel. sonar.validateWebhooks=false est
 un réglage global local pour le callback privé ; la signature HMAC reste vérifiée.
 Le socket Docker de Jenkins reste réservé aux jobs de confiance.
-Commits réels par jalon, sans dates falsifiées ; aucun push Git distant effectué.
-La synchronisation de la branche distante reste la seule étape Git à autoriser.
+Commits réels par jalon, sans dates falsifiées ; branche Tache publiee apres accord utilisateur.
+Push de 20 commits confirme ; revisions locale et distante c3c58e3 identiques.
+Preuve : evidence/05-git/remote-sync.txt. Aucune fusion ni force-push.
 
 ## Reprise
 
@@ -58,5 +59,4 @@ Presentation: docs/presentation/eventsProject-Tache.pptx; slides.json; sans note
 Ne pas modifier les branches des autres membres ni publier Git sans autorisation.
 
 
-Prochaine action : presentation 25 slides validee ; demander l'accord
-pour publier la nouvelle branche Tache sur origin, sans fusion ni force-push.
+Prochaine action : demonstration utilisateur et preparation orale ; livraison terminee.

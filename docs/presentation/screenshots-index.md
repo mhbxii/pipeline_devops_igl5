@@ -7,7 +7,7 @@ Les journaux sauvegardes sont identifies comme tels.
 |---|---|---|---|
 | 1 | Contribution Tache | Page de garde | eventsProject : gestion des rôles des participants. Diagnostic, tests et déploiement progressifs. |
 | 2 | Un périmètre respecté | 01-project-setup/setup-02-tache-model.png | Tache est un enum persisté en chaîne dans Participant ; le modèle partagé est conservé. |
-| 3 | Une branche dédiée | 05-git/git-01-branch-history.png | Branche locale Tache et commits vérifiés ; synchronisation distante encore à réaliser. |
+| 3 | Une branche dédiée et synchronisée | 05-git/git-01-branch-history.png | Branche Tache publiée sur origin après accord ; historique préservé et révisions locale/distante identiques. |
 | 4 | Maven et Java | 02-maven/maven-01-toolchain.png | Maven 3.9.14 sélectionné pour la session ; cible Java 8 et runtime Docker Java 17. |
 | 5 | La compilation initiale | 02-maven/maven-02-baseline-build.png | Journal sauvegardé : BUILD SUCCESS pour les 12 sources du dépôt initial. |
 | 6 | Le blocage initial : MySQL | 01-project-setup/setup-03-database-blocker.png | Journal du diagnostic initial : authentification root refusée et HTTP 500. |

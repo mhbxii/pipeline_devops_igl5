@@ -1,154 +1,154 @@
 ﻿[
     {
         "path":  "docs/evidence/05-git/git-01-branch-history.png",
-        "title":  "Git | commandes executees maintenant",
-        "command":  "git branch --show-current; git log -5 --oneline",
-        "capturedAt":  "2026-10-29T15:42:51.9101137+01:00",
+        "title":  "Git | branche suivie, commits et confirmation distante",
+        "command":  "git branch -vv; git log -3 --oneline; Get-Content remote-sync.txt (verification sauvegardee)",
+        "capturedAt":  "2026-10-29T15:56:05.3546555+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "670F40E9F802E9748217E70100E452375E0A4294E02863294D59EE84BC683158"
+        "sha256":  "7E777FD872D4A2068E8E94EBB4FC09EEF3F821A383EA0630A4DDED42F433734F"
     },
     {
         "path":  "docs/evidence/01-project-setup/setup-02-tache-model.png",
         "title":  "Sources actuelles | Tache.java et Participant.java",
         "command":  "Get-Content Tache.java; Get-Content Participant.java (paths: src/main/java/tn/esprit/eventsproject/entities)",
-        "capturedAt":  "2026-10-29T15:42:53.0063291+01:00",
+        "capturedAt":  "2026-10-29T15:56:06.3161091+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "8DECD058F9B2218F946BD6FEE70164941E12D98A6300DC4383F3F1348701AA9E"
+        "sha256":  "F6F5030D711DE678CE1DC4DDA07BD29470B1FECE67BD02F2E0BA88F6E9A4F6DB"
     },
     {
         "path":  "docs/evidence/02-maven/maven-01-toolchain.png",
         "title":  "Maven / Java | commande executee maintenant",
         "command":  ". ./scripts/Use-ProjectJava.ps1",
-        "capturedAt":  "2026-10-29T15:42:53.9642487+01:00",
+        "capturedAt":  "2026-10-29T15:56:07.1985973+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "7E180167026F5C901F329617634CD287AD357213E90CC575FE6FAA4C7E967CCE"
+        "sha256":  "02561F51BA33E76B9C2AC98C9C33A763162D9845872133DFF9B00B0E79E1505A"
     },
     {
         "path":  "docs/evidence/02-maven/maven-02-baseline-build.png",
         "title":  "Compilation | lecture du journal sauvegarde",
         "command":  "Get-Content docs/evidence/02-maven/baseline-compile.log -Tail 10",
-        "capturedAt":  "2026-10-29T15:42:54.9145413+01:00",
+        "capturedAt":  "2026-10-29T15:56:08.0725881+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "EBE7F61BA87CD9E062F071F7412157C2920AFC1C38BA9DB5B9B21C866C48ACA2"
+        "sha256":  "78C5CB422E7D22696CFC769B47428672DE561DD8A1635A629636B26E1821324F"
     },
     {
         "path":  "docs/evidence/01-project-setup/setup-03-database-blocker.png",
         "title":  "Blocage MySQL | lecture des journaux sauvegardes",
         "command":  "Select-String baseline-startup.log -Pattern \u0027Access denied\u0027; Get-Content baseline-api.txt",
-        "capturedAt":  "2026-10-29T15:42:55.8638328+01:00",
+        "capturedAt":  "2026-10-29T15:56:08.9575988+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "D85B68912B44009074E11D206F0E7A93A6796FC2E580BA46A9A4F3E073470F0B"
+        "sha256":  "7FACF5D3FE58D5B4C77ADF27F8E037C0CC86D4633EED398588CCE84125321F69"
     },
     {
         "path":  "docs/evidence/09-docker/dockerhub-verification.png",
         "title":  "Docker Hub | depot public et manifeste accessibles sans compte",
         "command":  "Get-Content docs/evidence/09-docker/dockerhub-verification.json (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:42:56.8304973+01:00",
+        "capturedAt":  "2026-10-29T15:56:09.8558716+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "B54875DAECE8C8A221E310C2221C21E89BF230DF85CAE822F257EE306FF91ACD"
+        "sha256":  "3DFD722629AE992C99EC16B60B6733B504654668CE65A558F12E1C3B58B1CF9F"
     },
     {
         "path":  "docs/evidence/12-final-validation/local-delivery.png",
         "title":  "Livraison | Jenkins, Nexus et JAR du pod compares",
         "command":  "Get-Content docs/evidence/12-final-validation/local-delivery.json (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:42:57.8460888+01:00",
+        "capturedAt":  "2026-10-29T15:56:10.7377654+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "ADDA69985E14F8353AE0DC76C22E08F3233B5CA54D1A0720D191BCC5076304D4"
+        "sha256":  "E037DE849657487454C179AB3FA1D18AFA6D9122DE00BF3F497F00DFFDB31ABD"
     },
     {
         "path":  "docs/evidence/12-final-validation/legacy-dto-api.png",
         "title":  "Compatibilite | quatre routes historiques et MySQL",
         "command":  "Get-Content docs/evidence/12-final-validation/legacy-dto-api.json | ConvertFrom-Json; operations | Format-Table (preuve sauvegardee)",
-        "capturedAt":  "2026-10-29T15:42:58.8166312+01:00",
+        "capturedAt":  "2026-10-29T15:56:11.6182170+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "558D234BECA470ACFAE7B9DC2A0E9C2BC5BA7EBD98591D9761AEE9D74700BA9D"
+        "sha256":  "231F616FC33CDC5465901D234ECCF3DECAEB51AAA33672F361FFDCF7FFA8B442"
     },
     {
         "path":  "docs/evidence/07-nexus/nexus-verification.png",
         "title":  "Nexus | publication et integrite du JAR verifiees",
         "command":  "Get-Content docs/evidence/07-nexus/nexus-verification.txt (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:42:59.7720564+01:00",
+        "capturedAt":  "2026-10-29T15:56:12.4811753+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "BD68E1B05D7C5D280E8869D0716A968608FB12991026800D3395FE85A4ECCA2D"
+        "sha256":  "C349FE8B707AC82285A185CB446A60DA8E9C7AD19D2759AEA4767576DA4C84D6"
     },
     {
         "path":  "docs/evidence/10-kubernetes/kubernetes-resources.png",
         "title":  "Kubernetes | pods prets, Services et stockage",
         "command":  "Get-Content docs/evidence/10-kubernetes/kubernetes-resources.txt (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:43:00.7492639+01:00",
+        "capturedAt":  "2026-10-29T15:56:13.3434481+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "0FDF7FAECE0E8B035AA0872E81CA33859DDEF8FEABE4ECD881CED613B757F3BA"
+        "sha256":  "B3C9B83C1621C8144C2868187D4E3ECCF318F0B4330F0497572D601F14518603"
     },
     {
         "path":  "docs/evidence/10-kubernetes/kubernetes-api-success.png",
         "title":  "Kubernetes | cycle HTTP reel sur le Service",
         "command":  "Get-Content docs/evidence/10-kubernetes/kubernetes-api-success.txt (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:43:01.7104550+01:00",
+        "capturedAt":  "2026-10-29T15:56:14.2387738+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "D4AA62EC833E025E341E6A5A25F4628734E03EC1A7D10FE1F42F46F81E8D6974"
+        "sha256":  "2BE4910C4027F44FC3FF4F72EE80F4804288A4219EDA05274269B875E6C76FD5"
     },
     {
         "path":  "docs/evidence/11-terraform/terraform-apply.png",
         "title":  "Terraform | apply approuve et execute",
         "command":  "Get-Content docs/evidence/11-terraform/terraform-apply.txt (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:43:02.6847091+01:00",
+        "capturedAt":  "2026-10-29T15:56:15.1343094+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "E9954553340C2CB8B1D580206AD77D447F7174BB67BEFE21F9323925B49F0DAC"
+        "sha256":  "8021E67AEE70C424E89783D5AF9F661EE9321BDCC324C1797EFD8604409EFE94"
     },
     {
         "path":  "docs/evidence/11-terraform/terraform-no-drift.png",
         "title":  "Terraform | infrastructure conforme, aucune derive",
         "command":  "Get-Content docs/evidence/11-terraform/terraform-no-drift.txt (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:43:03.6331534+01:00",
+        "capturedAt":  "2026-10-29T15:56:16.0035325+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "3F1275CFB9072FF54D2DA19A9D58620E61B909392DAD96BA4BE026AC8527D242"
+        "sha256":  "356D9427D3F3A663970D847A672C350E2656A40BBA9BF1A76EDB0D7FF8F8B60F"
     },
     {
         "path":  "docs/evidence/01-project-setup/mysql-api-success.png",
         "title":  "MySQL corrige | verification HTTP reelle",
         "command":  "Get-Content docs/evidence/01-project-setup/mysql-api-success.txt (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:43:04.6019476+01:00",
+        "capturedAt":  "2026-10-29T15:56:16.8790071+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "D48C991BB532121CB8801C5439E5E17E745B313874144EB0D6356918C4E53052"
+        "sha256":  "25D7AE99F6C0C574006C78F4001C2D5936544CF2EA891FD18FD225DD2678235C"
     },
     {
         "path":  "docs/evidence/04-unit-tests/tests-success.png",
         "title":  "JUnit / Mockito / JPA sans mocks | journal Maven",
         "command":  "Get-Content docs/evidence/02-maven/maven-verify.log (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:43:05.6044120+01:00",
+        "capturedAt":  "2026-10-29T15:56:17.7782388+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "DCFF20F758193B93DCCFD16EC188C5DFAA44CDD38BA4980289266E303A735D96"
+        "sha256":  "5A2003C4BACFC34CB609C5148178E38702CBA0404045AA929AA782C344B2567A"
     },
     {
         "path":  "docs/evidence/04-unit-tests/coverage-service.png",
         "title":  "JaCoCo | couverture du service Tache",
         "command":  "Get-Content docs/evidence/04-unit-tests/tache-coverage.txt (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:43:06.5527090+01:00",
+        "capturedAt":  "2026-10-29T15:56:18.6386609+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "3FB66468627C421CD5975B441DE8B6F3EDFB0D05799D4FFE6CE9B64662D076E2"
+        "sha256":  "372137DF4DB55FBFCCEA81E16652A6488DFF38AABD0A983B61436BBB575CD6D9"
     },
     {
         "path":  "docs/evidence/03-logging/tache-levels.png",
         "title":  "Log4j2 | API reelle et panne simulee en test",
         "command":  "Get-Content docs/evidence/03-logging/tache-runtime-levels.txt (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:43:07.5822603+01:00",
+        "capturedAt":  "2026-10-29T15:56:19.5229124+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "DA538E351232F3D9596F09CB28B4D12E5BBA0EDEAE596230B244E22056962595"
+        "sha256":  "A7ABBC06006DBBC071E6F3132C0C1CD903301B83747E9BB47B749DABCD2E9983"
     },
     {
         "path":  "docs/evidence/09-docker/docker-api-success.png",
         "title":  "Docker | cycle HTTP reussi dans le conteneur",
         "command":  "Get-Content docs/evidence/09-docker/docker-api-success.txt (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:43:08.5860129+01:00",
+        "capturedAt":  "2026-10-29T15:56:20.4227950+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "AA29C93DE5435C7F4ABA2910DDAAC9094A668B3CF5671A8EEE7135BAAE5B4758"
+        "sha256":  "50E6900DACD1CE2AA04123B928EFD8058B3B5414F737E64C20F513258B5FAD46"
     },
     {
         "path":  "docs/evidence/09-docker/docker-containers.png",
         "title":  "Docker | conteneurs et utilisateur applicatif",
         "command":  "Get-Content docs/evidence/09-docker/docker-containers.txt (journal sauvegarde)",
-        "capturedAt":  "2026-10-29T15:43:09.5709796+01:00",
+        "capturedAt":  "2026-10-29T15:56:21.2890135+01:00",
         "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
-        "sha256":  "9B2189A2F436BC1166BEF255A10985FB965E622CCD7133164717EDA84E33C0F3"
+        "sha256":  "C1D7364425CCC4C8CAF6EBD5BF0F25196961BB8D990DB254E91438D6C9C4050F"
     }
 ]

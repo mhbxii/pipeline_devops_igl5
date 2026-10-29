@@ -1,4 +1,4 @@
-﻿# Livraison vérifiée — 29 octobre 2026
+# Livraison vérifiée — 29 octobre 2026
 
 ## Résultat final
 Jenkins build #7 SUCCESS, commit b822c015d8ab476b984886ffbcb1215eaefcea4b :
@@ -45,5 +45,6 @@ La publication est réellement exécutée dans Jenkins, sans runtime supplément
 Sonar utilise H2 dans ce laboratoire personnel. sonar.validateWebhooks=false est
 un réglage global local pour le callback privé ; la signature HMAC reste vérifiée.
 Le socket Docker de Jenkins reste réservé aux jobs de confiance.
-Commits réels par jalon, sans dates falsifiées ; aucun push Git distant effectué.
-La synchronisation de la branche distante reste la seule étape Git à autoriser.
+Commits réels par jalon, sans dates falsifiées ; branche Tache publiee apres accord utilisateur.
+Push de 20 commits confirme ; revisions locale et distante c3c58e3 identiques.
+Preuve : evidence/05-git/remote-sync.txt. Aucune fusion ni force-push.

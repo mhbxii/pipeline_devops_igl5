@@ -20,7 +20,13 @@ if not values.get("SONAR_ADMIN_PASSWORD"):
     save_secret("SONAR_ADMIN_PASSWORD", password)
 else:
     password = values["SONAR_ADMIN_PASSWORD"]
+session.cookies.clear()
 session.auth = ("admin", password)
+# This single-owner, localhost-bound lab needs callbacks to its private Docker network.
+# Sonar exposes a global toggle, not a host allowlist. Keep webhook HMAC verification.
+response = session.post(url + "/api/settings/set", data={
+    "key": "sonar.validateWebhooks", "value": "false"}, timeout=20)
+response.raise_for_status()
 response = session.get(url + "/api/projects/search", params={"projects": "events-tache"}, timeout=20)
 response.raise_for_status()
 if not response.json()["components"]:

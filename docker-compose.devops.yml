@@ -19,7 +19,7 @@ services:
       JENKINS_ADMIN_PASSWORD: ${JENKINS_ADMIN_PASSWORD:-}
   sonar:
     profiles: ["sonar"]
-    image: sonarqube:community
+    image: sonarqube@sha256:aa0d41212704d1ed35f7ae3b49886b39f639590baf8020cdb191c2a2eb8f9eae
     ports:
       - "127.0.0.1:9000:9000"
     environment:
@@ -30,7 +30,7 @@ services:
     volumes:
       - sonar-data:/opt/sonarqube/data
       - sonar-extensions:/opt/sonarqube/extensions
-    mem_limit: 2g
+    mem_limit: 2560m
   nexus:
     profiles: ["nexus"]
     image: sonatype/nexus3@sha256:4b9a0efb605808c15927c751107b3f3308ae306c4b22715c96bf9bbabbb0e736

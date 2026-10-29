@@ -1,9 +1,9 @@
 pipeline {
     agent any
-    options { skipDefaultCheckout(true); disableConcurrentBuilds(); buildDiscarder(logRotator(numToKeepStr: '10')) }
+    options { skipDefaultCheckout(true); disableConcurrentBuilds(); timeout(time: 35, unit: 'MINUTES'); buildDiscarder(logRotator(numToKeepStr: '10')) }
     parameters {
-        booleanParam(name: 'RUN_SONAR', defaultValue: false, description: 'Requires configured SonarQube installation named local-sonar and webhook')
-        booleanParam(name: 'PUBLISH_NEXUS', defaultValue: false, description: 'Requires authorized Nexus publication and nexus credential')
+        booleanParam(name: 'RUN_SONAR', defaultValue: true, description: 'Use configured local-sonar installation and verify its quality gate')
+        booleanParam(name: 'PUBLISH_NEXUS', defaultValue: true, description: 'Publish to the configured local Nexus using the nexus credential')
         booleanParam(name: 'PUBLISH_IMAGE', defaultValue: false, description: 'Requires authorized Docker Hub publication and dockerhub credential')
         booleanParam(name: 'DEPLOY_K8S', defaultValue: false, description: 'Requires image publication and kubeconfig credential accessible from the agent')
         booleanParam(name: 'DEPLOY_LOCAL_KIND', defaultValue: true, description: 'Load the built image directly into the existing local kind cluster and verify it')
@@ -16,12 +16,23 @@ pipeline {
     }
     triggers { pollSCM('H/5 * * * *') }
     stages {
+        stage('Validate configuration') {
+            steps {
+                script {
+                    if (params.DEPLOY_LOCAL_KIND && params.DEPLOY_K8S) { error('Choose one deployment destination') }
+                    if ((params.DEPLOY_LOCAL_KIND || params.DEPLOY_K8S) && !params.RUN_SONAR) {
+                        error('Deployment requires Sonar analysis and its quality gate')
+                    }
+                    if (params.DEPLOY_K8S && !params.PUBLISH_IMAGE) { error('Remote deployment requires image publication') }
+                }
+            }
+        }
         stage('Checkout') {
             steps {
                 script {
                     def revision = checkout scm
                     env.GIT_COMMIT = revision.GIT_COMMIT
-                    env.IMAGE_TAG = "tache-${revision.GIT_COMMIT.take(12)}"
+                    env.IMAGE_TAG = "tache-${revision.GIT_COMMIT.take(12)}-${env.BUILD_NUMBER}"
                 }
                 sh 'java -version && mvn -version'
             }

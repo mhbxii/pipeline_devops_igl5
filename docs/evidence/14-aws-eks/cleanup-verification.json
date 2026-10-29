@@ -1,0 +1,16 @@
+{
+  "verifiedAt": "2026-10-29T19:51:17.596155+00:00",
+  "region": "us-east-1",
+  "cluster": "events-tache-ayyoub",
+  "clusterAbsent": true,
+  "workerState": "terminated",
+  "workerPublicIpv4Released": true,
+  "launchTemplateAbsent": true,
+  "clusterSecurityGroupAbsent": true,
+  "workerAutoScalingGroupAbsent": true,
+  "dataVolumesAbsent": 3,
+  "rootVolumesAbsent": 1,
+  "demoNetworkInterfacesAbsent": true,
+  "terraformManagedResourcesRemaining": 0,
+  "note": "Read-only absence checks for the demo resources; historical usage charges may appear later."
+}

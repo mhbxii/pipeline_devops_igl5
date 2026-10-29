@@ -14,6 +14,12 @@
 | Excellence | 3 | Éléments démontrés, appréciation de l'évaluateur | Probes, secrets isolés, automatisation, preuves et triple SHA-256 | docs/ et présentation | Reproductibilité ? Scripts, commits et vérifications de contenu. |
 | Questions sources | 5 | Support de préparation disponible | ORAL_DEFENSE.md, sources, configurations et démonstrations | Ensemble | Savoir expliquer chaque choix et montrer sa preuve. |
 
+Cycle AWS terminé après accord : trois namespaces et volumes de données supprimés,
+quatre ressources Terraform détruites, absence des ressources AWS vérifiée.
+Preuves : 14-aws-eks/cleanup-verification.json ; slide 34.
+La démonstration EKS reste prouvée par les captures ; le cluster n'est plus actif.
+CI principale #10 SUCCESS confirme les changements publiés sans régression du pipeline.
+
 Total annoncé : 20 ; somme des critères : 20,5. Aucune normalisation ni note garantie.
 L'index des slides est généré depuis slides.json dans presentation/screenshots-index.md.
 #4 : livraison locale ; #7 : publication publique ; #9 : declenchement GitHub automatique et livraison complete.

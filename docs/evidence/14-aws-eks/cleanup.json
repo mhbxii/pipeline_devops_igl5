@@ -1,0 +1,12 @@
+{
+  "completedAt": "2026-10-29T19:49:56.127857+00:00",
+  "approvedPlanSha256": "6f7d712fb3dcad774c4f35280f57759c47b83698ee0ec296269dcd617cb5c8eb",
+  "deletedNamespaces": [
+    "events-tache",
+    "events-monitoring",
+    "events-grafana"
+  ],
+  "dataVolumesConfirmedDeleted": 3,
+  "terraformApplyExit": 0,
+  "note": "Final AWS cluster, EC2 and root-volume orphan checks are still required."
+}

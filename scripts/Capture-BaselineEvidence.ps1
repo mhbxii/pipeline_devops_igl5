@@ -15,6 +15,7 @@ $items = @(
     @{ File='01-project-setup/setup-03-database-blocker'; Title='Blocage MySQL | lecture des journaux sauvegardes'; Command="Select-String baseline-startup.log -Pattern 'Access denied'; Get-Content baseline-api.txt"; Text=(@((Select-String docs/evidence/01-project-setup/baseline-startup.log -Pattern 'Access denied' | Select-Object -First 3 | ForEach-Object { $_.Line }); ''; (Get-Content docs/evidence/01-project-setup/baseline-api.txt)) | Out-String) }
 )
 $extra = @(
+    @{File='14-aws-eks/cleanup-verification'; Title='AWS EKS | nettoyage approuve et absence des ressources verifiee'; Source='14-aws-eks/cleanup-verification.txt'},
     @{File='14-aws-eks/resources'; Title='AWS EKS | worker, deployments, stockage et monitoring verifies'; Source='14-aws-eks/resources.txt'},
     @{File='14-aws-eks/api-success'; Title='AWS EKS | cycle HTTP reel et MySQL persistant'; Source='14-aws-eks/api-success.txt'},
     @{File='14-aws-eks/terraform-apply'; Title='AWS EKS | Terraform apply approuve et resultat reel'; Source='14-aws-eks/terraform-apply.txt'},

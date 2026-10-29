@@ -130,4 +130,8 @@ Dashboard provisionné sur AWS : cible UP, CPU Java, mémoire JVM et débit HTTP
 
 ## 33. Contrôler la convergence et les coûts
 
-Le plan suivant ne détecte aucun changement. Estimation : 0,16 USD/h ; démonstration courte et nettoyage approuvé des volumes puis du cluster.
+Le plan suivant ne détecte aucun changement. Estimation en activité : 0,16 USD/h ; les volumes puis le cluster ont été supprimés après accord.
+
+## 34. Terminer le cycle de vie AWS
+
+Nettoyage approuvé et vérifié : cluster supprimé, worker terminé, quatre volumes EBS absents ; captures et livrables conservés, kind toujours disponible.

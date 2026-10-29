@@ -2,6 +2,11 @@
 
 ## Extension AWS/EKS
 
+**Le cluster est-il encore actif ?** Non. Après la démonstration et l'accord de
+nettoyage, les PVC ont été supprimés avant EBS CSI et Terraform a détruit ses quatre
+ressources. Les contrôles AWS confirment le worker terminé et les quatre volumes
+absents. Les captures datées prouvent le fonctionnement avant cette suppression.
+
 **Pourquoi un second root Terraform ?** Le state terraform/aws-eks provisionne EKS,
 le launch template, le node group et EBS CSI. Le state terraform/ reste réservé à
 Prometheus local ; une erreur de contexte ne doit pas déplacer cette infrastructure.

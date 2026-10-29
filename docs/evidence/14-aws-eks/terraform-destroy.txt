@@ -1,0 +1,6 @@
+Actual Terraform output from separately approved saved plan:
+aws_eks_addon.ebs: Destruction complete after 9s
+aws_eks_node_group.demo: Destruction complete after 8m9s
+aws_launch_template.worker: Destruction complete after 1s
+aws_eks_cluster.demo: Destruction complete after 3m3s
+Apply complete! Resources: 0 added, 0 changed, 4 destroyed.

@@ -1,0 +1,10 @@
+﻿AWS cleanup verified: 2026-10-29T19:51:17.596155+00:00
+EKS events-tache-ayyoub: absent
+EC2 worker: terminated; public IPv4 released
+EBS: all 3 data volumes and the root volume absent
+Launch template and demo network interfaces: absent
+Worker auto scaling group and EKS security group: absent
+Terraform managed resources remaining: 0
+Jenkins EKS job disabled; temporary credential removed; build history retained.
+Local kind, source code, screenshots and presentation preserved.
+Historical usage can still appear on the delayed lab bill.

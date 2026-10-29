@@ -77,3 +77,19 @@ Après le nettoyage Kubernetes approuvé, préparer le plan de destruction :
 Examiner ce nouveau plan et demander l'accord avant de l'appliquer. Conserver le
 state local jusqu'à vérification de la suppression du cluster, worker et volumes.
 La fermeture d'une session Learner Lab n'est pas une preuve de suppression EKS.
+
+Pour le nettoyage explicitement approuvé de cette démonstration, le script protège
+le compte, le contexte, le hash du plan et l'identité des trois volumes avant de
+supprimer les namespaces. Il attend l'absence des volumes avant l'apply du plan :
+
+```powershell
+python scripts/Remove-EksDemo.py --approved-plan-sha256 6f7d712fb3dcad774c4f35280f57759c47b83698ee0ec296269dcd617cb5c8eb
+python scripts/Verify-EksCleanup.py
+```
+
+Cette commande est destructive, réservée au plan examiné et déjà approuvé. Ne pas
+la réexécuter après destruction. Un futur déploiement demandera un nouveau plan,
+une nouvelle revue et un accord. La vérification est en lecture seule : cluster,
+EC2, ASG, launch template, volumes, interfaces réseau, security group et state.
+Le job EKS est désactivé après la démo et son credential temporaire supprimé ;
+Configure-EksJenkins.py le réactive seulement après recréation et nouvelle connexion.

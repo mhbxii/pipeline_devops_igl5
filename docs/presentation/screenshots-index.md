@@ -35,3 +35,4 @@
 | 31 | Collecter les métriques dans AWS | 14-aws-eks/prometheus-targets.png |
 | 32 | Observer le déploiement EKS dans Grafana | 14-aws-eks/grafana-dashboard.png |
 | 33 | Contrôler la convergence et les coûts | 14-aws-eks/terraform-no-drift.png |
+| 34 | Terminer le cycle de vie AWS | 14-aws-eks/cleanup-verification.png |

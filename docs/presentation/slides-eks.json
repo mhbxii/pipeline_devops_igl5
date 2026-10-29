@@ -5,5 +5,6 @@
   {"title":"Promouvoir la release avec Jenkins vers EKS","description":"tache-eks-delivery #2 SUCCESS : image vérifiée du build CI #9, déployée par digest ; nouveau rollout et contrôles HTTP depuis Jenkins.","screenshot":"14-aws-eks/jenkins-eks-stages.png"},
   {"title":"Collecter les métriques dans AWS","description":"Prometheus tourne sur EKS et collecte réellement les métriques Actuator du Service applicatif : une cible, état UP.","screenshot":"14-aws-eks/prometheus-targets.png"},
   {"title":"Observer le déploiement EKS dans Grafana","description":"Dashboard provisionné sur AWS : cible UP, CPU Java, mémoire JVM et débit HTTP ; datasource saine et quatre requêtes non vides.","screenshot":"14-aws-eks/grafana-dashboard.png"},
-  {"title":"Contrôler la convergence et les coûts","description":"Le plan suivant ne détecte aucun changement. Estimation : 0,16 USD/h ; démonstration courte et nettoyage approuvé des volumes puis du cluster.","screenshot":"14-aws-eks/terraform-no-drift.png"}
+  {"title":"Contrôler la convergence et les coûts","description":"Le plan suivant ne détecte aucun changement. Estimation en activité : 0,16 USD/h ; les volumes puis le cluster ont été supprimés après accord.","screenshot":"14-aws-eks/terraform-no-drift.png"},
+  {"title":"Terminer le cycle de vie AWS","description":"Nettoyage approuvé et vérifié : cluster supprimé, worker terminé, quatre volumes EBS absents ; captures et livrables conservés, kind toujours disponible.","screenshot":"14-aws-eks/cleanup-verification.png"}
 ]

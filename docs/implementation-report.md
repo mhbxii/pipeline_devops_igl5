@@ -14,10 +14,15 @@ est SUCCESS, avec nouveau rollout et contrôles HTTP. Le premier essai, bloqué 
 ScriptApproval, est conservé ; seul le script revu a été approuvé.
 
 Le job de promotion utilise un token Kubernetes de deux heures avec RBAC limité,
-sans clés AWS. Le cluster personnel de démonstration reste actif : estimation
-0,16 USD/h, nettoyage destructif à examiner et approuver. Aucun load balancer,
+sans clés AWS. Le cluster personnel de démonstration a été supprimé après accord :
+trois volumes applicatifs supprimés, puis quatre ressources Terraform détruites.
+Les contrôles confirment l'absence du cluster, de ses volumes et dépendances,
+avec EC2 terminé et son IPv4 libérée. Estimation pendant l'activité : 0,16 USD/h.
+Aucun load balancer,
 NAT gateway, SSH ou NodePort public. Accès par tunnels authentifiés Kubernetes.
 Preuves : evidence/14-aws-eks ; procédure : AWS_EKS_OPERATIONS.md.
+Le job EKS est désactivé et son credential retiré ; son historique est conservé.
+CI principale #10 a ensuite confirmé la chaîne GitHub complète sur kind avec SUCCESS.
 
 ## Socle et application
 L'application réelle est eventsProject, Spring Boot 2.7.6. Tache est l'enum de rôles

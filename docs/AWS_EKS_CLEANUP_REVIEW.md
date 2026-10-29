@@ -1,7 +1,13 @@
-# Nettoyage AWS proposé — accord distinct nécessaire
+# Nettoyage AWS approuvé — terminé et vérifié
 
-La démonstration est vérifiée et les captures sont conservées. Rien dans cette
-préparation ne supprime les ressources. Le cluster reste actif et facturé.
+La démonstration est vérifiée et les captures sont conservées. L'utilisateur a
+explicitement approuvé ce nettoyage et le plan identifié ci-dessous.
+Terminé : trois namespaces et volumes applicatifs supprimés, puis apply réussi
+(0 added, 0 changed, 4 destroyed). Vérification AWS : cluster et launch template
+absents, worker terminé, son IPv4 libérée, quatre volumes EBS absents, ASG,
+security group et interfaces du déploiement absents. Zéro ressource gérée dans le state.
+Preuves : evidence/14-aws-eks/terraform-destroy.txt et cleanup-verification.json.
+Job EKS désactivé et credential temporaire retiré, historique conservé.
 
 Plan sauvegardé : .local/aws-eks-destroy.tfplan.
 SHA-256 : `6f7d712fb3dcad774c4f35280f57759c47b83698ee0ec296269dcd617cb5c8eb`.
@@ -24,6 +30,7 @@ le compte, sans frais d'exécution ; ce plan ne les gère pas.
 Le cluster kind, ses volumes et les services Docker locaux restent disponibles.
 Les captures, rapports et présentations dans Git sont conservés.
 
-Coût estimé tant que le cluster reste actif : environ 0,16 USD/h plus transfert
-et taxes. Ne pas compter sur la fermeture de session pour détruire EKS.
+Coût estimé pendant l'activité : environ 0,16 USD/h plus transfert et taxes.
+Les ressources du déploiement sont supprimées ; des frais historiques peuvent
+encore apparaître avec le décalage de facturation du lab.
 AGENTS.md impose revue et accord avant cet apply destructif.

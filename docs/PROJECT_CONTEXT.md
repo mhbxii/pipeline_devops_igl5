@@ -32,4 +32,6 @@ phase cloud. Acces au profil lab, region, budget et plan AWS restent a preparer.
 Mise à jour : plan AWS approuvé puis appliqué, quatre ressources créées, worker EKS
 Ready. API MySQL, volumes chiffrés, Prometheus/Grafana et promotion Jenkins #2
 vérifiés. Voir CURRENT_STATE.md et AWS_EKS_OPERATIONS.md. Les états Terraform local
-et AWS sont séparés. Le nettoyage AWS reste une décision destructive à approuver.
+et AWS sont séparés. Nettoyage ensuite approuvé et exécuté : quatre ressources
+Terraform détruites, EC2 terminé, quatre volumes EBS absents et dépendances réseau
+supprimées. Captures conservées. Ne pas réexécuter un apply sans nouveau plan/accord.

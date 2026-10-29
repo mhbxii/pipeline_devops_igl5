@@ -1,4 +1,15 @@
-# AWS/EKS : déploiement et monitoring vérifiés
+# AWS/EKS : démonstration vérifiée, ressources supprimées après accord
+
+Nettoyage explicitement approuvé : suppression des trois namespaces/PVC, puis
+application du plan destroy examiné. Apply réussi : 0 added, 0 changed, 4 destroyed.
+Les trois volumes de données ont été supprimés avant l'infrastructure.
+Contrôles AWS finaux réussis : cluster absent, EC2 terminé et IPv4 libérée,
+trois volumes de données et disque système absents, ASG, launch template,
+security group et interfaces du déploiement absents. State : zéro ressource gérée.
+Job EKS désactivé et credential temporaire retiré ; historique conservé.
+Les preuves et la présentation sont conservées ; kind est toujours Ready.
+CI principale #10 SUCCESS après le push 205d727, avec tests, gate, publication
+Nexus/Docker Hub, rollout kind et HTTP. La release EKS démontrée reste celle de #9.
 
 Le 29 octobre 2026 : profil events-tache-lab vérifié, compte personnel dédié,
 us-east-1, budget restant déclaré de 50 USD. Credentials temporaires hors dépôt.
@@ -18,9 +29,10 @@ Prometheus : 1/1 UP ; Grafana : datasource saine et quatre requêtes non vides.
 Job distinct tache-eks-delivery #2 SUCCESS : promotion de #9, rollout et HTTP réels.
 #1 a été bloqué par ScriptApproval avant exécution ; seul le script exact a été approuvé.
 Plan Terraform après création : exit 0, aucune différence.
-Preuves : docs/evidence/14-aws-eks/. Infrastructure toujours active et facturée.
+Preuves : docs/evidence/14-aws-eks/. Infrastructure AWS désormais supprimée ;
+les résultats ci-dessous décrivent la démonstration avant nettoyage.
 Persistance : rôle INVITE du participant 2 conservé après remplacement du pod MySQL.
-Présentation AWS générée : 33 slides françaises, descriptions visibles, aucune note ;
+Présentation AWS générée : 34 slides françaises, descriptions visibles, aucune note ;
 docs/presentation/eventsProject-Tache-AWS-EKS.pptx, validée et previews exportées.
 kubectl 1.36.6 téléchargé dans .local/tools/kubectl-eks.exe, SHA-256 vérifié ; PATH inchangé.
 Session lab annoncée jusqu'à 23 h 16 heure de Tunis : prévoir preuves et nettoyage.

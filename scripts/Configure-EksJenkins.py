@@ -43,6 +43,7 @@ def instance = Jenkins.get()
 def job = instance.getItem('tache-eks-delivery') ?: instance.createProject(WorkflowJob, 'tache-eks-delivery')
 if (job.isBuilding()) throw new IllegalStateException('Wait for current EKS delivery')
 job.setDefinition(new CpsFlowDefinition(input.pipeline, false))
+job.setDisabled(false)
 job.setDescription('AWS EKS promotion of verified tache-ci #9; no Terraform apply; temporary namespace-scoped credential.')
 job.save()
 // Approve only this exact reviewed pipeline, which reads upstream Jenkins metadata.

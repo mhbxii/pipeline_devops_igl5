@@ -5,7 +5,9 @@ Compte dédié à l'utilisateur. Fin de session annoncée : 23 h 16, heure de Tu
 Le plan exact a été approuvé par l'utilisateur, ainsi que kubectl local 1.36.6.
 Apply terminé avec succès : 4 added, 0 changed, 0 destroyed. Worker Ready et EBS CSI
 prêt. Preuve expurgée : docs/evidence/14-aws-eks/terraform-apply.txt.
-Les workloads restent à vérifier séparément.
+Les workloads ont ensuite été vérifiés (API, persistance MySQL et monitoring),
+puis le nettoyage a été approuvé et exécuté. Le cluster est désormais supprimé ;
+voir AWS_EKS_CLEANUP_REVIEW.md et evidence/14-aws-eks/cleanup-verification.json.
 
 ## Contrôles effectués en lecture seule
 

@@ -16,4 +16,5 @@ Surveiller RAM/disque avant démarrage. Aucun changement métier encore impléme
 La branche Tache n'existe pas encore sur origin ; aucun push autorisé/exécuté.
 Pas de publication distante, de déploiement Kubernetes ni de Terraform apply exécuté.
 
-Processus Java du diagnostic arrêtés après collecte des erreurs pour libérer la mémoire.
+Processus Java du diagnostic arrêtés après collecte des erreurs pour libérer la mémoire.
+

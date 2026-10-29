@@ -1,9 +1,24 @@
-# Exigence restante : AWS/EKS obligatoire
+# AWS/EKS : création approuvée en cours
+
+Le 29 octobre 2026 : profil events-tache-lab vérifié, compte personnel dédié,
+us-east-1, budget restant déclaré de 50 USD. Credentials temporaires hors dépôt.
+Inventaire AWS et simulations IAM effectués en lecture seule ; aucune ressource
+AWS créée. Terraform AWS initialisé et validé dans terraform/aws-eks/.
+Plan privé .local/aws-eks.tfplan inspecté : 4 créations, 0 modification, 0 suppression.
+EKS 1.36 standard, un worker t3.medium, disque gp3 20 Gio, add-on EBS CSI ; API /32.
+Estimation prudente : 0,16 USD/h, soit environ 0,65 USD pour quatre heures, hors
+transfert/taxes. Revue : docs/AWS_EKS_PLAN.md. L'utilisateur a approuvé ce plan exact
+et le téléchargement local de kubectl. Apply lancé ; launch template créé, EKS en
+cours de création. Aucun succès du cluster ou des workloads encore annoncé.
+kubectl 1.36.6 téléchargé dans .local/tools/kubectl-eks.exe, SHA-256 vérifié ; PATH inchangé.
+Session lab annoncée jusqu'à 23 h 16 heure de Tunis : prévoir preuves et nettoyage.
+
+## Exigence initiale et préparation d'accès (historique)
 
 Utilisateur : AWS Academy Learner Lab disponible ; EKS est exige par le professeur.
 La livraison locale ci-dessous reste verifiee, mais une phase cloud est obligatoire.
 AWS CLI 2.31.13 deja installe ; profil default existant eu-north-1 laisse intact.
-Aucun appel AWS avec ce profil, aucune ressource cloud creee.
+À ce stade initial, aucun appel AWS avec ce profil, aucune ressource cloud créée.
 Action utilisateur : demarrer son lab et configurer le profil events-tache-lab avec
 les trois credentials temporaires localement, puis confirmer region/budget/session.
 Guide : docs/AWS_LEARNER_LAB_SETUP.md. Prochaine action agent : inventaire en lecture

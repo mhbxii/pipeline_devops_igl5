@@ -1,0 +1,49 @@
+{
+  "component": {
+    "key": "events-tache",
+    "name": "eventsProject",
+    "description": "eventsProject",
+    "qualifier": "TRK",
+    "measures": [
+      {
+        "metric": "coverage",
+        "value": "28.5",
+        "bestValue": false
+      },
+      {
+        "metric": "bugs",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "code_smells",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "branch_coverage",
+        "value": "7.1",
+        "bestValue": false
+      },
+      {
+        "metric": "ncloc",
+        "value": "518"
+      },
+      {
+        "metric": "vulnerabilities",
+        "value": "4",
+        "bestValue": false
+      },
+      {
+        "metric": "line_coverage",
+        "value": "36.8",
+        "bestValue": false
+      },
+      {
+        "metric": "security_hotspots",
+        "value": "0",
+        "bestValue": true
+      }
+    ]
+  }
+}

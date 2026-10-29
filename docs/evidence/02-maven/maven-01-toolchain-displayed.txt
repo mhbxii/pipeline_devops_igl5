@@ -3,4 +3,3 @@ Maven home: C:\Users\Ayyoub\.m2\wrapper\dists\apache-maven-3.9.14\ed7edd442f634a
 Java version: 1.8.0_202, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk1.8.0_202\jre
 Default locale: en_US, platform encoding: Cp1252
 OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
-

@@ -1,0 +1,228 @@
+{
+  "number": 5,
+  "url": "http://localhost:8080/job/tache-ci/5",
+  "result": "FAILURE",
+  "durationMillis": 404877,
+  "timestampMillis": 1793282253419,
+  "stages": {
+    "_links": {
+      "self": {
+        "href": "/job/tache-ci/5/wfapi/describe"
+      },
+      "changesets": {
+        "href": "/job/tache-ci/5/wfapi/changesets"
+      },
+      "artifacts": {
+        "href": "/job/tache-ci/5/wfapi/artifacts"
+      }
+    },
+    "id": "5",
+    "name": "#5",
+    "status": "FAILED",
+    "startTimeMillis": 1793282253432,
+    "endTimeMillis": 1793282658309,
+    "durationMillis": 404877,
+    "queueDurationMillis": 13,
+    "pauseDurationMillis": 0,
+    "stages": [
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/10/wfapi/describe"
+          }
+        },
+        "id": "10",
+        "name": "Validate configuration",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793282260535,
+        "durationMillis": 369,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/18/wfapi/describe"
+          }
+        },
+        "id": "18",
+        "name": "Checkout",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793282260960,
+        "durationMillis": 2107,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/28/wfapi/describe"
+          }
+        },
+        "id": "28",
+        "name": "Compile",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793282263145,
+        "durationMillis": 9139,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/33/wfapi/describe"
+          }
+        },
+        "id": "33",
+        "name": "Tests and coverage",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793282272331,
+        "durationMillis": 25289,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/40/wfapi/describe"
+          }
+        },
+        "id": "40",
+        "name": "SonarQube analysis",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793282297665,
+        "durationMillis": 29558,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/53/wfapi/describe"
+          }
+        },
+        "id": "53",
+        "name": "Quality gate",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793282327273,
+        "durationMillis": 7221,
+        "pauseDurationMillis": 6686
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/62/wfapi/describe"
+          }
+        },
+        "id": "62",
+        "name": "Package",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793282334578,
+        "durationMillis": 23919,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/67/wfapi/describe"
+          }
+        },
+        "id": "67",
+        "name": "Publish Nexus",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793282358542,
+        "durationMillis": 23056,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/76/wfapi/describe"
+          }
+        },
+        "id": "76",
+        "name": "Build Docker image",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793282381642,
+        "durationMillis": 17358,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/81/wfapi/describe"
+          }
+        },
+        "id": "81",
+        "name": "Publish Docker image",
+        "execNode": "",
+        "status": "FAILED",
+        "error": {
+          "message": "script returned exit code 1",
+          "type": "hudson.AbortException"
+        },
+        "startTimeMillis": 1793282399057,
+        "durationMillis": 258248,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/94/wfapi/describe"
+          }
+        },
+        "id": "94",
+        "name": "Deploy local kind",
+        "execNode": "",
+        "status": "FAILED",
+        "error": {
+          "message": "script returned exit code 1",
+          "type": "hudson.AbortException"
+        },
+        "startTimeMillis": 1793282657359,
+        "durationMillis": 208,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/99/wfapi/describe"
+          }
+        },
+        "id": "99",
+        "name": "Deploy Kubernetes",
+        "execNode": "",
+        "status": "FAILED",
+        "error": {
+          "message": "script returned exit code 1",
+          "type": "hudson.AbortException"
+        },
+        "startTimeMillis": 1793282657620,
+        "durationMillis": 111,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/5/execution/node/104/wfapi/describe"
+          }
+        },
+        "id": "104",
+        "name": "Verify deployment",
+        "execNode": "",
+        "status": "FAILED",
+        "error": {
+          "message": "script returned exit code 1",
+          "type": "hudson.AbortException"
+        },
+        "startTimeMillis": 1793282657783,
+        "durationMillis": 149,
+        "pauseDurationMillis": 0
+      }
+    ]
+  }
+}

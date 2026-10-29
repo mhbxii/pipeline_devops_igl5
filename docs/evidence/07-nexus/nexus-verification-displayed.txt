@@ -1,4 +1,3 @@
 ﻿VERIFIED: tn.esprit:eventsProject:1.0.0-SNAPSHOT (1.0.0-20261029.085753-1)
 Repository: http://localhost:8081/repository/maven-snapshots/
 Downloaded JAR SHA256 matches local artifact: 3BED4546AEF101111347F582350B926A7FC3560A249C66CA36EF3461C35213EA
-

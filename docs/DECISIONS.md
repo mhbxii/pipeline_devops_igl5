@@ -21,3 +21,23 @@ https://docs.spring.io/spring-boot/docs/2.7.6/reference/html/howto.html#howto.lo
 - Ne pas lancer toute l'infrastructure : mémoire disponible insuffisante au diagnostic.
 - Noms Markdown majuscules canoniques ; Windows ne permet pas deux fichiers distincts
   TROUBLESHOOTING.md/troubleshooting.md ou EVALUATION_TRACKER.md/evaluation-tracker.md.
+
+## Livraison et monitoring vérifiés
+- Jenkins avec Maven/JDK officiels copiés ; Java 17 build et Java 21 Sonar/contrôleur.
+- Kubeconfig conteneurisé avec validation TLS maintenue, adresse du nœud kind.
+- Quatre entrées historiques remplacées par DTO après accord ; aucune signature
+  de service métier partagée modifiée. Tests de mapping/MVC et appels MySQL réels.
+- Sonar local autorise globalement les callbacks privés pour ce laboratoire ; HMAC
+  reste vérifié. Ne pas présenter ce réglage comme une liste blanche par hôte.
+- Grafana séparé des ressources Terraform, image épinglée et dashboard provisionné.
+- Le registre public approuvé est exclusivement ayyoub1/events-tache. Le proxy coupe
+  les gros uploads : publication OCI en chunks avec le JDK existant, sans nouvelle
+  installation, digest vérifié et refus d'écraser un tag différent.
+
+## Uploader registry et outils existants
+Le runtime Temurin applicatif est épinglé au digest du build vérifié. Le client
+Java de registry utilise java.net.http du JDK 17 existant ; aucun runtime additionnel.
+Les bases publiques peuvent être montées dans le dépôt sans transfert. Après une
+réponse PATCH perdue, interroger l'offset distant permet d'éviter une duplication.
+Le programme refuse tout hôte d'upload autre que registry-1.docker.io en HTTPS et
+ne publie que dans le dépôt explicitement approuvé.

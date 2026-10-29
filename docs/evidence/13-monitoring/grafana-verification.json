@@ -1,0 +1,65 @@
+{
+  "verifiedAt": "2026-10-29T13:58:33.439783+00:00",
+  "health": {
+    "database": "ok",
+    "version": "13.3.0",
+    "commit": "6f8ce3c693b493043ebcd4787566d2b6b118b0f0"
+  },
+  "dashboardUid": "events-tache",
+  "datasourceHealth": {
+    "details": {
+      "application": "Prometheus",
+      "features": {
+        "rulerApiEnabled": false
+      }
+    },
+    "message": "Successfully queried the Prometheus API.",
+    "status": "OK"
+  },
+  "queries": {
+    "up{job=\"events\"}": [
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "events.events-tache.svc.cluster.local:8089",
+          "job": "events"
+        },
+        "value": [
+          1793282312.307,
+          "1"
+        ]
+      }
+    ],
+    "process_cpu_usage{job=\"events\"}": [
+      {
+        "metric": {
+          "__name__": "process_cpu_usage",
+          "instance": "events.events-tache.svc.cluster.local:8089",
+          "job": "events"
+        },
+        "value": [
+          1793282312.725,
+          "0.01956521739130435"
+        ]
+      }
+    ],
+    "sum(jvm_memory_used_bytes{job=\"events\",area=\"heap\"})": [
+      {
+        "metric": {},
+        "value": [
+          1793282313.067,
+          "28939448"
+        ]
+      }
+    ],
+    "sum(rate(http_server_requests_seconds_count{job=\"events\"}[2m]))": [
+      {
+        "metric": {},
+        "value": [
+          1793282313.425,
+          "0.21992951207741385"
+        ]
+      }
+    ]
+  }
+}

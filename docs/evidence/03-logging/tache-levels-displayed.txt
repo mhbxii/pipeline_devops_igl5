@@ -8,5 +8,4 @@
 =2026-10-29 09:16:35 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=1 
 =2026-10-29 09:16:35 -  DEBUG- tn.esprit.eventsproject.services.TacheService - Reading role participantId=1 
 =2026-10-29 09:15:13 -  ERROR- tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role operation failed exceptionType=IllegalStateException 
-=2026-10-29 09:15:13 -  DEBUG- org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Writing [{error=Role operation failed}] 
-
+=2026-10-29 09:15:13 -  DEBUG- org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Writing [{error=Role operation failed}]

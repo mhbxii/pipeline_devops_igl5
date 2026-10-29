@@ -1,0 +1,4 @@
+SonarQube status=UP
+Project=events-tache
+Private project; token stored in ignored .env
+Jenkins webhook configured with a shared secret

@@ -1,0 +1,232 @@
+{
+  "number": 6,
+  "url": "http://localhost:8080/job/tache-ci/6",
+  "result": "FAILURE",
+  "durationMillis": 118949,
+  "timestampMillis": 1793283278451,
+  "stages": {
+    "_links": {
+      "self": {
+        "href": "/job/tache-ci/6/wfapi/describe"
+      },
+      "changesets": {
+        "href": "/job/tache-ci/6/wfapi/changesets"
+      },
+      "artifacts": {
+        "href": "/job/tache-ci/6/wfapi/artifacts"
+      }
+    },
+    "id": "6",
+    "name": "#6",
+    "status": "FAILED",
+    "startTimeMillis": 1793283278461,
+    "endTimeMillis": 1793283397410,
+    "durationMillis": 118949,
+    "queueDurationMillis": 10,
+    "pauseDurationMillis": 0,
+    "stages": [
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/10/wfapi/describe"
+          }
+        },
+        "id": "10",
+        "name": "Validate configuration",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793283280353,
+        "durationMillis": 219,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/18/wfapi/describe"
+          }
+        },
+        "id": "18",
+        "name": "Checkout",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793283280612,
+        "durationMillis": 1580,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/28/wfapi/describe"
+          }
+        },
+        "id": "28",
+        "name": "Compile",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793283282231,
+        "durationMillis": 7037,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/33/wfapi/describe"
+          }
+        },
+        "id": "33",
+        "name": "Tests and coverage",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793283289317,
+        "durationMillis": 22354,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/40/wfapi/describe"
+          }
+        },
+        "id": "40",
+        "name": "SonarQube analysis",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793283311724,
+        "durationMillis": 26547,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/53/wfapi/describe"
+          }
+        },
+        "id": "53",
+        "name": "Quality gate",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793283338317,
+        "durationMillis": 3105,
+        "pauseDurationMillis": 2704
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/62/wfapi/describe"
+          }
+        },
+        "id": "62",
+        "name": "Package",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793283341464,
+        "durationMillis": 20471,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/67/wfapi/describe"
+          }
+        },
+        "id": "67",
+        "name": "Publish Nexus",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793283362023,
+        "durationMillis": 23026,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/76/wfapi/describe"
+          }
+        },
+        "id": "76",
+        "name": "Build Docker image",
+        "execNode": "",
+        "status": "FAILED",
+        "error": {
+          "message": "script returned exit code 1",
+          "type": "hudson.AbortException"
+        },
+        "startTimeMillis": 1793283385091,
+        "durationMillis": 11189,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/81/wfapi/describe"
+          }
+        },
+        "id": "81",
+        "name": "Publish Docker image",
+        "execNode": "",
+        "status": "FAILED",
+        "error": {
+          "message": "script returned exit code 1",
+          "type": "hudson.AbortException"
+        },
+        "startTimeMillis": 1793283396324,
+        "durationMillis": 100,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/86/wfapi/describe"
+          }
+        },
+        "id": "86",
+        "name": "Deploy local kind",
+        "execNode": "",
+        "status": "FAILED",
+        "error": {
+          "message": "script returned exit code 1",
+          "type": "hudson.AbortException"
+        },
+        "startTimeMillis": 1793283396471,
+        "durationMillis": 109,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/91/wfapi/describe"
+          }
+        },
+        "id": "91",
+        "name": "Deploy Kubernetes",
+        "execNode": "",
+        "status": "FAILED",
+        "error": {
+          "message": "script returned exit code 1",
+          "type": "hudson.AbortException"
+        },
+        "startTimeMillis": 1793283396637,
+        "durationMillis": 158,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/6/execution/node/96/wfapi/describe"
+          }
+        },
+        "id": "96",
+        "name": "Verify deployment",
+        "execNode": "",
+        "status": "FAILED",
+        "error": {
+          "message": "script returned exit code 1",
+          "type": "hudson.AbortException"
+        },
+        "startTimeMillis": 1793283396892,
+        "durationMillis": 141,
+        "pauseDurationMillis": 0
+      }
+    ]
+  }
+}

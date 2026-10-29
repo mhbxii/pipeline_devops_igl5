@@ -16,4 +16,3 @@ Apply complete! Resources: 6 added, 0 changed, 0 destroyed.
 Outputs:
 
 managed_namespace = "events-monitoring"
-

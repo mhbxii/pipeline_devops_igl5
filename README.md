@@ -58,7 +58,7 @@ Rapports : `target/surefire-reports/` et `target/site/jacoco/index.html`.
 
 Documentation de reprise : [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 Suivi du barème : [docs/EVALUATION_TRACKER.md](docs/EVALUATION_TRACKER.md).
-CI préparée : [docs/CI_SETUP.md](docs/CI_SETUP.md).
+CI/CD vérifiée localement : [docs/CI_SETUP.md](docs/CI_SETUP.md).
 Présentation : `docs/presentation/eventsProject-Tache.pptx` ; descriptions visibles,
 aucune note orateur. Captures réelles et scripts reproductibles dans `scripts/`.
 
@@ -66,6 +66,6 @@ aucune note orateur. Captures réelles et scripts reproductibles dans `scripts/`
 
 `k8s/` contient le cluster kind, les Deployments, Services, ConfigMap et PVC.
 Le Secret est créé en mémoire par `scripts/Deploy-LocalKubernetes.ps1` depuis `.env`.
-`terraform/` prépare Prometheus dans un namespace indépendant ; aucun apply sans
+`terraform/` gère les six ressources Prometheus appliquées après accord dans un namespace indépendant ; aucun apply sans
 plan examiné et accord utilisateur. Les profils Jenkins/Sonar/Nexus restent séparés
 pour maîtriser la mémoire. Consulter le suivi pour distinguer préparé et exécuté.

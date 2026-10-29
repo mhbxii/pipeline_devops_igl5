@@ -1,45 +1,67 @@
-﻿# Projet : état courant — 2026-10-29
+# Livraison vérifiée — 29 octobre 2026
 
-Branche Tache. Périmètre confirmé : affectation des rôles autour de l'enum existant.
+Branche Tache ; affectation des rôles autour de l'enum existant.
 
-## Vérifié
-- MySQL : base dédiée, port 3307, compte events, secrets .env ignorés par Git.
-- Tache API : consultation, affectation/remplacement, retrait, validations et erreurs HTTP.
-- 20 tests passent : Mockito, MVC et intégration JPA/H2 sans mocks.
-- Maven clean/compile/test/package/install/verify réussis ; aucun test masqué.
-- Log4j2 actif ; INFO/DEBUG/WARN réels, ERROR démontré par test de panne simulée.
-- TacheService : 24 lignes et 4 branches couvertes au rapport JaCoCo.
-- Docker : cycle HTTP/MySQL complet, utilisateur non privilégié, readiness UP.
-- Kubernetes kind 1.32.2 : app/MySQL prêts, PVC lié, cycle HTTP complet via Service.
-- Terraform : 6 ressources Prometheus appliquées après revue et accord utilisateur ;
-  plan suivant sans différence. Prometheus up{job="events"}=1.
-- Nexus : snapshot publié, JAR téléchargé et SHA-256 identique au livrable local.
-  EULA acceptée après accord explicite. Compte de publication dédié, image épinglée par digest.
+## Application et tests
+- 38 tests passent : service Mockito, MVC, JPA/H2 et mapping DTO.
+- Quatre anciennes entrées EventRestController remplacées par des DTO après accord
+  utilisateur ; identifiants générés et coût calculé exclus des champs modifiables.
+- Compatibilité des quatre routes vérifiée par HTTP contre MySQL dans Kubernetes.
+- Log4j2 et JaCoCo actifs ; TacheService intégralement couvert.
 
-## Blocage actuel
-C: environ 1 Gio libre ; builds/téléchargements Jenkins/Sonar interrompus.
-Nettoyage autorisé : 31,91 Go de cache Docker inutilisé supprimé ; archives temporaires
-linux/amd64 supprimées. fstrim a signalé 20,4 Gio sur le disque de données.
-Le VHDX Docker reste à 57 600 376 832 octets et Windows ne récupère pas encore l'espace.
-L'agent n'est pas administrateur. Aucun arrêt global WSL ni compactage exécuté.
-Helper scripts/Compact-DockerDisk.ps1 préparé et parsé sans erreur, non exécuté.
-Il demande PowerShell administrateur et -AllowWslShutdown : sauvegarder les travaux WSL.
-Prochaine action : intervention de compactage, puis reprise Jenkins/Sonar.
-Jenkinsfile et bootstrap authentifié prêts ; aucun build Jenkins ou gate Sonar validé.
-Grafana et publication Docker Hub restent à réaliser. Aucun push distant autorisé/exécuté.
+## CI/CD vérifiée
+- Jenkins 2.580.2 : build #4 SUCCESS, commit 05fae5705048. Compilation, 38 tests,
+  Sonar, gate, package, publication Nexus, image, chargement kind, rollout et HTTP.
+- Sonar : zéro vulnérabilité, bug, code smell ou hotspot ; couverture globale 49,6 %,
+  nouveau code 81,9 %. Gate OK avec conditions évaluées, webhook HTTP 200 signé.
+- L'analyse initiale avait quatre vulnérabilités et un gate aux conditions vides :
+  ces preuves historiques ne représentent pas le résultat final.
+- Build #1 : erreur de plugin corrigée ; #2 : livraison locale initiale réussie ;
+  #3 : arrêté après blocage du callback privé Sonar ; #4 : chaîne locale complète.
+- Nexus snapshot 1.0.0-20261029.104207-2 ; JAR Jenkins et Nexus de SHA-256 identique :
+  00d73ef40c0b59971f5e250aa455dcc968fc54a167386750f8466f8b2fb32ccd.
+- Image déployée : events-tache:tache-05fae5705048-4. Les tags incluent commit et
+  numéro de build ; contrôle du JAR dans le pod ajouté au vérificateur.
 
-## Services et reprise
-Compose app/mysql arrêtés après validation ; cluster kind et Nexus actifs.
-Port-forwards de session : application 18089, Prometheus 19090 ; relancer au besoin.
-Kubeconfig : .local/kubeconfig. Outils : .local/tools (kind 0.33.0, Terraform 1.17.1,
-checksums officiels vérifiés, téléchargements autorisés). State et secrets ignorés.
-Terraform gère uniquement Prometheus et son namespace, pas le cluster ni l'application.
-Script Publish-LocalNexus.ps1 fonctionne ; script Initialize-LocalJenkins.ps1 attend l'espace disque.
+## Infrastructure et prochaines étapes
+- kind events-tache, Kubernetes 1.32.2 ; application/MySQL avec probes et PVC.
+- Terraform : six ressources Prometheus appliquées après revue et accord ; plan
+  suivant sans différence. Prometheus collecte events avec up=1.
+- Grafana 13.3.0 vérifié dans events-grafana : base OK, datasource sain et quatre
+  requêtes non vides ; screenshot du dashboard réellement rendu et vérifié.
+- Publication publique autorisée vers ayyoub1/events-tache. Build #5 : tests, gate,
+  Nexus et image réussis ; publication échouée sur fermeture réseau du proxy Docker.
+  Aucun rollout n'a suivi cet échec ; build #4 reste le déploiement validé.
+  Contournement par upload de blobs OCI en morceaux en cours, sans succès revendiqué.
+- Aucun push Git distant réalisé. Commits réels par jalon, aucune date falsifiée.
+- Docker Desktop relancé sans effacement ; environ 25 Gio libres sur C:.
+- Présentation actualisée : 24 slides françaises, descriptions visibles, sans notes,
+  captures Jenkins/Sonar/Grafana et triple SHA-256 ; export et contenu XML validés.
+- Suite : résoudre le transport du registre, publier via Jenkins puis vérifier
+  Docker Hub et le déploiement de l'image publique.
 
-## Documentation et Git
-Présentation courante : docs/presentation/eventsProject-Tache.pptx.
-Descriptions françaises visibles, aucune note orateur ; source slides.json.
-Ancien phase-01 peut être ouvert/verrouillé : conserver ce fichier historique.
-Captures Windows réelles et Edge/Playwright automatisées ; preuves dans docs/evidence/.
-Commits réels par jalon, dates réelles. Aucune planification de commits nocturnes.
-Lire EVALUATION_TRACKER.md pour les statuts détaillés ; ne pas revendiquer la CI complète.
+## Particularités du laboratoire
+Sonar utilise H2 pour cette démonstration locale. Pour le callback vers le réseau
+Docker privé, sonar.validateWebhooks=false est global à cette instance personnelle ;
+la signature HMAC reste vérifiée. Ce réglage n'est pas une liste d'hôtes autorisés.
+Jenkins contrôle le socket Docker : réservé aux jobs de confiance sur ce poste.
+Terraform gère Prometheus uniquement ; Grafana utilise un manifeste séparé.
+
+## Reprise
+
+Compose: docker-compose.devops.yml; profils jenkins/sonar/nexus.
+Kubeconfig: .local/kubeconfig; secrets et state hors Git.
+Ports localhost: Jenkins 8080, Sonar 9000, Nexus 8081; forwards app 18089,
+Prometheus 19090, Grafana 13000 (Start-LocalForwards.ps1 -IncludeGrafana).
+Presentation: docs/presentation/eventsProject-Tache.pptx; slides.json; sans notes.
+Ne pas modifier les branches des autres membres ni publier Git sans autorisation.
+
+## Reprise de publication
+Build #6 : tests/gate/Nexus réussis ; build Docker arrêté sur une erreur DNS de
+registry-1.docker.io lors de la résolution du tag runtime. Runtime désormais épinglé
+au digest vérifié c35794d1348777e6bc310b9b7f420098ef8f37e988199549b545fded79a895a2.
+Build #7 (commit b822c01) : tests, gate, Nexus et image réussis ; publication en cours.
+L'outil Java de chunks compile sous le JDK 17 Jenkins ; il vérifie l'offset du serveur
+avant de rejouer une requête dont la réponse a été perdue. Aucun nouveau runtime.
+Le seed Python a monté les bases publiques ; upload JAR interrompu après 33 Mio,
+sans publier de tag. Le job Jenkins utilise désormais l'outil Java autonome.

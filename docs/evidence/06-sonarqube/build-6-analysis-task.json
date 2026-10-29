@@ -1,0 +1,19 @@
+{
+  "id": "7ba32092-27fa-4880-9078-6930b4fa430d",
+  "type": "REPORT",
+  "componentId": "0a27ada9-fd5e-4efd-b164-2804c35fcde4",
+  "componentKey": "events-tache",
+  "componentName": "eventsProject",
+  "componentQualifier": "TRK",
+  "analysisId": "e0107ff2-992d-4365-bc55-864bb26d8d4a",
+  "status": "SUCCESS",
+  "submittedAt": "2026-10-29T14:15:37+0000",
+  "submitterLogin": "admin",
+  "startedAt": "2026-10-29T14:15:38+0000",
+  "executedAt": "2026-10-29T14:15:41+0000",
+  "executionTimeMs": 3065,
+  "hasScannerContext": true,
+  "warningCount": 0,
+  "warnings": [],
+  "infoMessages": []
+}

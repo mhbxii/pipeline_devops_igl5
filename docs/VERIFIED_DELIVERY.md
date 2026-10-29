@@ -27,14 +27,18 @@ Branche Tache ; affectation des rôles autour de l'enum existant.
 - kind events-tache, Kubernetes 1.32.2 ; application/MySQL avec probes et PVC.
 - Terraform : six ressources Prometheus appliquées après revue et accord ; plan
   suivant sans différence. Prometheus collecte events avec up=1.
-- Grafana déployé séparément dans events-grafana avec PVC et image épinglée ;
-  validation du dashboard en cours après redémarrage Docker.
-- Publication publique autorisée vers ayyoub1/events-tache. Deux uploads ont échoué
-  sur le réseau du registre ; nouvelle tentative en cours. Pas encore de succès distant.
+- Grafana 13.3.0 vérifié dans events-grafana : base OK, datasource sain et quatre
+  requêtes non vides ; screenshot du dashboard réellement rendu et vérifié.
+- Publication publique autorisée vers ayyoub1/events-tache. Build #5 : tests, gate,
+  Nexus et image réussis ; publication échouée sur fermeture réseau du proxy Docker.
+  Aucun rollout n'a suivi cet échec ; build #4 reste le déploiement validé.
+  Contournement par upload de blobs OCI en morceaux en cours, sans succès revendiqué.
 - Aucun push Git distant réalisé. Commits réels par jalon, aucune date falsifiée.
 - Docker Desktop relancé sans effacement ; environ 25 Gio libres sur C:.
-- Suite : vérifier Docker Hub et déployer l'image publiée par Jenkins, vérifier
-  Grafana, actualiser captures et présentation française sans notes orateur.
+- Présentation actualisée : 24 slides françaises, descriptions visibles, sans notes,
+  captures Jenkins/Sonar/Grafana et triple SHA-256 ; export et contenu XML validés.
+- Suite : résoudre le transport du registre, publier via Jenkins puis vérifier
+  Docker Hub et le déploiement de l'image publique.
 
 ## Particularités du laboratoire
 Sonar utilise H2 pour cette démonstration locale. Pour le callback vers le réseau

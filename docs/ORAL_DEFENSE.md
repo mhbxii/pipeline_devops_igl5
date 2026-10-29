@@ -47,7 +47,7 @@ ERROR est demontre par un test de panne simulee, pas par une panne de production
 | docker-compose.devops.yml | Réseaux, profils, volumes, ports et variables | Mauvais port DB : JDBC échoue ; vérifier healthcheck puis test API. |
 | application-local.properties | Connexion dédiée sur 3307 et secret d'environnement | DB_PASSWORD absent : démarrage impossible ; ne pas afficher sa valeur. |
 | application.properties | Contexte HTTP, JPA et endpoints Actuator | Mauvaise probe : pod non prêt ; interroger readiness. |
-| Jenkinsfile | Stages, rapports, credentials et conditions de publication | Une commande en échec bloque la suite ; aucun build réel encore validé. |
+| Jenkinsfile | Stages, rapports, credentials et conditions de publication | Une commande en échec bloque la suite ; build #4 SUCCESS avec gate, Nexus et livraison kind. |
 | ci/jenkins.Dockerfile | Fournit outils CLI, JDK 21 contrôleur et JDK 17 build | Socket seul insuffisant ; sans CLI, docker introuvable. |
 | ci/bootstrap.groovy | Compte local authentifié et job SCM | Sans mot de passe généré : arrêt du bootstrap ; aucun accès anonyme autorisé. |
 | ci/settings.xml et profil nexus du POM | Associent identifiants serveurs et credentials d'environnement | Mauvais id serveur : authentification Maven absente ; un déploiement réel a réussi. |
@@ -63,7 +63,7 @@ ERROR est demontre par un test de panne simulee, pas par une panne de production
 compatibilité différentes. Le build utilise explicitement /opt/java17.
 **Pourquoi un dépôt Git local en lecture seule ?** Jenkins peut tester les commits sans
 publier la branche ni exposer .env ; le vrai webhook distant reste à démontrer.
-**Le bootstrap est-il validé par un build ?** Non, l'image a été interrompue par manque de disque.
+**Le bootstrap est-il validé par un build ?** Oui, build #4 réussi après reprise du stockage.
 **Pourquoi le Secret n'est-il pas dans YAML ?** Il est construit en mémoire et envoyé à kubectl ;
 le fichier source .env et le kubeconfig sont ignorés par Git.
 **Terraform gère-t-il toute l'infrastructure ?** Non : Prometheus et son namespace uniquement.
@@ -82,3 +82,41 @@ des données sensibles ; il reste local ici, un backend sécurisé serait néces
 l'acceptation de l'EULA, explicitement approuvée par l'utilisateur avant publication.
 Le scanner Sonar préparé utilise Java 21 ; compiler/tester le projet reste sous Java 17.
 Le contrôleur et l'étape Sonar peuvent donc partager le JDK 21 sans modifier le JDK du build.
+
+## Sécurité des anciennes entrées et preuve de livraison
+
+**Pourquoi remplacer les entités dans les quatre entrées REST ?** La désérialisation
+directe exposait des champs persistants non prévus. EventRequests.java autorise les
+champs utiles, ignore les champs inconnus et reconstruit des entités ; les références
+imbriquées ne fournissent que des IDs positifs. Les IDs générés et le coût calculé
+ne peuvent pas être imposés par le client. Les routes et réponses sont conservées.
+
+**Pourquoi 38 tests et aussi des appels MySQL ?** Les tests de mapping, MVC et service
+vérifient des contrats et cas limites. H2 ne remplace pas MySQL : les quatre routes
+historiques ont aussi été appelées par HTTP contre l'application déployée et MySQL.
+
+**Pourquoi 81,9 % et 49,6 % ?** Le premier chiffre mesure le nouveau code, le second
+le projet entier. Le service Tache est entièrement couvert ; les modules historiques
+expliquent une couverture globale inférieure. Ne pas présenter un chiffre hors périmètre.
+
+**Qu'est-ce qui prouve le gate ?** Des conditions réellement évaluées et un callback
+Sonar signé reçu HTTP 200 par Jenkins. Le tout premier gate aux conditions vides
+n'était qu'une baseline ; il n'est pas utilisé comme preuve finale.
+
+**Le tag commit/build est-il immuable ?** Il est unique dans notre processus et
+identifie une exécution. Un registre peut néanmoins l'écraser ; un digest est une
+référence de contenu plus forte. Le vérificateur compare aussi le JAR dans le pod
+avec le JAR archivé Jenkins et celui téléchargé de Nexus : trois SHA-256 identiques.
+
+**Qui provisionne Grafana ?** Le manifeste k8s/grafana.yaml, séparé des six ressources
+Terraform Prometheus. Dashboard et datasource sont provisionnés par ConfigMap.
+Verify-Grafana.py exécute les quatre vraies requêtes via le proxy datasource.
+Un panneau UP prouve la collecte ; readiness et tests HTTP vérifient le comportement.
+
+**Pourquoi un outil Java pour Docker Hub ?** Le proxy Docker Desktop coupait les
+gros uploads, même avec des credentials valides. ci/PushRegistry.java utilise le
+JDK 17 déjà installé : blobs OCI exacts, réutilisation des couches publiques Temurin,
+PATCH de 256 Kio, validation SHA-256 puis publication et relecture du manifeste.
+L'image reste construite par Docker. Le programme refuse un tag existant différent
+et n'affiche jamais le token ni les URLs signées. Une erreur de transport arrête
+la publication ; une requête PATCH ambiguë est reprise après consultation de l'offset du registre.

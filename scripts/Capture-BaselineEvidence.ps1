@@ -14,6 +14,8 @@ $items = @(
     @{ File='01-project-setup/setup-03-database-blocker'; Title='Blocage MySQL | lecture des journaux sauvegardes'; Command="Select-String baseline-startup.log -Pattern 'Access denied'; Get-Content baseline-api.txt"; Text=(@((Select-String docs/evidence/01-project-setup/baseline-startup.log -Pattern 'Access denied' | Select-Object -First 3 | ForEach-Object { $_.Line }); ''; (Get-Content docs/evidence/01-project-setup/baseline-api.txt)) | Out-String) }
 )
 $extra = @(
+    @{File='12-final-validation/local-delivery'; Title='Livraison | Jenkins, Nexus et JAR du pod compares'; Source='12-final-validation/local-delivery.json'},
+    @{File='12-final-validation/legacy-dto-api'; Title='Compatibilite | quatre routes historiques et MySQL'; Source='12-final-validation/legacy-dto-api.json'},
     @{File='07-nexus/nexus-verification'; Title='Nexus | publication et integrite du JAR verifiees'; Source='07-nexus/nexus-verification.txt'},
     @{File='10-kubernetes/kubernetes-resources'; Title='Kubernetes | pods prets, Services et stockage'; Source='10-kubernetes/kubernetes-resources.txt'},
     @{File='10-kubernetes/kubernetes-api-success'; Title='Kubernetes | cycle HTTP reel sur le Service'; Source='10-kubernetes/kubernetes-api-success.txt'},

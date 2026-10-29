@@ -1,0 +1,10 @@
+﻿{
+  "build": 4,
+  "commit": "05fae57050487306d8029034f8ceb8e9d4c3bbea",
+  "image": "events-tache:tache-05fae5705048-4",
+  "nexusSnapshot": "1.0.0-20261029.104207-2",
+  "jenkinsJarSha256": "00d73ef40c0b59971f5e250aa455dcc968fc54a167386750f8466f8b2fb32ccd",
+  "nexusJarSha256": "00d73ef40c0b59971f5e250aa455dcc968fc54a167386750f8466f8b2fb32ccd",
+  "runningPodJarSha256": "00d73ef40c0b59971f5e250aa455dcc968fc54a167386750f8466f8b2fb32ccd",
+  "availableReplicas": 1
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "component": "events-tache:src/main/java/tn/esprit/eventsproject/controllers/EventRestController.java",
+    "line": 20,
+    "rule": "java:S4684",
+    "message": "Replace this persistent entity with a simple POJO or DTO object.",
+    "severity": "CRITICAL",
+    "type": "VULNERABILITY",
+    "status": "OPEN"
+  },
+  {
+    "component": "events-tache:src/main/java/tn/esprit/eventsproject/controllers/EventRestController.java",
+    "line": 24,
+    "rule": "java:S4684",
+    "message": "Replace this persistent entity with a simple POJO or DTO object.",
+    "severity": "CRITICAL",
+    "type": "VULNERABILITY",
+    "status": "OPEN"
+  },
+  {
+    "component": "events-tache:src/main/java/tn/esprit/eventsproject/controllers/EventRestController.java",
+    "line": 28,
+    "rule": "java:S4684",
+    "message": "Replace this persistent entity with a simple POJO or DTO object.",
+    "severity": "CRITICAL",
+    "type": "VULNERABILITY",
+    "status": "OPEN"
+  },
+  {
+    "component": "events-tache:src/main/java/tn/esprit/eventsproject/controllers/EventRestController.java",
+    "line": 32,
+    "rule": "java:S4684",
+    "message": "Replace this persistent entity with a simple POJO or DTO object.",
+    "severity": "CRITICAL",
+    "type": "VULNERABILITY",
+    "status": "OPEN"
+  }
+]

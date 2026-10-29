@@ -1,0 +1,164 @@
+The push refers to repository [docker.io/ayyoub1/events-tache]
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+2cf8ded54b03: Waiting
+8b667949b7bc: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+91ae9e60c04e: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+2cf8ded54b03: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+2cf8ded54b03: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+69c4feeb20a6: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+2cf8ded54b03: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+2cf8ded54b03: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+2cf8ded54b03: Waiting
+8b667949b7bc: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+2cf8ded54b03: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+91ae9e60c04e: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+2cf8ded54b03: Waiting
+2cf8ded54b03: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+958cbad593b0: Waiting
+2cf8ded54b03: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+2cf8ded54b03: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+2cf8ded54b03: Already exists
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Waiting
+69c4feeb20a6: Waiting
+69c4feeb20a6: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+032669c20cfd: Layer already exists
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+8b667949b7bc: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+69c4feeb20a6: Waiting
+69c4feeb20a6: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+8b667949b7bc: Layer already exists
+a5718ceda600: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+69c4feeb20a6: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+69c4feeb20a6: Layer already exists
+a5718ceda600: Layer already exists
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+0626d3cc316c: Waiting
+958cbad593b0: Waiting
+91ae9e60c04e: Waiting
+cf7e722f8b08: Waiting
+958cbad593b0: Waiting
+958cbad593b0: Waiting
+docker : failed to copy: unexpected status from PUT request to [registry URL redacted]
+bs/uploads/682f646e-c4cf-410c-bf30-362703b9f92e?[upload state redacted]
+L2V2ZW50cy10YWNoZSIsIlVVSUQiOiI2ODJmNjQ2ZS1jNGNmLTQxMGMtYmYzMC0zNjI3MDNiOWY5MmUiLCJPZmZzZXQiOjAsIlN0YXJ0ZWRBdCI6IjIwMjY
+tMTAtMjlUMTA6NTg6MTkuNDE0NDA1Mzc5WiIsIkV4cGlyZXNBdCI6IjIwMjYtMTAtMjlUMTE6Mjg6MTkuNTE0Mzc2ODg4WiIsIlVzZXJuYW1lIjoiYXl5b3
+ViMSIsIlVzZXJVVUlEIjoiYjI5NTIyNzItNTcwNy00MjlhLWI2YzctYjZiMmU4N2M0YzI1IiwiU2Vzc2lvbklEIjoiZGNrcl9qdGlfbUpWZC00Mjg5Y0lKa
+kNKQ2NKZHNXckpHektRPSJ9&digest=sha256%3Acf7e722f8b08b87be783253b7376a7e0fb49a093cde4c714c0e642344f642300: 503 Service 
+Unavailable
+At line:2 char:1
++ docker push ayyoub1/events-tache:tache-05fae5705048-4 *> docs/evidenc ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (failed to copy:...ice Unavailable:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

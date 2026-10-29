@@ -1,0 +1,23 @@
+{
+  "number": 1,
+  "url": "http://localhost:8080/job/tache-ci/1",
+  "result": "FAILURE",
+  "durationMillis": 15971,
+  "timestampMillis": 1793269310219,
+  "stages": {
+    "_links": {
+      "self": {
+        "href": "/job/tache-ci/1/wfapi/describe"
+      }
+    },
+    "id": "1",
+    "name": "#1",
+    "status": "NOT_EXECUTED",
+    "startTimeMillis": 1793269310239,
+    "endTimeMillis": 1793269326210,
+    "durationMillis": 15971,
+    "queueDurationMillis": 20,
+    "pauseDurationMillis": 0,
+    "stages": []
+  }
+}

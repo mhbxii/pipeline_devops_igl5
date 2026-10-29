@@ -1,0 +1,549 @@
+Started by user tache-admin
+Checking out git /git-src into /var/jenkins_home/workspace/tache-ci@script/7ce452aaffe9e7a1634e0b1ad3356543bef1e8bd347d478d5fea0979ab65d5ce to read Jenkinsfile
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/tache-ci@script/7ce452aaffe9e7a1634e0b1ad3356543bef1e8bd347d478d5fea0979ab65d5ce/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url /git-src # timeout=10
+Fetching upstream changes from /git-src
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- /git-src +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/Tache^{commit} # timeout=10
+Checking out Revision 5564226ccc1cc93c47b629fcb3fb7468488770d6 (refs/remotes/origin/Tache)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 5564226ccc1cc93c47b629fcb3fb7468488770d6 # timeout=10
+Commit message: "fix(jenkins): remove option requiring an uninstalled plugin"
+ > git rev-list --no-walk 5564226ccc1cc93c47b629fcb3fb7468488770d6 # timeout=10
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/tache-ci
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] checkout
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/tache-ci/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url /git-src # timeout=10
+Fetching upstream changes from /git-src
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- /git-src +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/Tache^{commit} # timeout=10
+Checking out Revision 5564226ccc1cc93c47b629fcb3fb7468488770d6 (refs/remotes/origin/Tache)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 5564226ccc1cc93c47b629fcb3fb7468488770d6 # timeout=10
+Commit message: "fix(jenkins): remove option requiring an uninstalled plugin"
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ java -version
+openjdk version "17.0.15" 2025-04-15
+OpenJDK Runtime Environment Temurin-17.0.15+6 (build 17.0.15+6)
+OpenJDK 64-Bit Server VM Temurin-17.0.15+6 (build 17.0.15+6, mixed mode, sharing)
++ mvn -version
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: /opt/maven
+Java version: 17.0.15, vendor: Eclipse Adoptium, runtime: /opt/java17
+Default locale: en, platform encoding: UTF-8
+OS name: "linux", version: "6.6.87.2-microsoft-standard-wsl2", arch: "amd64", family: "unix"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Compile)
+[Pipeline] sh
++ mvn -B clean compile
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< tn.esprit:eventsProject >-----------------------
+[INFO] Building eventsProject 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ eventsProject ---
+[INFO] Deleting /var/jenkins_home/workspace/tache-ci/target
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (default) @ eventsProject ---
+[INFO] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/var/jenkins_home/workspace/tache-ci/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.2.0:resources (default-resources) @ eventsProject ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ eventsProject ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 15 source files to /var/jenkins_home/workspace/tache-ci/target/classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.876 s
+[INFO] Finished at: 2026-10-29T10:29:35Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Tests and coverage)
+[Pipeline] sh
++ mvn -B test
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< tn.esprit:eventsProject >-----------------------
+[INFO] Building eventsProject 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (default) @ eventsProject ---
+[INFO] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/var/jenkins_home/workspace/tache-ci/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.2.0:resources (default-resources) @ eventsProject ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ eventsProject ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.2.0:testResources (default-testResources) @ eventsProject ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /var/jenkins_home/workspace/tache-ci/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.10.1:testCompile (default-testCompile) @ eventsProject ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 3 source files to /var/jenkins_home/workspace/tache-ci/target/test-classes
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ eventsProject ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running tn.esprit.eventsproject.controllers.TacheRestControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-29 10:29:47 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - Starting TacheRestControllerTest using Java 17.0.15 on c7d79a83acf4 with PID 2474 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-29 10:29:47 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-29 10:29:50 -  INFO - org.springframework.boot.test.mock.web.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet '' 
+=2026-10-29 10:29:50 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Initializing Servlet '' 
+=2026-10-29 10:29:50 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Completed initialization in 1 ms 
+=2026-10-29 10:29:50 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - Started TacheRestControllerTest in 4.806 seconds (JVM running for 8.87) 
+=2026-10-29 10:29:51 -  ERROR- tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role operation failed exceptionType=IllegalStateException 
+=2026-10-29 10:29:51 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-29 10:29:51 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.378 s - in tn.esprit.eventsproject.controllers.TacheRestControllerTest
+[INFO] Running tn.esprit.eventsproject.services.TachePersistenceTest
+=2026-10-29 10:29:51 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [tn.esprit.eventsproject.services.TachePersistenceTest], using SpringBootContextLoader 
+=2026-10-29 10:29:51 -  INFO - org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [tn.esprit.eventsproject.services.TachePersistenceTest]: no resource found for suffixes {-context.xml, Context.groovy}. 
+=2026-10-29 10:29:51 -  INFO - org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [tn.esprit.eventsproject.services.TachePersistenceTest]: TachePersistenceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration. 
+=2026-10-29 10:29:51 -  INFO - org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration tn.esprit.eventsproject.EventsProjectApplication for test class tn.esprit.eventsproject.services.TachePersistenceTest 
+=2026-10-29 10:29:51 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener] 
+=2026-10-29 10:29:51 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@60c5c115, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@4f7bc46e, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@18161415, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@75e00044, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@3be3ba84, org.springframework.test.context.support.DirtiesContextTestExecutionListener@2aaa5122, org.springframework.test.context.transaction.TransactionalTestExecutionListener@2b45ede, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@77a38cec, org.springframework.test.context.event.EventPublishingTestExecutionListener@51b22f06, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@29e94753, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@98bae1e, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@6224872f, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@222e5e72, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@419e46bb, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@1531fbc8] 
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-29 10:29:51 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - Starting TachePersistenceTest using Java 17.0.15 on c7d79a83acf4 with PID 2474 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-29 10:29:51 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-29 10:29:51 -  INFO - org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+=2026-10-29 10:29:52 -  INFO - org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 85 ms. Found 3 JPA repository interfaces. 
+=2026-10-29 10:29:52 -  INFO - org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor - Replacing 'dataSource' DataSource bean with embedded version 
+=2026-10-29 10:29:52 -  INFO - org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory - Starting embedded database: url='jdbc:h2:mem:79398ebb-4a5b-4aeb-a62c-eb23cd74987e;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa' 
+=2026-10-29 10:29:53 -  INFO - org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default] 
+=2026-10-29 10:29:53 -  INFO - org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.14.Final 
+=2026-10-29 10:29:53 -  INFO - org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final} 
+=2026-10-29 10:29:53 -  INFO - org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect 
+Hibernate: drop table if exists event CASCADE 
+Hibernate: drop table if exists event_logistics CASCADE 
+Hibernate: drop table if exists logistics CASCADE 
+Hibernate: drop table if exists participant CASCADE 
+Hibernate: drop table if exists participant_events CASCADE 
+Hibernate: create table event (id_event integer generated by default as identity, cout float not null, date_debut date, date_fin date, description varchar(255), primary key (id_event))
+Hibernate: create table event_logistics (event_id_event integer not null, logistics_id_log integer not null, primary key (event_id_event, logistics_id_log))
+Hibernate: create table logistics (id_log integer generated by default as identity, description varchar(255), prix_unit float not null, quantite integer not null, reserve boolean not null, primary key (id_log))
+Hibernate: create table participant (id_part integer generated by default as identity, nom varchar(255), prenom varchar(255), tache varchar(255), primary key (id_part))
+Hibernate: create table participant_events (participants_id_part integer not null, events_id_event integer not null, primary key (participants_id_part, events_id_event))
+Hibernate: alter table event_logistics add constraint UK_hnhwi2rcis5h2gj0dvn0u21r unique (logistics_id_log)
+Hibernate: alter table event_logistics add constraint FK99lhmi6kdm74hjpsiaco1g3hd foreign key (logistics_id_log) references logistics
+Hibernate: alter table event_logistics add constraint FKjayu5dxqe4kbmonbtku21asqk foreign key (event_id_event) references event
+Hibernate: alter table participant_events add constraint FKjjnljm4c6ne60i0j1qqta2dxq foreign key (events_id_event) references event
+Hibernate: alter table participant_events add constraint FKqycnk1hsme42y3jxjuxtxknln foreign key (participants_id_part) references participant
+=2026-10-29 10:29:55 -  INFO - org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform] 
+=2026-10-29 10:29:55 -  INFO - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default' 
+=2026-10-29 10:29:56 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - Started TachePersistenceTest in 4.748 seconds (JVM running for 14.28) 
+=2026-10-29 10:29:56 -  INFO - org.springframework.test.context.transaction.TransactionContext - Began transaction (1) for test context [DefaultTestContext@a3eba18 testClass = TachePersistenceTest, testInstance = tn.esprit.eventsproject.services.TachePersistenceTest@8d274f3, testMethod = persistsReadsReplacesAndClearsRoleWithoutRemovingParticipant@TachePersistenceTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@4c39d732 testClass = TachePersistenceTest, locations = '{}', classes = '{class tn.esprit.eventsproject.EventsProjectApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{spring.jpa.hibernate.ddl-auto=create-drop, spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect, org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper=true}', contextCustomizers = set[[ImportsContextCustomizer@1384f4c9 key = [tn.esprit.eventsproject.services.TacheService, org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration, org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration, org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration, org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration, org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration, org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration, org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration, org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration, org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManagerAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@d08edc5, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6bc24e72, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@303c55fa, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@b5de58f, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@351584c0, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@d491283f, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@4ace284d, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@0], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@16cb3161]; rollback [true] 
+Hibernate: insert into participant (id_part, nom, prenom, tache) values (default, ?, ?, ?)
+=2026-10-29 10:29:56 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=1 previous=null role=ORGANISATEUR 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+Hibernate: select tache from participant where id_part = ?
+=2026-10-29 10:29:56 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=1 previous=ORGANISATEUR role=SERVEUR 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+=2026-10-29 10:29:56 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=1 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+=2026-10-29 10:29:56 -  INFO - org.springframework.test.context.transaction.TransactionContext - Rolled back transaction for test: [DefaultTestContext@a3eba18 testClass = TachePersistenceTest, testInstance = tn.esprit.eventsproject.services.TachePersistenceTest@8d274f3, testMethod = persistsReadsReplacesAndClearsRoleWithoutRemovingParticipant@TachePersistenceTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@4c39d732 testClass = TachePersistenceTest, locations = '{}', classes = '{class tn.esprit.eventsproject.EventsProjectApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{spring.jpa.hibernate.ddl-auto=create-drop, spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect, org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper=true}', contextCustomizers = set[[ImportsContextCustomizer@1384f4c9 key = [tn.esprit.eventsproject.services.TacheService, org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration, org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration, org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration, org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration, org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration, org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration, org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration, org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration, org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManagerAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@d08edc5, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6bc24e72, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@303c55fa, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@b5de58f, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@351584c0, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@d491283f, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@4ace284d, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@0], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.262 s - in tn.esprit.eventsproject.services.TachePersistenceTest
+[INFO] Running tn.esprit.eventsproject.services.TacheServiceTest
+=2026-10-29 10:29:57 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=7 
+=2026-10-29 10:29:57 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=7 
+=2026-10-29 10:29:57 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=INVITE 
+=2026-10-29 10:29:57 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=ORGANISATEUR 
+=2026-10-29 10:29:57 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=SERVEUR 
+=2026-10-29 10:29:57 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=ANIMATEUR 
+=2026-10-29 10:29:57 -  WARN - tn.esprit.eventsproject.services.TacheService - Role operation rejected participantId=7 reason=participant_not_found 
+=2026-10-29 10:29:57 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=INVITE role=ORGANISATEUR 
+=2026-10-29 10:29:57 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=7 reason=missing_role 
+=2026-10-29 10:29:57 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=0 reason=invalid_id 
+=2026-10-29 10:29:57 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=-1 reason=invalid_id 
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.271 s - in tn.esprit.eventsproject.services.TacheServiceTest
+=2026-10-29 10:29:57 -  INFO - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default' 
+=2026-10-29 10:29:57 -  INFO - org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down' 
+Hibernate: drop table if exists event CASCADE 
+Hibernate: drop table if exists event_logistics CASCADE 
+Hibernate: drop table if exists logistics CASCADE 
+Hibernate: drop table if exists participant CASCADE 
+Hibernate: drop table if exists participant_events CASCADE 
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.12:report (report) @ eventsProject ---
+[INFO] Loading execution data file /var/jenkins_home/workspace/tache-ci/target/jacoco.exec
+[INFO] Analyzed bundle 'eventsProject' with 13 classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  20.533 s
+[INFO] Finished at: 2026-10-29T10:29:58Z
+[INFO] ------------------------------------------------------------------------
+Post stage
+[Pipeline] junit
+Recording test results
+[Checks API] No suitable checks publisher found.
+[Pipeline] archiveArtifacts
+Archiving artifacts
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (SonarQube analysis)
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withSonarQubeEnv
+Injecting SonarQube environment variables using the configuration: local-sonar
+[Pipeline] {
+[Pipeline] sh
++ set +x
+[INFO] Scanning for projects...
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/maven/sonar-maven-plugin/5.8.0.7211/sonar-maven-plugin-5.8.0.7211.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/maven/sonar-maven-plugin/5.8.0.7211/sonar-maven-plugin-5.8.0.7211.pom (18 kB at 17 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/maven/sonar-scanner-maven/5.8.0.7211/sonar-scanner-maven-5.8.0.7211.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/maven/sonar-scanner-maven/5.8.0.7211/sonar-scanner-maven-5.8.0.7211.pom (3.3 kB at 38 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/parent/parent/87.0.0.3057/parent-87.0.0.3057.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/parent/parent/87.0.0.3057/parent-87.0.0.3057.pom (32 kB at 297 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/maven/sonar-maven-plugin/5.8.0.7211/sonar-maven-plugin-5.8.0.7211.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/maven/sonar-maven-plugin/5.8.0.7211/sonar-maven-plugin-5.8.0.7211.jar (122 kB at 514 kB/s)
+[INFO] 
+[INFO] ----------------------< tn.esprit:eventsProject >-----------------------
+[INFO] Building eventsProject 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- sonar:5.8.0.7211:sonar (default-cli) @ eventsProject ---
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-sec-dispatcher/2.0/plexus-sec-dispatcher-2.0.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-sec-dispatcher/2.0/plexus-sec-dispatcher-2.0.pom (3.2 kB at 39 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-cipher/2.0/plexus-cipher-2.0.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-cipher/2.0/plexus-cipher-2.0.pom (4.4 kB at 61 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-java-library/4.1.2.1663/sonar-scanner-java-library-4.1.2.1663.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-java-library/4.1.2.1663/sonar-scanner-java-library-4.1.2.1663.pom (5.2 kB at 59 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-java-library-parent/4.1.2.1663/sonar-scanner-java-library-parent-4.1.2.1663.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-java-library-parent/4.1.2.1663/sonar-scanner-java-library-parent-4.1.2.1663.pom (4.2 kB at 50 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/junit/junit-bom/6.0.3/junit-bom-6.0.3.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/junit-bom/6.0.3/junit-bom-6.0.3.pom (5.1 kB at 39 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.13.2/gson-2.13.2.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.13.2/gson-2.13.2.pom (13 kB at 144 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/google/code/gson/gson-parent/2.13.2/gson-parent-2.13.2.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/google/code/gson/gson-parent/2.13.2/gson-parent-2.13.2.pom (27 kB at 318 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.41.0/error_prone_annotations-2.41.0.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.41.0/error_prone_annotations-2.41.0.pom (4.3 kB at 64 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_parent/2.41.0/error_prone_parent-2.41.0.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_parent/2.41.0/error_prone_parent-2.41.0.pom (16 kB at 181 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.28.0/commons-compress-1.28.0.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.28.0/commons-compress-1.28.0.pom (25 kB at 337 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/85/commons-parent-85.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/85/commons-parent-85.pom (78 kB at 607 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/apache/35/apache-35.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/apache/35/apache-35.pom (24 kB at 323 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.13.1/junit-bom-5.13.1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.13.1/junit-bom-5.13.1.pom (5.6 kB at 70 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.19.0/commons-codec-1.19.0.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.19.0/commons-codec-1.19.0.pom (18 kB at 250 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/commons-io/commons-io/2.20.0/commons-io-2.20.0.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/commons-io/commons-io/2.20.0/commons-io-2.20.0.pom (20 kB at 244 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.18.0/commons-lang3-3.18.0.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.18.0/commons-lang3-3.18.0.pom (32 kB at 464 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-download-cache/4.1.2.1663/sonar-scanner-download-cache-4.1.2.1663.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-download-cache/4.1.2.1663/sonar-scanner-download-cache-4.1.2.1663.pom (2.1 kB at 29 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-java-library-batch-interface/4.1.2.1663/sonar-scanner-java-library-batch-interface-4.1.2.1663.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-java-library-batch-interface/4.1.2.1663/sonar-scanner-java-library-batch-interface-4.1.2.1663.pom (554 B at 7.8 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.pom (33 kB at 423 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/92/commons-parent-92.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/92/commons-parent-92.pom (80 kB at 603 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.13.4/junit-bom-5.13.4.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.13.4/junit-bom-5.13.4.pom (5.7 kB at 70 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/github/hakky54/ayza/10.0.3/ayza-10.0.3.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/github/hakky54/ayza/10.0.3/ayza-10.0.3.pom (5.0 kB at 74 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/github/hakky54/ayza-parent/10.0.3/ayza-parent-10.0.3.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/github/hakky54/ayza-parent/10.0.3/ayza-parent-10.0.3.pom (14 kB at 118 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/github/hakky54/ayza-bom/10.0.3/ayza-bom-10.0.3.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/github/hakky54/ayza-bom/10.0.3/ayza-bom-10.0.3.pom (6.5 kB at 54 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/github/hakky54/sude/2.0.2/sude-2.0.2.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/github/hakky54/sude/2.0.2/sude-2.0.2.pom (13 kB at 133 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.85.2/bcprov-jdk18on-1.85.2.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.85.2/bcprov-jdk18on-1.85.2.pom (1.2 kB at 16 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/de/siegmar/fastcsv/3.7.0/fastcsv-3.7.0.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/de/siegmar/fastcsv/3.7.0/fastcsv-3.7.0.pom (1.4 kB at 20 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-sec-dispatcher/2.0/plexus-sec-dispatcher-2.0.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-sec-dispatcher/2.0/plexus-sec-dispatcher-2.0.jar (24 kB at 128 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-cipher/2.0/plexus-cipher-2.0.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-java-library/4.1.2.1663/sonar-scanner-java-library-4.1.2.1663.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.13.2/gson-2.13.2.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.41.0/error_prone_annotations-2.41.0.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.28.0/commons-compress-1.28.0.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-cipher/2.0/plexus-cipher-2.0.jar (13 kB at 117 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.19.0/commons-codec-1.19.0.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.41.0/error_prone_annotations-2.41.0.jar (20 kB at 82 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/commons-io/commons-io/2.20.0/commons-io-2.20.0.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-java-library/4.1.2.1663/sonar-scanner-java-library-4.1.2.1663.jar (129 kB at 167 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-download-cache/4.1.2.1663/sonar-scanner-download-cache-4.1.2.1663.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.13.2/gson-2.13.2.jar (290 kB at 353 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-java-library-batch-interface/4.1.2.1663/sonar-scanner-java-library-batch-interface-4.1.2.1663.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-download-cache/4.1.2.1663/sonar-scanner-download-cache-4.1.2.1663.jar (9.5 kB at 9.8 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/github/hakky54/ayza/10.0.3/ayza-10.0.3.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonarsource/scanner/lib/sonar-scanner-java-library-batch-interface/4.1.2.1663/sonar-scanner-java-library-batch-interface-4.1.2.1663.jar (4.7 kB at 3.2 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/github/hakky54/sude/2.0.2/sude-2.0.2.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.19.0/commons-codec-1.19.0.jar (375 kB at 235 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.85.2/bcprov-jdk18on-1.85.2.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/github/hakky54/sude/2.0.2/sude-2.0.2.jar (8.6 kB at 5.3 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/de/siegmar/fastcsv/3.7.0/fastcsv-3.7.0.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/commons-io/commons-io/2.20.0/commons-io-2.20.0.jar (564 kB at 350 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.18.0/commons-lang3-3.18.0.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/github/hakky54/ayza/10.0.3/ayza-10.0.3.jar (204 kB at 123 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/de/siegmar/fastcsv/3.7.0/fastcsv-3.7.0.jar (82 kB at 41 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.28.0/commons-compress-1.28.0.jar (1.1 MB at 483 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.18.0/commons-lang3-3.18.0.jar (703 kB at 247 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.85.2/bcprov-jdk18on-1.85.2.jar (10 MB at 940 kB/s)
+[INFO] Java 21.0.13 Eclipse Adoptium (64-bit)
+[INFO] Linux 6.6.87.2-microsoft-standard-WSL2 (amd64)
+[INFO] Communicating with SonarQube Community Build 26.10.0.133078
+[INFO] JRE provisioning is disabled
+[INFO] Using the java executable '/opt/java/openjdk/bin/java' from JAVA_HOME
+[INFO] Starting SonarScanner Engine...
+[INFO] Java 21.0.13 Eclipse Adoptium (64-bit)
+[INFO] Load global settings
+[INFO] Load global settings (done) | time=195ms
+[INFO] Server id: 147B411E-AaGHJ4mZ4-8Hdx7cDqYo
+[INFO] Loading required plugins
+[INFO] Load plugins index
+[INFO] Load plugins index (done) | time=31ms
+[INFO] Load/download plugins
+[INFO] Load/download plugins (done) | time=895ms
+[INFO] Load project settings for component key: 'events-tache'
+[INFO] Load project settings for component key: 'events-tache' (done) | time=53ms
+[INFO] Process project properties
+[INFO] Process project properties (done) | time=20ms
+[INFO] Project key: events-tache
+[INFO] Base dir: /var/jenkins_home/workspace/tache-ci
+[INFO] Working dir: /var/jenkins_home/workspace/tache-ci/target/sonar
+[INFO] Load quality profiles
+[INFO] Load quality profiles (done) | time=181ms
+[INFO] Load active rules
+[INFO] Load active rules (done) | time=440ms
+[INFO] Load analysis cache
+[INFO] Load analysis cache (854 bytes) | time=49ms
+[INFO] Preprocessing files...
+[INFO] 2 languages detected in 19 preprocessed files (done) | time=159ms
+[INFO] 0 files ignored because of scm ignore settings
+[INFO] Loading plugins for detected languages
+[INFO] Load/download plugins
+[INFO] Load/download plugins (done) | time=628ms
+[INFO] Load project repositories
+[INFO] Load project repositories (done) | time=159ms
+[INFO] Indexing files...
+[INFO] Project configuration:
+[INFO] 19 files indexed (done) | time=14ms
+[INFO] Quality profile for java: Sonar way core
+[INFO] Quality profile for xml: Sonar way core
+[INFO] ------------- Run sensors on module eventsProject
+[INFO] Load metrics repository
+[INFO] Load metrics repository (done) | time=38ms
+[INFO] Sensor IaC YAML File Type Classification Sensor [iac]
+[INFO] Sensor IaC YAML File Type Classification Sensor [iac] (done) | time=4ms
+[INFO] Sensor JavaSensor [java]
+[INFO] Configured Java source version (sonar.java.source): 8, preview features enabled (sonar.java.enablePreview): false
+[INFO] Server-side caching is enabled. The Java analyzer will not try to leverage data from a previous analysis.
+[INFO] Using ECJ batch to parse 15 Main java source files with batch size 12 KB.
+[INFO] Starting batch processing.
+[INFO] The Java analyzer cannot skip unchanged files in this context. A full analysis is performed for all files.
+[INFO] 100% analyzed
+[INFO] Batch processing: Done.
+[INFO] Did not optimize analysis for any files, performed a full analysis for all 15 files.
+[WARNING] Unresolved imports/types have been detected during analysis. Enable DEBUG mode to see them.
+[WARNING] Use of preview features have been detected during analysis. Enable DEBUG mode to see them.
+[INFO] Using ECJ batch to parse 3 Test java source files with batch size 12 KB.
+[INFO] Starting batch processing.
+[INFO] 100% analyzed
+[INFO] Batch processing: Done.
+[INFO] Did not optimize analysis for any files, performed a full analysis for all 3 files.
+[INFO] No "Generated" source files to scan.
+[INFO] Sensor JavaSensor [java] (done) | time=3089ms
+[INFO] Sensor JaCoCo XML Report Importer [jacoco]
+[INFO] Importing 1 report(s). Turn your logs in debug mode in order to see the exhaustive list.
+[INFO] Sensor JaCoCo XML Report Importer [jacoco] (done) | time=53ms
+[INFO] Sensor IaC hadolint report Sensor [iac]
+[INFO] Sensor IaC hadolint report Sensor [iac] (done) | time=0ms
+[INFO] Sensor Java Config Sensor [iac]
+[INFO] There are no files to be analyzed for the Java language
+[INFO] Sensor Java Config Sensor [iac] (done) | time=0ms
+[INFO] Sensor IaC Docker Sensor [iac]
+[INFO] There are no files to be analyzed for the Docker language
+[INFO] Sensor IaC Docker Sensor [iac] (done) | time=5ms
+[INFO] Sensor SurefireSensor [java]
+[INFO] parsing [/var/jenkins_home/workspace/tache-ci/target/surefire-reports]
+[INFO] Sensor SurefireSensor [java] (done) | time=117ms
+[INFO] Sensor XML Sensor [xml]
+[INFO] 1 source file to be analyzed
+[INFO] 1/1 source file has been analyzed
+[INFO] Sensor XML Sensor [xml] (done) | time=207ms
+[INFO] Sensor TextAndSecretsSensor [text]
+[INFO] Available processors: 16
+[INFO] Using 16 threads for analysis.
+[INFO] Start fetching files for the text and secrets analysis
+[INFO] Using Git CLI to retrieve dirty files
+[INFO] Retrieving language associated files and files included via "sonar.text.inclusions" that are tracked by git
+[INFO] Starting the text and secrets analysis
+[INFO] 19 source files to be analyzed for the text and secrets analysis
+[INFO] 19/19 source files have been analyzed for the text and secrets analysis
+[INFO] Sensor TextAndSecretsSensor [text] (done) | time=695ms
+[INFO] ------------- Run sensors on project
+[INFO] Sensor JaCoCo Aggregate XML Report Importer [jacoco]
+[INFO] Sensor JaCoCo Aggregate XML Report Importer [jacoco] (done) | time=0ms
+[INFO] Sensor IaC Project Sensor [iac]
+[INFO] Sensor IaC Project Sensor [iac] (done) | time=2ms
+[INFO] Sensor JavaProjectSensor [java]
+[INFO] Sensor JavaProjectSensor [java] (done) | time=3ms
+[INFO] Sensor Zero Coverage Sensor
+[INFO] Sensor Zero Coverage Sensor (done) | time=1ms
+[INFO] Sensor Java CPD Block Indexer
+[INFO] Sensor Java CPD Block Indexer (done) | time=40ms
+[INFO] ------------- Gather SCA dependencies on project
+[INFO] Dependency analysis skipped
+[INFO] CPD Executor 6 files had no CPD blocks
+[INFO] CPD Executor Calculating CPD for 9 files
+[INFO] CPD Executor CPD calculation finished (done) | time=16ms
+[INFO] SCM revision ID '5564226ccc1cc93c47b629fcb3fb7468488770d6'
+[INFO] Analysis report generated in 150ms, dir size=214.3 kB
+[INFO] Analysis report compressed in 79ms, zip size=59.5 kB
+[INFO] Analysis report uploaded in 69ms
+[INFO] ANALYSIS SUCCESSFUL, you can find the results at: http://localhost:9000/dashboard?id=events-tache
+[INFO] Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
+[INFO] More about the report processing at http://localhost:9000/api/ce/task?id=bc0ae086-9a65-4eab-ad49-bb3315184a36
+[INFO] Analysis total time: 15.518 s
+[INFO] SonarScanner Engine completed successfully
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  39.278 s
+[INFO] Finished at: 2026-10-29T10:30:40Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // withSonarQubeEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Quality gate)
+[Pipeline] timeout
+Timeout set to expire in 10 min
+[Pipeline] {
+[Pipeline] waitForQualityGate
+Checking status of SonarQube task 'bc0ae086-9a65-4eab-ad49-bb3315184a36' on server 'local-sonar'
+SonarQube task 'bc0ae086-9a65-4eab-ad49-bb3315184a36' status is 'IN_PROGRESS'
+Aborted by tache-admin
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Package)
+Stage "Package" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Publish Nexus)
+Stage "Publish Nexus" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker image)
+Stage "Build Docker image" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Publish Docker image)
+Stage "Publish Docker image" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy local kind)
+Stage "Deploy local kind" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify local deployment)
+Stage "Verify local deployment" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy Kubernetes)
+Stage "Deploy Kubernetes" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+org.jenkinsci.plugins.workflow.actions.ErrorAction$ErrorId: 02d4cfda-5a61-4159-a7e2-dd058eee78bb
+Finished: ABORTED

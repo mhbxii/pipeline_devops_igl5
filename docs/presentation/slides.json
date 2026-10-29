@@ -6,7 +6,11 @@
   {"title":"La compilation initiale","description":"Journal sauvegardé : BUILD SUCCESS pour les 12 sources du dépôt initial.","screenshot":"02-maven/maven-02-baseline-build.png"},
   {"title":"Le blocage initial : MySQL","description":"Journal du diagnostic initial : authentification root refusée et HTTP 500.","screenshot":"01-project-setup/setup-03-database-blocker.png"},
   {"title":"MySQL : correction vérifiée","description":"Base dédiée sur 3307 : création, affectation, lecture et retrait du rôle réussis.","screenshot":"01-project-setup/mysql-api-success.png"},
-  {"title":"Des tests à trois niveaux","description":"20 tests réussis : Mockito, contrat HTTP et intégration JPA/H2 sans mocks.","screenshot":"04-unit-tests/tests-success.png"},
+  {"title":"38 tests automatisés","description":"Service Mockito, contrats HTTP, JPA/H2 sans mocks et mapping sécurisé des anciennes entrées.","screenshot":"08-jenkins/jenkins-tests.png"},
+  {"title":"Sécuriser les entrées existantes","description":"Quatre entrées utilisent des DTO : identifiants générés et coût calculé protégés ; compatibilité HTTP/MySQL vérifiée.","screenshot":"12-final-validation/legacy-dto-api.png"},
+  {"title":"Une analyse Sonar réellement évaluée","description":"Gate OK : nouveau code couvert à 81,9 %, duplication nulle et aucune violation nouvelle.","screenshot":"06-sonarqube/sonar-final-new-code.png"},
+  {"title":"Une qualité mesurée sans masquer le périmètre","description":"Zéro vulnérabilité après correction des quatre entrées ; couverture globale 49,6 %, distincte du nouveau code.","screenshot":"06-sonarqube/sonar-final-dashboard.png"},
+  {"title":"Une chaîne Jenkins exécutée","description":"Build #4 réussi : tests, gate, package, Nexus, image Docker, déploiement kind et vérification HTTP.","screenshot":"08-jenkins/jenkins-pipeline-overview.png"},
   {"title":"Une couverture métier mesurée","description":"TacheService : 24 lignes et 4 branches couvertes ; ce résultat concerne ce service.","screenshot":"04-unit-tests/coverage-service.png"},
   {"title":"Des logs utiles","description":"DEBUG, INFO, WARN sur API ; ERROR démontré par une panne simulée dans un test.","screenshot":"03-logging/tache-levels.png"},
   {"title":"Application et MySQL en conteneurs","description":"Cycle HTTP vérifié dans Docker ; readiness UP et utilisateur applicatif non privilégié.","screenshot":"09-docker/docker-api-success.png"},
@@ -16,6 +20,7 @@
   {"title":"Provisionner avec Terraform","description":"Plan examiné et approuvé : 6 ressources Prometheus créées, aucune destruction.","screenshot":"11-terraform/terraform-apply.png"},
   {"title":"Contrôler la convergence","description":"Un nouveau plan ne détecte aucune différence entre configuration et infrastructure.","screenshot":"11-terraform/terraform-no-drift.png"},
   {"title":"Observer une application réellement collectée","description":"Prometheus collecte la cible Kubernetes events : 1/1 UP, métriques exposées par Actuator.","screenshot":"13-monitoring/prometheus-targets.png"},
+  {"title":"Visualiser les métriques dans Grafana","description":"Dashboard provisionné : cible UP, CPU Java, mémoire JVM et débit HTTP ; quatre requêtes réelles vérifiées.","screenshot":"13-monitoring/grafana-dashboard.png"},
   {"title":"Publier le livrable dans Nexus","description":"Le dépôt Maven snapshots contient le JAR et le POM de tn.esprit:eventsProject:1.0.0-SNAPSHOT.","screenshot":"07-nexus/nexus-repository.png"},
-  {"title":"Vérifier le livrable publié","description":"Le JAR téléchargé depuis Nexus possède le même SHA-256 que le livrable local.","screenshot":"07-nexus/nexus-verification.png"}
+  {"title":"Relier le build au programme exécuté","description":"Même SHA-256 pour le JAR archivé par Jenkins, téléchargé de Nexus et présent dans le pod Kubernetes.","screenshot":"12-final-validation/local-delivery.png"}
 ]

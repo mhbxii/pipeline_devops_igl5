@@ -1,7 +1,6 @@
 ﻿Tache
-8756c60 docs(evidence): record Maven tests logging and Docker verification
-2573c51 ci(jenkins): prepare authenticated local pipeline and isolated SCM snapshot
-3d89ff3 feat(terraform): provision persistent Prometheus monitoring on kind
-cf0454e feat(kubernetes): deploy Tache API and verify MySQL-backed endpoints
-d12f5dc feat(tache): restore MySQL and add tested role API with Log4j2
-
+2e8b39d ci: enable approved registry delivery and provision Grafana monitoring
+05fae57 fix(api): whitelist legacy creation inputs and enforce verified local delivery
+5564226 fix(jenkins): remove option requiring an uninstalled plugin
+45e2a79 ci: add local kind delivery and secure service configuration
+972e4b5 docs(presentation): assemble verified milestones with French slide descriptions

@@ -1,0 +1,227 @@
+{
+  "number": 3,
+  "url": "http://localhost:8080/job/tache-ci/3",
+  "result": "ABORTED",
+  "durationMillis": 450077,
+  "timestampMillis": 1793269765234,
+  "stages": {
+    "_links": {
+      "self": {
+        "href": "/job/tache-ci/3/wfapi/describe"
+      },
+      "artifacts": {
+        "href": "/job/tache-ci/3/wfapi/artifacts"
+      }
+    },
+    "id": "3",
+    "name": "#3",
+    "status": "ABORTED",
+    "startTimeMillis": 1793269765270,
+    "endTimeMillis": 1793270215347,
+    "durationMillis": 450077,
+    "queueDurationMillis": 36,
+    "pauseDurationMillis": 0,
+    "stages": [
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/8/wfapi/describe"
+          }
+        },
+        "id": "8",
+        "name": "Checkout",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793269766776,
+        "durationMillis": 1641,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/18/wfapi/describe"
+          }
+        },
+        "id": "18",
+        "name": "Compile",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793269768463,
+        "durationMillis": 7146,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/23/wfapi/describe"
+          }
+        },
+        "id": "23",
+        "name": "Tests and coverage",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793269775648,
+        "durationMillis": 22810,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/30/wfapi/describe"
+          }
+        },
+        "id": "30",
+        "name": "SonarQube analysis",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793269798498,
+        "durationMillis": 43123,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/43/wfapi/describe"
+          }
+        },
+        "id": "43",
+        "name": "Quality gate",
+        "execNode": "",
+        "status": "ABORTED",
+        "error": {
+          "message": "Aborted by tache-admin",
+          "type": "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException"
+        },
+        "startTimeMillis": 1793269841662,
+        "durationMillis": 371946,
+        "pauseDurationMillis": 371403
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/52/wfapi/describe"
+          }
+        },
+        "id": "52",
+        "name": "Package",
+        "execNode": "",
+        "status": "ABORTED",
+        "error": {
+          "message": "Aborted by tache-admin",
+          "type": "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException"
+        },
+        "startTimeMillis": 1793270213672,
+        "durationMillis": 323,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/57/wfapi/describe"
+          }
+        },
+        "id": "57",
+        "name": "Publish Nexus",
+        "execNode": "",
+        "status": "ABORTED",
+        "error": {
+          "message": "Aborted by tache-admin",
+          "type": "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException"
+        },
+        "startTimeMillis": 1793270214076,
+        "durationMillis": 119,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/62/wfapi/describe"
+          }
+        },
+        "id": "62",
+        "name": "Build Docker image",
+        "execNode": "",
+        "status": "ABORTED",
+        "error": {
+          "message": "Aborted by tache-admin",
+          "type": "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException"
+        },
+        "startTimeMillis": 1793270214245,
+        "durationMillis": 104,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/67/wfapi/describe"
+          }
+        },
+        "id": "67",
+        "name": "Publish Docker image",
+        "execNode": "",
+        "status": "ABORTED",
+        "error": {
+          "message": "Aborted by tache-admin",
+          "type": "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException"
+        },
+        "startTimeMillis": 1793270214399,
+        "durationMillis": 152,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/72/wfapi/describe"
+          }
+        },
+        "id": "72",
+        "name": "Deploy local kind",
+        "execNode": "",
+        "status": "ABORTED",
+        "error": {
+          "message": "Aborted by tache-admin",
+          "type": "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException"
+        },
+        "startTimeMillis": 1793270214603,
+        "durationMillis": 110,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/77/wfapi/describe"
+          }
+        },
+        "id": "77",
+        "name": "Verify local deployment",
+        "execNode": "",
+        "status": "ABORTED",
+        "error": {
+          "message": "Aborted by tache-admin",
+          "type": "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException"
+        },
+        "startTimeMillis": 1793270214761,
+        "durationMillis": 106,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/3/execution/node/82/wfapi/describe"
+          }
+        },
+        "id": "82",
+        "name": "Deploy Kubernetes",
+        "execNode": "",
+        "status": "ABORTED",
+        "error": {
+          "message": "Aborted by tache-admin",
+          "type": "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException"
+        },
+        "startTimeMillis": 1793270214913,
+        "durationMillis": 118,
+        "pauseDurationMillis": 0
+      }
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-﻿# Commandes vérifiées
+# Commandes vérifiées
 
 ## Maven et base locale
 ```powershell
@@ -13,7 +13,7 @@ mvn verify
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Initialize-LocalDatabase.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Start-LocalApplication.ps1
 ```
-Toutes les phases Maven ont réussi, sans masquer des tests. 20 tests au dernier verify/install.
+Toutes les phases Maven ont réussi, sans masquer des tests. 20 tests au verify/install initial ; 38 tests au dernier verify et dans Jenkins #4.
 
 ## Docker
 ```powershell
@@ -72,3 +72,24 @@ docker compose -f docker-compose.devops.yml --profile nexus up -d nexus
 kubectl --kubeconfig .local/kubeconfig --context kind-events-tache -n events-tache get pods
 ```
 Relancer les deux port-forwards documentés, puis reprendre Jenkins/Sonar.
+
+## Livraison complète locale et publication publique
+python scripts/Run-LocalPipeline.py --full
+python scripts/Run-LocalPipeline.py --full --publish
+python scripts/Verify-SonarAnalysis.py --build 4
+python scripts/Verify-LocalDelivery.py --build 4
+
+Le numéro 4 désigne le dernier build de livraison entièrement vérifié au moment
+de cette commande ; employer le dernier build réussi après la nouvelle livraison.
+La publication publique est autorisée uniquement vers ayyoub1/events-tache.
+
+## Grafana et captures
+python scripts/Initialize-LocalGrafana.py
+powershell -File scripts/Start-LocalForwards.ps1 -Restart -IncludeGrafana
+python scripts/Verify-Grafana.py
+python scripts/Capture-Grafana.py
+python scripts/Capture-CiDashboards.py --build 4
+python scripts/Capture-ServiceDashboards.py
+powershell -File scripts/Capture-BaselineEvidence.ps1
+powershell -File scripts/Build-BaselinePresentation.ps1
+python scripts/Validate-Presentation.py

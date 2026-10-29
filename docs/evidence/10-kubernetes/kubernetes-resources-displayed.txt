@@ -8,4 +8,3 @@ service/mysql    ClusterIP   10.96.82.38     <none>        3306/TCP   109s
 
 NAME                               STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
 persistentvolumeclaim/mysql-data   Bound    pvc-f39b6514-a27b-4071-847b-5da36863975a   1Gi        RWO            standard       <unset>                 109s
-

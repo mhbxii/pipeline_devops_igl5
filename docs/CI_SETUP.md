@@ -79,8 +79,7 @@ Ce contournement du proxy Docker Desktop vérifie digests et manifeste distant,
 refuse un tag existant différent et ne journalise aucune URL signée.
 Spécification : https://distribution.github.io/distribution/spec/api/#chunked-upload.
 
-Les destinations sont
-mutuellement exclusives. Le kubeconfig conteneurisé conserve la vérification TLS,
+Le kubeconfig conteneurisé conserve la vérification TLS,
 avec adresse du nœud kind et tls-server-name ; aucun insecure-skip-tls-verify.
 Rollout puis readiness et rôles HTTP sont vérifiés depuis le contrôleur.
 

@@ -1,0 +1,26 @@
+{
+  "component": {
+    "key": "events-tache:src/main/java/tn/esprit/eventsproject/services/TacheService.java",
+    "name": "TacheService.java",
+    "qualifier": "FIL",
+    "path": "src/main/java/tn/esprit/eventsproject/services/TacheService.java",
+    "language": "java",
+    "measures": [
+      {
+        "metric": "coverage",
+        "value": "100.0",
+        "bestValue": true
+      },
+      {
+        "metric": "branch_coverage",
+        "value": "100.0",
+        "bestValue": true
+      },
+      {
+        "metric": "line_coverage",
+        "value": "100.0",
+        "bestValue": true
+      }
+    ]
+  }
+}

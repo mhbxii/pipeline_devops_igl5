@@ -1,18 +1,19 @@
-﻿# Suivi du barème — état vérifié
+﻿# Suivi du barème — résultats vérifiés
 
-| Critère | Points | Statut | Fichiers / vérification | Preuve / slide | Question et réponse |
+| Critère | Points | Statut | Fichiers et vérification | Preuve et slides | Question / réponse |
 |---|---:|---|---|---|---|
-| Jenkins | 2 | Préparé, bloqué par disque | Jenkinsfile, ci/jenkins.Dockerfile ; build réel attendu | 08-jenkins / à ajouter | Comment bloquer après un échec ? La commande échoue et arrête le stage. |
-| Git Flow | 1 | Partiel | Branche Tache, commits par jalon ; synchronisation distante non effectuée | 05-git / 3 | Pourquoi une branche ? Isoler les changements et faciliter la revue. |
-| JUnit | 1 | Terminé localement | 20 tests : service Mockito, MVC, JPA/H2 sans mocks ; mvn verify/install | 04-unit-tests / 8–9 | H2 prouve-t-il MySQL ? Non, un test HTTP/MySQL distinct a été exécuté. |
-| Sonar | 1 | Préparé, bloqué par disque | Jenkinsfile ; analyse et gate à exécuter | 06-sonarqube / à ajouter | Le gate est-il passé ? Aucun résultat encore disponible. |
-| Nexus | 1 | Terminé localement | Maven deploy puis JAR téléchargé, SHA-256 identique ; Publish-LocalNexus.ps1 | 07-nexus / 18–19 | Coordonnées ? tn.esprit:eventsProject:1.0.0-SNAPSHOT. |
-| Docker | 1 | Terminé localement | Dockerfile, Compose ; cycle HTTP et readiness UP | 09-docker / 11–12 | Image ou conteneur ? Une image décrit le livrable, un conteneur l'exécute. |
-| Kubernetes | 3 | Terminé localement | k8s/, Deploy-LocalKubernetes.ps1 ; pods prêts et cycle HTTP complet | 10-kubernetes / 13–14 | Un pod Running suffit-il ? Non : readiness et comportement HTTP/DB vérifiés. |
-| Terraform | 2 | Appliqué avec accord | terraform/main.tf ; fmt/init/validate/plan/apply, plan suivant sans différence | 11-terraform / 15–16 | Que gère Terraform ? Les six ressources Prometheus, pas le cluster ni la base applicative. |
-| Grafana/Prometheus | 0,5 | Partiel | Prometheus UP, métriques Actuator ; Grafana non démarré | 13-monitoring / 17 | Qui collecte ? Prometheus ; Grafana servira à visualiser. |
-| Excellence | 3 | En cours | Preuves réelles, scripts, santé, utilisateur Docker non privilégié, mémoire projet | docs/ et présentation | Comment reproduire ? Scripts documentés et artefacts versionnés. |
-| Questions sources | 5 | Préparation en cours | ORAL_DEFENSE.md, README.md, sources et configurations | Toutes | Expliquer chaque couche puis démontrer son comportement réel. |
+| Jenkins | 2 | Chaîne locale vérifiée ; publication publique en reprise | Jenkinsfile, ci/ ; #4 SUCCESS, #5 arrêt au réseau registre, #6 en cours | 08-jenkins ; 8 et 12 | Un échec bloque-t-il le rollout ? Oui, #5 le démontre. |
+| Git Flow | 1 | Partiel | Branche Tache, vrais commits par jalon ; aucun push distant | 05-git ; 3 | Pourquoi isoler ? Préserver les modules et permettre la revue. |
+| JUnit | 1 | Vérifié | 38 tests, Mockito, MVC, mapping, JPA/H2 ; MySQL vérifié séparément | 04-unit-tests, 12-final-validation ; 8–9 et 13 | H2 prouve MySQL ? Non : appels HTTP/MySQL distincts. |
+| Sonar | 1 | Vérifié | Gate OK avec conditions ; 81,9 % nouveau code, 49,6 % global ; zéro vulnérabilité | 06-sonarqube ; 10–11 | Les deux couvertures ? Périmètres différents, pas des valeurs interchangeables. |
+| Nexus | 1 | Vérifié | ci/settings.xml, Maven deploy ; archive Jenkins/Nexus/pod de SHA-256 identique | 07-nexus, 12-final-validation ; 23–24 | Coordonnées ? tn.esprit:eventsProject:1.0.0-SNAPSHOT. |
+| Docker | 1 | Local vérifié ; publication publique en reprise | Dockerfile, Compose, Java 17 non-root ; API réelle | 09-docker ; 15–16 | Image ou conteneur ? Livrable immuable par digest ou processus en exécution. |
+| Kubernetes | 3 | Vérifié sur kind | k8s/, probes, PVC, rollout ; cycle HTTP via Service | 10-kubernetes ; 17–18 | Running suffit ? Non, readiness et comportement HTTP/DB vérifiés. |
+| Terraform | 2 | Appliqué après accord ; plan final sans changement | terraform/main.tf : six ressources Prometheus, aucune ressource payante | 11-terraform ; 19–20 | Gère-t-il le cluster ? Non, Prometheus et son namespace uniquement. |
+| Grafana/Prometheus | 0,5 | Vérifié | k8s/grafana.yaml, monitoring/, Verify-Grafana.py ; quatre vraies requêtes | 13-monitoring ; 21–22 | Qui collecte ? Prometheus ; Grafana visualise. |
+| Excellence | 3 | Éléments démontrés, appréciation de l'évaluateur | Probes, secrets isolés, automatisation, preuves et triple SHA-256 | docs/ et présentation | Reproductibilité ? Scripts, commits et vérifications de contenu. |
+| Questions sources | 5 | Support de préparation disponible | ORAL_DEFENSE.md, sources, configurations et démonstrations | Ensemble | Savoir expliquer chaque choix et montrer sa preuve. |
 
-Total annoncé par l'enseignant : 20 ; somme des valeurs : 20,5. Aucune normalisation.
-Aucun nombre de points n'est garanti par l'agent.
+Total annoncé : 20 ; somme des critères : 20,5. Aucune normalisation ni note garantie.
+L'index des slides est généré depuis slides.json dans presentation/screenshots-index.md.
+Le build #4 n'a pas publié sur Docker Hub ; ne pas confondre livraison locale et publique.

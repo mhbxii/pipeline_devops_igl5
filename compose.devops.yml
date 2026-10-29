@@ -69,6 +69,7 @@ services:
 networks:
   default:
     name: events-devops
+    external: true
 volumes:
   jenkins_home:
   sonar_db:

@@ -66,7 +66,7 @@ pipeline {
         }
         stage('Build Docker image') {
             when { expression { params.BUILD_IMAGE } }
-            steps { sh 'docker build -t events-logistics:local -t "events-logistics:$IMAGE_TAG" .' }
+            steps { sh 'docker build --target artifact -t events-logistics:local -t "events-logistics:$IMAGE_TAG" .' }
         }
         stage('Push to Docker Hub') {
             when { expression { params.PUSH_IMAGE } }

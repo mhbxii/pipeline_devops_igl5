@@ -21,6 +21,9 @@ pipeline {
         JAVA_HOME = '/opt/jdk17'
         PATH = "/opt/jdk17/bin:/opt/maven/bin:${env.PATH}"
         NEXUS_URL = 'http://nexus:8081'
+        MAVEN_OPTS = '-Xmx384m -Dmaven.repo.local=/var/jenkins_home/.m2/repository'
+        SONAR_USER_HOME = '/var/jenkins_home/.sonar'
+        SONAR_SCANNER_JAVA_OPTS = '-Xmx512m'
     }
     stages {
         stage('Checkout') {

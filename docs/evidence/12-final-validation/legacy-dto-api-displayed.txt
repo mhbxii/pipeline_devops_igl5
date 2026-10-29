@@ -1,18 +1,13 @@
-﻿    {
-      "method": "POST",
-      "path": "/event/addEvent",
-      "status": 200
-    },
-    {
-      "method": "PUT",
-      "path": "/event/addAffectLog/dto-evidence-1793270762-by-id",
-      "status": 200
-    },
-    {
-      "method": "GET",
-      "path": "/taches/participants/3",
-      "status": 200
-    }
-  ],
-  "note": "Real HTTP/MySQL calls; generated IDs and computed cost cannot be assigned by clients."
-}
+﻿Result: PASS
+
+method path                                              status
+------ ----                                              ------
+POST   /event/addPart                                       200
+POST   /event/addEvent/5                                    200
+POST   /event/addEvent                                      200
+PUT    /event/addAffectLog/dto-evidence-1793284731-by-id    200
+GET    /taches/participants/5                               200
+
+
+
+Real HTTP/MySQL calls; generated IDs and computed cost cannot be assigned by clients.

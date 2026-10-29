@@ -1,6 +1,6 @@
 ﻿Tache
+da8b094 docs: capture verified Jenkins Sonar and Grafana results in the French presentation
+b822c01 fix(delivery): pin the verified runtime and resume interrupted registry chunks safely
+8bc5732 fix(ci): publish exact OCI layers in small chunks through the Desktop proxy
 2e8b39d ci: enable approved registry delivery and provision Grafana monitoring
 05fae57 fix(api): whitelist legacy creation inputs and enforce verified local delivery
-5564226 fix(jenkins): remove option requiring an uninstalled plugin
-45e2a79 ci: add local kind delivery and secure service configuration
-972e4b5 docs(presentation): assemble verified milestones with French slide descriptions

@@ -1,0 +1,3 @@
+# Captured service output keeps its original formatting, including trailing spaces.
+# Source and documentation continue to use normal Git whitespace checks.
+docs/evidence/** -whitespace

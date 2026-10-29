@@ -1,0 +1,20 @@
+{
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 10,
+    "total": 1
+  },
+  "deliveries": [
+    {
+      "id": "702503df-2147-4a9e-ba89-c01d7884ef0e",
+      "componentKey": "events-tache",
+      "ceTaskId": "793c468a-b5a3-40e0-82a6-43d006b94ef4",
+      "name": "local-jenkins",
+      "url": "http://jenkins:8080/sonarqube-webhook/",
+      "at": "2026-10-29T14:26:29+0000",
+      "success": true,
+      "httpStatus": 200,
+      "durationMs": 74
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+﻿{
+  "verifiedAt": "2026-10-29T14:39:59.765748+00:00",
+  "repository": "ayyoub1/events-tache",
+  "public": true,
+  "anonymousManifestHttp": 200,
+  "image": "ayyoub1/events-tache:tache-b822c015d8ab-7",
+  "manifestDigest": "sha256:03c654798e96949084e99d3740d0e9c4a61997388c3111ea89b7829a30b383ec",
+  "configurationDigest": "sha256:15f6d05316dc87fe5c90778fa0214f0939a1af7bfabff059e1efa56579d2dc2a",
+  "layerCount": 8,
+  "build": 7,
+  "url": "https://hub.docker.com/r/ayyoub1/events-tache"
+}

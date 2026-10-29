@@ -11,6 +11,6 @@ with sync_playwright() as p:
     page.goto(proof["url"] + "/tags?name=" + tag, wait_until="domcontentloaded", timeout=90000)
     page.get_by_text(tag, exact=True).first.wait_for(timeout=90000)
     page.wait_for_timeout(2000)
-    page.screenshot(path=str(ROOT / "docs/evidence/09-docker/dockerhub-repository.png"), full_page=True)
+    page.screenshot(path=str(ROOT / "docs/evidence/09-docker/dockerhub-repository.png"), clip={"x": 0, "y": 0, "width": 1600, "height": 850})
     browser.close()
 print("Captured actual public Docker Hub tag page.")

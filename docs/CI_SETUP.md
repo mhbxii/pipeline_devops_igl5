@@ -1,10 +1,10 @@
-﻿# CI/CD locale : configuration et résultats vérifiés
+# CI/CD locale : configuration et résultats vérifiés
 
 Le build Jenkins #4 a exécuté avec succès compilation, 38 tests, JaCoCo, Sonar,
 quality gate, package, Maven deploy vers Nexus, image Docker, import kind,
 rollout et vérifications HTTP. Preuves : docs/evidence/08-jenkins/build-4-*.
-Le build #5 teste la publication publique autorisée et le déploiement depuis Docker Hub.
-Son résultat doit être consulté avant de revendiquer cette dernière étape.
+Le build #7 a aussi réussi publication publique et déploiement depuis Docker Hub.
+Le manifeste public et les trois JAR (Jenkins/Nexus/pod) sont identiques.
 
 ## Services
 

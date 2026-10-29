@@ -1,7 +1,7 @@
 # Plan de soutenance
 
-24 diapositives, descriptions visibles, aucune note orateur.
-Les resultats sont documentes dans screenshots-index.md et slide-content.md.
+25 diapositives, descriptions francaises visibles, aucune note orateur.
+Build #7 : chaine publique complete verifiee.
 
 1. Contribution Tache
 2. Un périmètre respecté
@@ -19,13 +19,12 @@ Les resultats sont documentes dans screenshots-index.md et slide-content.md.
 14. Des logs utiles
 15. Application et MySQL en conteneurs
 16. Vérifier les conteneurs
-17. Un déploiement Kubernetes réel
-18. Vérifier le service métier
-19. Provisionner avec Terraform
-20. Contrôler la convergence
-21. Observer une application réellement collectée
-22. Visualiser les métriques dans Grafana
-23. Publier le livrable dans Nexus
-24. Relier le build au programme exécuté
-
-Distinguer la chaine locale #4 de la publication publique encore en reprise.
+17. Une image publique vérifiée
+18. Un déploiement Kubernetes réel
+19. Vérifier le service métier
+20. Provisionner avec Terraform
+21. Contrôler la convergence
+22. Observer une application réellement collectée
+23. Visualiser les métriques dans Grafana
+24. Publier le livrable dans Nexus
+25. Relier le build au programme exécuté

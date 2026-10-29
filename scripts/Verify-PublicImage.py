@@ -2,6 +2,9 @@
 import hashlib
 import json
 import subprocess
+import tarfile
+import tempfile
+from pathlib import Path
 import time
 from datetime import datetime, timezone
 import requests
@@ -33,9 +36,20 @@ response.raise_for_status()
 digest = "sha256:" + hashlib.sha256(response.content).hexdigest()
 assert response.headers["Docker-Content-Digest"] == digest
 manifest = response.json()
-result = subprocess.run(["docker", "image", "inspect", image, "--format", "{{.Id}}"],
-    capture_output=True, text=True, check=True)
-assert manifest["config"]["digest"] == result.stdout.strip(), "Remote configuration differs from the locally built image"
+# This engine reports the OCI index as .Id. Compare the amd64 manifest/config,
+# rather than comparing unlike objects (multi-platform index versus config).
+with tempfile.NamedTemporaryFile(dir=ROOT / ".local", suffix=".tar", delete=False) as temporary:
+    archive_path = Path(temporary.name)
+try:
+    subprocess.run(["docker", "image", "save", "--platform=linux/amd64", "-o", str(archive_path), image], check=True)
+    with tarfile.open(archive_path) as archive:
+        index = json.load(archive.extractfile("index.json"))
+        local_digest = index["manifests"][0]["digest"]
+        local_manifest = json.load(archive.extractfile("blobs/sha256/" + local_digest.split(":")[1]))
+    assert local_digest == digest, "Remote manifest differs from the exact local amd64 image"
+    assert manifest["config"]["digest"] == local_manifest["config"]["digest"]
+finally:
+    archive_path.unlink()
 proof = {"verifiedAt": datetime.now(timezone.utc).isoformat(), "repository": repository,
     "public": True, "anonymousManifestHttp": response.status_code, "image": image,
     "manifestDigest": digest, "configurationDigest": manifest["config"]["digest"],

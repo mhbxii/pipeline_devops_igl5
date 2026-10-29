@@ -68,7 +68,7 @@ Preuve : 06-sonarqube/sonar-final-dashboard.png
 
 ## 12. Une chaîne Jenkins exécutée
 
-Build #4 réussi : tests, gate, package, Nexus, image Docker, déploiement kind et vérification HTTP.
+Build #7 réussi : 38 tests, gate Sonar, Nexus, image publique Docker Hub, rollout Kubernetes et vérification HTTP.
 
 Preuve : 08-jenkins/jenkins-pipeline-overview.png
 
@@ -96,49 +96,55 @@ Application et base isolées ; volumes persistants et ports liés à localhost.
 
 Preuve : 09-docker/docker-containers.png
 
-## 17. Un déploiement Kubernetes réel
+## 17. Une image publique vérifiée
+
+ayyoub1/events-tache : manifeste linux/amd64 accessible sans compte et identique à l'image locale du build #7.
+
+Preuve : 09-docker/dockerhub-repository.png
+
+## 18. Un déploiement Kubernetes réel
 
 Pods applicatif et MySQL prêts, Services actifs et volume persistant lié.
 
 Preuve : 10-kubernetes/kubernetes-resources.png
 
-## 18. Vérifier le service métier
+## 19. Vérifier le service métier
 
 Le cycle HTTP complet réussit via Kubernetes ; readiness inclut la base MySQL.
 
 Preuve : 10-kubernetes/kubernetes-api-success.png
 
-## 19. Provisionner avec Terraform
+## 20. Provisionner avec Terraform
 
 Plan examiné et approuvé : 6 ressources Prometheus créées, aucune destruction.
 
 Preuve : 11-terraform/terraform-apply.png
 
-## 20. Contrôler la convergence
+## 21. Contrôler la convergence
 
 Un nouveau plan ne détecte aucune différence entre configuration et infrastructure.
 
 Preuve : 11-terraform/terraform-no-drift.png
 
-## 21. Observer une application réellement collectée
+## 22. Observer une application réellement collectée
 
 Prometheus collecte la cible Kubernetes events : 1/1 UP, métriques exposées par Actuator.
 
 Preuve : 13-monitoring/prometheus-targets.png
 
-## 22. Visualiser les métriques dans Grafana
+## 23. Visualiser les métriques dans Grafana
 
 Dashboard provisionné : cible UP, CPU Java, mémoire JVM et débit HTTP ; quatre requêtes réelles vérifiées.
 
 Preuve : 13-monitoring/grafana-dashboard.png
 
-## 23. Publier le livrable dans Nexus
+## 24. Publier le livrable dans Nexus
 
 Le dépôt Maven snapshots contient le JAR et le POM de tn.esprit:eventsProject:1.0.0-SNAPSHOT.
 
 Preuve : 07-nexus/nexus-repository.png
 
-## 24. Relier le build au programme exécuté
+## 25. Relier le build au programme exécuté
 
 Même SHA-256 pour le JAR archivé par Jenkins, téléchargé de Nexus et présent dans le pod Kubernetes.
 

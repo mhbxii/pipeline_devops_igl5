@@ -75,3 +75,11 @@ Les pushes Docker Hub échouent sur une connexion fermée par le proxy Docker De
 Les blobs Temurin publics peuvent être montés côté registre, sans transfert. Le JAR
 est envoyé par petits morceaux en conservant les octets OCI exacts et les digests.
 Seed-RegistryBlobs.py ne publie pas de tag ; Jenkins doit encore terminer le push.
+
+## Resolution finale
+Build #7 SUCCESS : le client Java de chunks a publie et relu le manifeste exact.
+Kubernetes a tire l'image publique, termine le rollout et passe les appels HTTP.
+La verification anonyme confirme le depot public. Le moteur Docker expose ici
+l'index OCI comme .Id : le verificateur compare donc les manifestes amd64 exacts
+et leur configuration, au lieu de comparer un index a une configuration.
+Les trois JAR Jenkins/Nexus/pod ont des SHA-256 identiques.

@@ -69,3 +69,10 @@ Le Secret est créé en mémoire par `scripts/Deploy-LocalKubernetes.ps1` depuis
 `terraform/` gère les six ressources Prometheus appliquées après accord dans un namespace indépendant ; aucun apply sans
 plan examiné et accord utilisateur. Les profils Jenkins/Sonar/Nexus restent séparés
 pour maîtriser la mémoire. Consulter le suivi pour distinguer préparé et exécuté.
+
+## Livraison publique verifiee
+
+Jenkins #7 SUCCESS : 38 tests, Sonar/gate, Nexus, Docker Hub, Kubernetes et HTTP.
+Image publique : [ayyoub1/events-tache](https://hub.docker.com/r/ayyoub1/events-tache),
+tag `tache-b822c015d8ab-7`. Les JAR Jenkins, Nexus et pod sont identiques par SHA-256.
+Details et limites : [docs/VERIFIED_DELIVERY.md](docs/VERIFIED_DELIVERY.md).

@@ -1,7 +1,7 @@
-# Captures et diapositives
+# Captures et diapositives verifiees
 
-Captures authentiques de Windows ou des pages locales Edge/Playwright.
-Les journaux sauvegardes sont identifies comme tels. Aucune note orateur.
+Captures authentiques Windows ou Edge/Playwright, aucune note orateur.
+Les journaux sauvegardes sont identifies comme tels.
 
 | Slide | Titre | Capture sous docs/evidence | Description visible |
 |---|---|---|---|
@@ -16,16 +16,17 @@ Les journaux sauvegardes sont identifies comme tels. Aucune note orateur.
 | 9 | Sécuriser les entrées existantes | 12-final-validation/legacy-dto-api.png | Quatre entrées utilisent des DTO : identifiants générés et coût calculé protégés ; compatibilité HTTP/MySQL vérifiée. |
 | 10 | Une analyse Sonar réellement évaluée | 06-sonarqube/sonar-final-new-code.png | Gate OK : nouveau code couvert à 81,9 %, duplication nulle et aucune violation nouvelle. |
 | 11 | Une qualité mesurée sans masquer le périmètre | 06-sonarqube/sonar-final-dashboard.png | Zéro vulnérabilité après correction des quatre entrées ; couverture globale 49,6 %, distincte du nouveau code. |
-| 12 | Une chaîne Jenkins exécutée | 08-jenkins/jenkins-pipeline-overview.png | Build #4 réussi : tests, gate, package, Nexus, image Docker, déploiement kind et vérification HTTP. |
+| 12 | Une chaîne Jenkins exécutée | 08-jenkins/jenkins-pipeline-overview.png | Build #7 réussi : 38 tests, gate Sonar, Nexus, image publique Docker Hub, rollout Kubernetes et vérification HTTP. |
 | 13 | Une couverture métier mesurée | 04-unit-tests/coverage-service.png | TacheService : 24 lignes et 4 branches couvertes ; ce résultat concerne ce service. |
 | 14 | Des logs utiles | 03-logging/tache-levels.png | DEBUG, INFO, WARN sur API ; ERROR démontré par une panne simulée dans un test. |
 | 15 | Application et MySQL en conteneurs | 09-docker/docker-api-success.png | Cycle HTTP vérifié dans Docker ; readiness UP et utilisateur applicatif non privilégié. |
 | 16 | Vérifier les conteneurs | 09-docker/docker-containers.png | Application et base isolées ; volumes persistants et ports liés à localhost. |
-| 17 | Un déploiement Kubernetes réel | 10-kubernetes/kubernetes-resources.png | Pods applicatif et MySQL prêts, Services actifs et volume persistant lié. |
-| 18 | Vérifier le service métier | 10-kubernetes/kubernetes-api-success.png | Le cycle HTTP complet réussit via Kubernetes ; readiness inclut la base MySQL. |
-| 19 | Provisionner avec Terraform | 11-terraform/terraform-apply.png | Plan examiné et approuvé : 6 ressources Prometheus créées, aucune destruction. |
-| 20 | Contrôler la convergence | 11-terraform/terraform-no-drift.png | Un nouveau plan ne détecte aucune différence entre configuration et infrastructure. |
-| 21 | Observer une application réellement collectée | 13-monitoring/prometheus-targets.png | Prometheus collecte la cible Kubernetes events : 1/1 UP, métriques exposées par Actuator. |
-| 22 | Visualiser les métriques dans Grafana | 13-monitoring/grafana-dashboard.png | Dashboard provisionné : cible UP, CPU Java, mémoire JVM et débit HTTP ; quatre requêtes réelles vérifiées. |
-| 23 | Publier le livrable dans Nexus | 07-nexus/nexus-repository.png | Le dépôt Maven snapshots contient le JAR et le POM de tn.esprit:eventsProject:1.0.0-SNAPSHOT. |
-| 24 | Relier le build au programme exécuté | 12-final-validation/local-delivery.png | Même SHA-256 pour le JAR archivé par Jenkins, téléchargé de Nexus et présent dans le pod Kubernetes. |
+| 17 | Une image publique vérifiée | 09-docker/dockerhub-repository.png | ayyoub1/events-tache : manifeste linux/amd64 accessible sans compte et identique à l'image locale du build #7. |
+| 18 | Un déploiement Kubernetes réel | 10-kubernetes/kubernetes-resources.png | Pods applicatif et MySQL prêts, Services actifs et volume persistant lié. |
+| 19 | Vérifier le service métier | 10-kubernetes/kubernetes-api-success.png | Le cycle HTTP complet réussit via Kubernetes ; readiness inclut la base MySQL. |
+| 20 | Provisionner avec Terraform | 11-terraform/terraform-apply.png | Plan examiné et approuvé : 6 ressources Prometheus créées, aucune destruction. |
+| 21 | Contrôler la convergence | 11-terraform/terraform-no-drift.png | Un nouveau plan ne détecte aucune différence entre configuration et infrastructure. |
+| 22 | Observer une application réellement collectée | 13-monitoring/prometheus-targets.png | Prometheus collecte la cible Kubernetes events : 1/1 UP, métriques exposées par Actuator. |
+| 23 | Visualiser les métriques dans Grafana | 13-monitoring/grafana-dashboard.png | Dashboard provisionné : cible UP, CPU Java, mémoire JVM et débit HTTP ; quatre requêtes réelles vérifiées. |
+| 24 | Publier le livrable dans Nexus | 07-nexus/nexus-repository.png | Le dépôt Maven snapshots contient le JAR et le POM de tn.esprit:eventsProject:1.0.0-SNAPSHOT. |
+| 25 | Relier le build au programme exécuté | 12-final-validation/local-delivery.png | Même SHA-256 pour le JAR archivé par Jenkins, téléchargé de Nexus et présent dans le pod Kubernetes. |

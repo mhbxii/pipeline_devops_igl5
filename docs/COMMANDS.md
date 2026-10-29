@@ -76,11 +76,11 @@ Relancer les deux port-forwards documentés, puis reprendre Jenkins/Sonar.
 ## Livraison complète locale et publication publique
 python scripts/Run-LocalPipeline.py --full
 python scripts/Run-LocalPipeline.py --full --publish
-python scripts/Verify-SonarAnalysis.py --build 4
-python scripts/Verify-LocalDelivery.py --build 4
+python scripts/Verify-SonarAnalysis.py --build 7
+python scripts/Verify-LocalDelivery.py --build 7
 
-Le numéro 4 désigne le dernier build de livraison entièrement vérifié au moment
-de cette commande ; employer le dernier build réussi après la nouvelle livraison.
+Le numéro 7 désigne le dernier build de livraison entièrement vérifié au moment
+de cette commande ; employer le dernier build réussi après une nouvelle livraison.
 La publication publique est autorisée uniquement vers ayyoub1/events-tache.
 
 ## Grafana et captures
@@ -88,8 +88,11 @@ python scripts/Initialize-LocalGrafana.py
 powershell -File scripts/Start-LocalForwards.ps1 -Restart -IncludeGrafana
 python scripts/Verify-Grafana.py
 python scripts/Capture-Grafana.py
-python scripts/Capture-CiDashboards.py --build 4
+python scripts/Capture-CiDashboards.py --build 7
 python scripts/Capture-ServiceDashboards.py
 powershell -File scripts/Capture-BaselineEvidence.ps1
 powershell -File scripts/Build-BaselinePresentation.ps1
 python scripts/Validate-Presentation.py
+
+python scripts/Verify-PublicImage.py
+python scripts/Capture-PublicRegistry.py

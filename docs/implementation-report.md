@@ -1,4 +1,4 @@
-﻿# Rapport d'implémentation — résultats vérifiés
+# Rapport d'implémentation — résultats vérifiés
 
 ## Socle et application
 L'application réelle est eventsProject, Spring Boot 2.7.6. Tache est l'enum de rôles
@@ -39,12 +39,17 @@ image épinglée, datasource et dashboard provisionnés. Version 13.3.0 vérifi�
 base OK, datasource sain et quatre requêtes Prometheus non vides.
 
 ## Présentation, Git et limites restantes
-Présentation éditable : 24 slides françaises, descriptions visibles et zéro note
+Présentation éditable : 25 slides françaises, descriptions visibles et zéro note
 orateur. Captures Windows et dashboards authentiques, vérification XML et export
 complet. Index : presentation/screenshots-index.md ; défense : ORAL_DEFENSE.md.
 
 Les commits décrivent de vrais jalons et portent leurs dates réelles. Aucun push
 Git distant ni fusion de branche partagée effectué. La publication publique Docker
-Hub vers ayyoub1/events-tache est autorisée et en cours de dépannage réseau.
+Hub vers ayyoub1/events-tache a réussi avec Jenkins #7 ; manifeste accessible anonymement et identique au local.
 Le build #4 est une chaîne locale complète ; ne pas le présenter comme une
 publication externe. H2 Sonar et socket Docker Jenkins sont des choix de laboratoire.
+
+## Livraison publique finale
+Build #7 SUCCESS : publication publique, rollout et HTTP vérifiés.
+Les trois JAR Jenkins/Nexus/pod ont le même SHA-256.
+Voir VERIFIED_DELIVERY.md et evidence/09-docker/dockerhub-verification.json.

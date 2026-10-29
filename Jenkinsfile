@@ -8,11 +8,11 @@ pipeline {
     }
 
     environment {
-        // Nexus : adapter si Jenkins ne partage pas le reseau de Nexus
+        // Nexus
         NEXUS_BASE_URL = 'http://localhost:8081'
         NEXUS_SNAPSHOT_REPO = 'events-snapshots'
 
-        // Coordonnees exactes de ton pom.xml
+        // Coordonnees Maven
         MAVEN_GROUP_ID = 'tn.esprit'
         MAVEN_ARTIFACT_ID = 'eventsProject'
         MAVEN_VERSION = '1.0.0-SNAPSHOT'
@@ -100,38 +100,53 @@ pipeline {
                         $artifactPath = "tn/esprit/eventsProject/1.0.0-SNAPSHOT"
                         $metadataUrl = "$repoUrl$artifactPath/maven-metadata.xml"
 
+                        $pair = "$env:NEXUS_USERNAME`:$env:NEXUS_PASSWORD"
+                        $encoded = [Convert]::ToBase64String(
+                            [Text.Encoding]::UTF8.GetBytes($pair)
+                        )
+
                         $headers = @{
-                            Authorization = "Basic " + [Convert]::ToBase64String(
-                                [Text.Encoding]::UTF8.GetBytes(
-                                    "$env:NEXUS_USERNAME`:$env:NEXUS_PASSWORD"
-                                )
-                            )
+                            Authorization = "Basic $encoded"
                         }
 
                         Write-Host "Reading snapshot metadata from Nexus..."
-                        Write-Host $metadataUrl
 
-                        $metadata = Invoke-RestMethod `
+                        [xml]$metadata = Invoke-RestMethod `
                             -Uri $metadataUrl `
                             -Headers $headers `
                             -Method Get
 
-                        # Select the latest JAR snapshot without a classifier.
                         $snapshotVersions = $metadata.SelectNodes(
                             "//*[local-name()='snapshotVersion']"
                         )
 
-                        if (-not $snapshotVersions) {
+                        if (-not $snapshotVersions -or $snapshotVersions.Count -eq 0) {
                             throw "No snapshot versions found in Nexus metadata."
                         }
 
                         $jarVersion = $snapshotVersions |
                             Where-Object {
-                                $_.SelectSingleNode("./*[local-name()='extension']").InnerText -eq "jar" -and
-                                $null -eq $_.SelectSingleNode("./*[local-name()='classifier']")
+                                $extensionNode = $_.SelectSingleNode(
+                                    "./*[local-name()='extension']"
+                                )
+                                $classifierNode = $_.SelectSingleNode(
+                                    "./*[local-name()='classifier']"
+                                )
+
+                                $extensionNode -and
+                                $extensionNode.InnerText -eq "jar" -and
+                                (-not $classifierNode -or
+                                 [string]::IsNullOrWhiteSpace($classifierNode.InnerText))
                             } |
                             Sort-Object {
-                                $_.SelectSingleNode("./*[local-name()='updated']").InnerText
+                                $updatedNode = $_.SelectSingleNode(
+                                    "./*[local-name()='updated']"
+                                )
+                                if ($updatedNode) {
+                                    $updatedNode.InnerText
+                                } else {
+                                    ""
+                                }
                             } -Descending |
                             Select-Object -First 1
 
@@ -139,14 +154,16 @@ pipeline {
                             throw "No executable JAR version found in Nexus metadata."
                         }
 
-                        $resolvedVersion = $jarVersion.SelectSingleNode(
+                        $valueNode = $jarVersion.SelectSingleNode(
                             "./*[local-name()='value']"
-                        ).InnerText
+                        )
 
-                        if ([string]::IsNullOrWhiteSpace($resolvedVersion)) {
+                        if (-not $valueNode -or
+                            [string]::IsNullOrWhiteSpace($valueNode.InnerText)) {
                             throw "Could not resolve the timestamped snapshot version."
                         }
 
+                        $resolvedVersion = $valueNode.InnerText
                         $jarUrl = "$repoUrl$artifactPath/eventsProject-$resolvedVersion.jar"
 
                         New-Item -ItemType Directory `
@@ -156,7 +173,8 @@ pipeline {
                             (Get-Location).Path `
                             "target/nexus-artifact/eventsProject.jar"
 
-                        Write-Host "Downloading artifact from Nexus..."
+                        Write-Host "Downloading JAR from Nexus..."
+
                         Invoke-WebRequest `
                             -Uri $jarUrl `
                             -Headers $headers `
@@ -176,11 +194,7 @@ pipeline {
                             -Destination "target/app.jar" `
                             -Force
 
-                        if (-not (Test-Path "target/app.jar")) {
-                            throw "target/app.jar was not created."
-                        }
-
-                        Write-Host "JAR downloaded successfully from Nexus."
+                        Write-Host "JAR downloaded successfully."
                         Get-Item "target/app.jar" |
                             Select-Object Name, Length
                     '''
@@ -205,22 +219,41 @@ pipeline {
                     bat '''
                         docker build ^
                           -t "%DOCKERHUB_USERNAME%/events-project:%BUILD_NUMBER%" .
+
+                        if errorlevel 1 exit /b 1
                     '''
 
                     powershell '''
                         $ErrorActionPreference = "Stop"
 
+                        $username = $env:DOCKERHUB_USERNAME.Trim()
+                        $token = $env:DOCKERHUB_TOKEN.Trim()
+
+                        if ([string]::IsNullOrWhiteSpace($username)) {
+                            throw "Docker Hub username is empty."
+                        }
+
+                        if ([string]::IsNullOrWhiteSpace($token)) {
+                            throw "Docker Hub token is empty."
+                        }
+
+                        $image = "$username/events-project:$env:BUILD_NUMBER"
+
+                        Write-Host "Docker Hub username: $username"
+                        Write-Host "Token received by Jenkins: Yes"
+                        Write-Host "Authenticating with Docker Hub..."
+
                         try {
-                            $env:DOCKERHUB_TOKEN |
-                                docker login `
-                                    --username $env:DOCKERHUB_USERNAME `
-                                    --password-stdin
+                            $token | docker login `
+                                --username $username `
+                                --password-stdin
 
                             if ($LASTEXITCODE -ne 0) {
-                                throw "Docker Hub login failed."
+                                throw "Docker Hub login failed. Check Jenkins credentials."
                             }
 
-                            $image = "$env:DOCKERHUB_USERNAME/events-project:$env:BUILD_NUMBER"
+                            Write-Host "Authentication successful."
+                            Write-Host "Pushing image: $image"
 
                             docker push $image
 
@@ -228,10 +261,10 @@ pipeline {
                                 throw "Docker Hub push failed."
                             }
 
-                            Write-Host "Published image: $image"
+                            Write-Host "Published successfully: $image"
                         }
                         finally {
-                            docker logout 2>$null
+                            docker logout
                         }
                     '''
                 }
@@ -241,7 +274,7 @@ pipeline {
 
     post {
         success {
-            echo 'SUCCESS: Build, tests, SonarQube, Nexus et Docker Hub.'
+            echo 'SUCCESS: Build, tests, SonarQube, Nexus and Docker Hub.'
         }
 
         failure {

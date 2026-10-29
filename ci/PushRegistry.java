@@ -1,4 +1,5 @@
 import java.io.InputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -127,9 +128,30 @@ class PushRegistry {
                 byte[] buffer = new byte[262144];
                 int count;
                 while ((count = input.read(buffer)) != -1) {
-                    upload = request("PATCH", next, Arrays.copyOf(buffer, count), "application/octet-stream",
-                        offset + "-" + (offset + count - 1), Set.of(202));
-                    next = location(upload);
+                    boolean accepted = false;
+                    for (int attempt = 0; attempt < 3 && !accepted; attempt++) {
+                        HttpResponse<byte[]> part = null;
+                        try {
+                            part = request("PATCH", next, Arrays.copyOf(buffer, count), "application/octet-stream",
+                                offset + "-" + (offset + count - 1), Set.of(202, 416, 500, 502, 503, 504));
+                        } catch (IOException interruptedUpload) {
+                            System.out.println(shortDigest + " checking server offset after interrupted chunk");
+                        }
+                        if (part != null && part.statusCode() == 202) {
+                            next = location(part);
+                            accepted = true;
+                        } else {
+                            // A lost reply may hide an accepted chunk. Ask before retrying.
+                            var status = request("GET", next, null, null, null, Set.of(204));
+                            next = location(status);
+                            String range = status.headers().firstValue("Range").orElseThrow().replace("bytes=", "");
+                            long stored = Long.parseLong(range.substring(range.lastIndexOf('-') + 1)) + 1;
+                            if (offset == 0 && range.equals("0-0")) stored = 0;
+                            if (stored == offset + count) accepted = true;
+                            else if (stored != offset) throw new IllegalStateException("Registry upload offset mismatch");
+                        }
+                    }
+                    if (!accepted) throw new IllegalStateException("Registry chunk retry limit reached");
                     offset += count;
                     if (offset % (4 * 1024 * 1024) == 0) System.out.println(shortDigest + " accepted " + offset + "/" + Files.size(file));
                 }

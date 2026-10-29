@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import tn.esprit.eventsproject.entities.Logistics;
@@ -67,5 +68,14 @@ class LogisticsApiTest {
         when(services.getLogisticsDates(any(), any())).thenThrow(new IllegalArgumentException("Invalid interval"));
         mvc.perform(get("/event/getLogs/2026-10-31/2026-10-01"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void databaseFailureReturnsSafe500Response() throws Exception {
+        when(services.addAffectLog(any(), anyString()))
+                .thenThrow(new DataAccessResourceFailureException("Internal connection details"));
+        mvc.perform(put("/event/addAffectLog/Conference").contentType(MediaType.APPLICATION_JSON).content(body))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.error").value("Database operation failed"));
     }
 }

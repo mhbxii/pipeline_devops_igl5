@@ -1,0 +1,79 @@
+name: events-tache
+services:
+  jenkins:
+    profiles: ["jenkins"]
+    build:
+      context: .
+      dockerfile: ci/jenkins.Dockerfile
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    group_add: ["${DOCKER_SOCKET_GID:-0}"]
+    mem_limit: 1g
+    environment:
+      JAVA_OPTS: -Xms128m -Xmx512m
+  sonar:
+    profiles: ["sonar"]
+    image: sonarqube:community
+    ports:
+      - "127.0.0.1:9000:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+    volumes:
+      - sonar-data:/opt/sonarqube/data
+      - sonar-extensions:/opt/sonarqube/extensions
+    mem_limit: 2g
+  nexus:
+    profiles: ["nexus"]
+    image: sonatype/nexus3:latest
+    ports:
+      - "127.0.0.1:8081:8081"
+    environment:
+      INSTALL4J_ADD_VM_PARAMS: -Xms512m -Xmx768m -XX:MaxDirectMemorySize=256m
+    volumes:
+      - nexus-data:/nexus-data
+    mem_limit: 1536m
+  app:
+    profiles: ["app"]
+    image: events-tache:local
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/eventsProject?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: events
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:?Run scripts/Initialize-LocalDatabase.ps1}
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SPRING_JPA_SHOW_SQL: "false"
+      LOGGING_LEVEL_TN_ESPRIT_EVENTSPROJECT_SERVICES_TACHESERVICE: DEBUG
+    ports:
+      - "127.0.0.1:8089:8089"
+    mem_limit: 512m
+    depends_on:
+      mysql:
+        condition: service_healthy
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: eventsProject
+      MYSQL_USER: events
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Run scripts/Initialize-LocalDatabase.ps1}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Run scripts/Initialize-LocalDatabase.ps1}
+    ports:
+      - "127.0.0.1:3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command: ["--innodb-buffer-pool-size=128M", "--max-connections=40", "--performance-schema=OFF"]
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=\"$$MYSQL_PASSWORD\" mysql -h 127.0.0.1 -u\"$$MYSQL_USER\" -D\"$$MYSQL_DATABASE\" -e 'SELECT 1' >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 40s
+volumes:
+  mysql-data:
+  jenkins-data:
+  sonar-data:
+  sonar-extensions:
+  nexus-data:

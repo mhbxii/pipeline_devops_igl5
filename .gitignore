@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Local credentials and runtime output
+.env
+.local/
+*.tfstate*
+.terraform/
+*.tfplan

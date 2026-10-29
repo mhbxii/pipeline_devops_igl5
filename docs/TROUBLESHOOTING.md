@@ -16,3 +16,12 @@ Cause : la configuration root/mot de passe vide du dépôt n'est pas acceptée p
 serveur existant. Aucun mot de passe n'a été recherché ni changé.
 Correction proposée : base Docker dédiée et configuration par environnement.
 Correction non encore appliquée ; preuves : baseline-startup.log et baseline-api.txt.
+
+## Correction MySQL verifiee
+Base dediee mysql:8.4, port 3307, volume events-tache_mysql-data et compte events.
+Profil application-local.properties : variables DB_PASSWORD, dialecte MySQL8Dialect.
+L ancien serveur 3306 reste intact. Authentification et schemas verifies par l API :
+POST participant, PUT role, GET persiste, DELETE role, getLogs -> HTTP 200.
+Preuve : evidence/01-project-setup/mysql-api-success.txt.
+Les secrets sont generes dans .env non suivi. Ne pas supprimer le volume pour reinitialiser
+sans accord : cela detruirait les donnees locales.

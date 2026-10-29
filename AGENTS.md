@@ -9,3 +9,5 @@ Do not install software, publish externally, change shared infrastructure, or ap
 Terraform without the user's required intervention/approval. Review Terraform plan first.
 Do not force-push or rewrite history. Keep credentials out of Git and evidence.
 Maintain French presentation material and source-code defense notes.
+Presentation preference: descriptions on slides only; no PowerPoint speaker notes.
+Automate authentic screenshots with scripts/Capture-BaselineEvidence.ps1 when possible.

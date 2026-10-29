@@ -1,0 +1,4 @@
+**
+!target/
+target/*
+!target/eventsProject-1.0.0-SNAPSHOT.jar

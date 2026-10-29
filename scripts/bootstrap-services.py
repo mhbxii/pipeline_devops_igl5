@@ -68,7 +68,7 @@ def sonar(values):
     print('SonarQube: admin password updated, private project and analysis token ready.')
 
 
-def nexus(values):
+def nexus(values, accept_eula=False):
     base = 'http://localhost:8081/service/rest/v1/'
     password = values['NEXUS_PASSWORD']
     try:
@@ -93,17 +93,29 @@ def nexus(values):
                           'contentDisposition': 'ATTACHMENT'}})
     request(base + 'security/anonymous', 'admin', password, 'PUT', data={
         'enabled': False, 'userId': 'anonymous', 'realmName': 'NexusAuthorizingRealm'})
+    eula = request(base + 'system/eula', 'admin', password)
+    if not eula['accepted']:
+        if not accept_eula:
+            raise SystemExit('Nexus requires license acceptance. Review https://links.sonatype.com/products/nxrm/ce-eula, '
+                             'then use the UI or rerun with --accept-nexus-eula if you agree.')
+        eula['accepted'] = True
+        request(base + 'system/eula', 'admin', password, 'POST', data=eula)
     print('Nexus: authenticated snapshot/release Maven repositories ready.')
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('service', choices=['sonar', 'nexus', 'all'], default='all', nargs='?')
+    parser.add_argument('--accept-nexus-eula', action='store_true',
+                        help='Accept the Nexus CE EULA only after reviewing and agreeing to its terms')
     args = parser.parse_args()
     values = read_env()
     for name, action in [('sonar', sonar), ('nexus', nexus)]:
         if args.service in (name, 'all'):
-            action(values)
+            if name == 'nexus':
+                action(values, accept_eula=args.accept_nexus_eula)
+            else:
+                action(values)
 
 
 if __name__ == '__main__':

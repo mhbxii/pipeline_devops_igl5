@@ -25,7 +25,7 @@ def main():
     auth = base64.b64encode(('admin:' + values['JENKINS_ADMIN_PASSWORD']).encode()).decode()
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
     headers = {'Authorization': 'Basic ' + auth}
-    base = 'http://localhost:8080'
+    base = 'http://localhost:8082'
 
     def request(path, data=None, content_type=None):
         selected = dict(headers)
@@ -38,7 +38,7 @@ def main():
     headers[crumb['crumbRequestField']] = crumb['crumb']
     if args.lint:
         boundary = uuid.uuid4().hex
-        body = (f'--{boundary}\r\nContent-Disposition: form-data; name="jenkinsfile"; filename="Jenkinsfile"\r\n'
+        body = (f'--{boundary}\r\nContent-Disposition: form-data; name="jenkinsfile"\r\n'
                 'Content-Type: text/plain\r\n\r\n').encode() + (ROOT / 'Jenkinsfile').read_bytes()
         body += f'\r\n--{boundary}--\r\n'.encode()
         with request('/pipeline-model-converter/validate', body, 'multipart/form-data; boundary=' + boundary) as response:

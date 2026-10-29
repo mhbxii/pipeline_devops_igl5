@@ -38,7 +38,7 @@ credentials:
               password: "${DOCKERHUB_TOKEN}"
 unclassified:
   location:
-    url: http://localhost:8080/
+    url: http://localhost:8082/
   sonarGlobalConfiguration:
     installations:
       - name: SonarQube

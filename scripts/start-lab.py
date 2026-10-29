@@ -43,6 +43,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--kubernetes', action='store_true')
     parser.add_argument('--terraform', action='store_true', help='Also create the Terraform deployment')
+    parser.add_argument('--accept-nexus-eula', action='store_true',
+                        help='Use only after reviewing and agreeing to the Nexus CE license')
     args = parser.parse_args()
     run('docker', 'info', '--format', '{{.OSType}}')
     powershell('Initialize-Lab.ps1')
@@ -53,9 +55,12 @@ def main():
     run('docker', 'compose', '--progress', 'plain', '-f', 'compose.devops.yml', 'up', '-d', '--build')
     wait_ready('SonarQube', 'http://localhost:9000/api/system/status', lambda value: value.get('status') == 'UP')
     wait_ready('Nexus', 'http://localhost:8081/service/rest/v1/status')
-    run(sys.executable, 'scripts/bootstrap-services.py')
+    bootstrap = [sys.executable, 'scripts/bootstrap-services.py']
+    if args.accept_nexus_eula:
+        bootstrap.append('--accept-nexus-eula')
+    run(*bootstrap)
     run('docker', 'compose', '-f', 'compose.devops.yml', 'up', '-d', '--force-recreate', 'jenkins')
-    wait_ready('Jenkins', 'http://localhost:8080/login')
+    wait_ready('Jenkins', 'http://localhost:8082/login')
     run('docker', 'compose', '--progress', 'plain', 'up', '-d', '--build', '--wait', '--wait-timeout', '300')
     run('docker', 'compose', '-f', 'compose.monitoring.yml', 'up', '-d')
     run(sys.executable, 'scripts/smoke-test.py')

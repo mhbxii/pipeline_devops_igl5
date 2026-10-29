@@ -1,0 +1,14 @@
+EKS events-tache-ayyoub / us-east-1 / verified 2026-10-29T19:25:19.875522+00:00
+Node: 1 t3.medium Ready / v1.36.5-eks-577a51e
+events-tache / events: 1/1 Ready
+events-tache / mysql: 1/1 Ready
+events-monitoring / prometheus: 1/1 Ready
+events-grafana / grafana: 1/1 Ready
+mysql-data: Bound / encrypted gp3 / 4Gi
+prometheus-data: Bound / encrypted gp3 / 1Gi
+grafana-data: Bound / encrypted gp3 / 1Gi
+HTTP readiness: UP; MySQL-backed role lifecycle: see api-success.txt
+JAR SHA256 matches Jenkins #9 and Nexus:
+46b9ea9cc5fb3cffc5b284d57e184ea5b8b9e4729edf26eca426ef077efaa284
+Prometheus: 1/1 UP; Grafana: healthy, four nonempty queries
+MySQL persistence: participant 2 / INVITE survives pod replacement.

@@ -1,0 +1,34 @@
+﻿[
+    {
+        "path":  "docs/evidence/14-aws-eks/resources.png",
+        "title":  "AWS EKS | worker, deployments, stockage et monitoring verifies",
+        "command":  "Get-Content docs/evidence/14-aws-eks/resources.txt (journal sauvegarde)",
+        "capturedAt":  "2026-10-29T20:27:43.7622130+01:00",
+        "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
+        "sha256":  "00C14822B17EC3693372958B7FF1EBEDE422FDE4A04F69181328D47B02E88E60"
+    },
+    {
+        "path":  "docs/evidence/14-aws-eks/api-success.png",
+        "title":  "AWS EKS | cycle HTTP reel et MySQL persistant",
+        "command":  "Get-Content docs/evidence/14-aws-eks/api-success.txt (journal sauvegarde)",
+        "capturedAt":  "2026-10-29T20:27:44.7333864+01:00",
+        "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
+        "sha256":  "639EF73F7DBB3F00E9B568D662F6695875F075BD32F5007E564DF92C7CB3BA19"
+    },
+    {
+        "path":  "docs/evidence/14-aws-eks/terraform-apply.png",
+        "title":  "AWS EKS | Terraform apply approuve et resultat reel",
+        "command":  "Get-Content docs/evidence/14-aws-eks/terraform-apply.txt (journal sauvegarde)",
+        "capturedAt":  "2026-10-29T20:27:45.6123303+01:00",
+        "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
+        "sha256":  "57A1A9E114E7AAB93FFB4C83E5FDDDCDDFD50BD2B188B9E2406C875CBBBDB38B"
+    },
+    {
+        "path":  "docs/evidence/14-aws-eks/terraform-no-drift.png",
+        "title":  "AWS EKS | plan Terraform sans changement",
+        "command":  "Get-Content docs/evidence/14-aws-eks/terraform-no-drift.txt (journal sauvegarde)",
+        "capturedAt":  "2026-10-29T20:27:46.5089112+01:00",
+        "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
+        "sha256":  "F660F85F68F75E14A0F31919742FB2B8CFE485234F85D04BF355BDB3D4C45889"
+    }
+]

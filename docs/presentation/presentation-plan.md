@@ -1,8 +1,9 @@
 # Plan de soutenance
 
-26 slides francaises, descriptions visibles, aucune note orateur.
+33 slides françaises, descriptions visibles, aucune note orateur.
 Build #9 automatique GitHub : chaine publique complete verifiee.
-Fichier : eventsProject-Tache-GitHub.pptx.
+Fichier actuel : eventsProject-Tache-AWS-EKS.pptx.
+Les copies précédentes sont conservées. Slides 27–33 : preuves AWS réelles.
 
 1. Contribution Tache
 2. Un périmètre respecté
@@ -30,3 +31,10 @@ Fichier : eventsProject-Tache-GitHub.pptx.
 24. Visualiser les métriques dans Grafana
 25. Publier le livrable dans Nexus
 26. Relier le build au programme exécuté
+27. Créer une infrastructure AWS réelle
+28. Exécuter l'application sur EKS
+29. Vérifier le métier et la persistance AWS
+30. Promouvoir la release avec Jenkins vers EKS
+31. Collecter les métriques dans AWS
+32. Observer le déploiement EKS dans Grafana
+33. Contrôler la convergence et les coûts

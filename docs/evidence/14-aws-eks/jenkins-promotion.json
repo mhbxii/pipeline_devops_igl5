@@ -1,0 +1,65 @@
+{
+  "job": "tache-eks-delivery",
+  "number": 2,
+  "result": "SUCCESS",
+  "durationMillis": 42998,
+  "stages": {
+    "_links": {
+      "self": {
+        "href": "/job/tache-eks-delivery/2/wfapi/describe"
+      }
+    },
+    "id": "2",
+    "name": "#2",
+    "status": "SUCCESS",
+    "startTimeMillis": 1793301810750,
+    "endTimeMillis": 1793301853748,
+    "durationMillis": 42998,
+    "queueDurationMillis": 9,
+    "pauseDurationMillis": 0,
+    "stages": [
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-eks-delivery/2/execution/node/10/wfapi/describe"
+          }
+        },
+        "id": "10",
+        "name": "Verify upstream release",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793301817521,
+        "durationMillis": 741,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-eks-delivery/2/execution/node/20/wfapi/describe"
+          }
+        },
+        "id": "20",
+        "name": "Deploy AWS EKS",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793301818309,
+        "durationMillis": 29774,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-eks-delivery/2/execution/node/29/wfapi/describe"
+          }
+        },
+        "id": "29",
+        "name": "Verify AWS application",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793301848133,
+        "durationMillis": 5400,
+        "pauseDurationMillis": 0
+      }
+    ]
+  }
+}

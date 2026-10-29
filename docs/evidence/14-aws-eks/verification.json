@@ -1,0 +1,120 @@
+{
+  "verifiedAt": "2026-10-29T19:25:19.875522+00:00",
+  "cluster": "events-tache-ayyoub",
+  "region": "us-east-1",
+  "node": {
+    "instanceType": "t3.medium",
+    "ready": true,
+    "kubeletVersion": "v1.36.5-eks-577a51e"
+  },
+  "deployments": [
+    {
+      "namespace": "events-tache",
+      "deployment": "events",
+      "ready": 1,
+      "images": [
+        "ayyoub1/events-tache@sha256:abd5ce51159c9588d7f863c5a9682c0c0f7da7e19b16f6f45bda9719458d182c"
+      ]
+    },
+    {
+      "namespace": "events-tache",
+      "deployment": "mysql",
+      "ready": 1,
+      "images": [
+        "mysql:8.4"
+      ]
+    },
+    {
+      "namespace": "events-monitoring",
+      "deployment": "prometheus",
+      "ready": 1,
+      "images": [
+        "prom/prometheus:v3.5.0"
+      ]
+    },
+    {
+      "namespace": "events-grafana",
+      "deployment": "grafana",
+      "ready": 1,
+      "images": [
+        "grafana/grafana@sha256:488984b716c0862639f91a698adbe2862677a5a07bad42da5f03f3030883b205"
+      ]
+    }
+  ],
+  "volumes": [
+    {
+      "namespace": "events-tache",
+      "claim": "mysql-data",
+      "size": "4Gi",
+      "status": "Bound",
+      "storageClass": "events-gp3"
+    },
+    {
+      "namespace": "events-monitoring",
+      "claim": "prometheus-data",
+      "size": "1Gi",
+      "status": "Bound",
+      "storageClass": "events-gp3"
+    },
+    {
+      "namespace": "events-grafana",
+      "claim": "grafana-data",
+      "size": "1Gi",
+      "status": "Bound",
+      "storageClass": "events-gp3"
+    }
+  ],
+  "readiness": {
+    "status": "UP"
+  },
+  "jarSha256": "46b9ea9cc5fb3cffc5b284d57e184ea5b8b9e4729edf26eca426ef077efaa284",
+  "upstreamJenkinsBuild": 9,
+  "prometheusTarget": "up",
+  "grafanaVersion": "13.3.0",
+  "grafanaQueries": {
+    "up{job=\"events\"}": [
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "events.events-tache.svc.cluster.local:8089",
+          "job": "events"
+        },
+        "value": [
+          1793301918.913,
+          "1"
+        ]
+      }
+    ],
+    "process_cpu_usage{job=\"events\"}": [
+      {
+        "metric": {
+          "__name__": "process_cpu_usage",
+          "instance": "events.events-tache.svc.cluster.local:8089",
+          "job": "events"
+        },
+        "value": [
+          1793301919.097,
+          "0.098"
+        ]
+      }
+    ],
+    "sum(jvm_memory_used_bytes{job=\"events\",area=\"heap\"})": [
+      {
+        "metric": {},
+        "value": [
+          1793301919.268,
+          "30537480"
+        ]
+      }
+    ],
+    "sum(rate(http_server_requests_seconds_count{job=\"events\"}[2m]))": [
+      {
+        "metric": {},
+        "value": [
+          1793301919.453,
+          "0.2571428571428571"
+        ]
+      }
+    ]
+  }
+}

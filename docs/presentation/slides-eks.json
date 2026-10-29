@@ -1,0 +1,9 @@
+[
+  {"title":"Créer une infrastructure AWS réelle","description":"Learner Lab personnel, us-east-1 : plan examiné et approuvé, quatre ressources Terraform créées pour EKS, son worker et EBS CSI.","screenshot":"14-aws-eks/terraform-apply.png"},
+  {"title":"Exécuter l'application sur EKS","description":"Un worker t3.medium Ready, quatre deployments disponibles et trois volumes EBS gp3 chiffrés : MySQL 4 Gio, Prometheus et Grafana 1 Gio chacun.","screenshot":"14-aws-eks/resources.png"},
+  {"title":"Vérifier le métier et la persistance AWS","description":"Lecture, affectation, remplacement et retrait du rôle vérifiés par HTTP ; le participant et son rôle survivent au remplacement du pod MySQL.","screenshot":"14-aws-eks/api-success.png"},
+  {"title":"Promouvoir la release avec Jenkins vers EKS","description":"tache-eks-delivery #2 SUCCESS : image vérifiée du build CI #9, déployée par digest ; nouveau rollout et contrôles HTTP depuis Jenkins.","screenshot":"14-aws-eks/jenkins-eks-stages.png"},
+  {"title":"Collecter les métriques dans AWS","description":"Prometheus tourne sur EKS et collecte réellement les métriques Actuator du Service applicatif : une cible, état UP.","screenshot":"14-aws-eks/prometheus-targets.png"},
+  {"title":"Observer le déploiement EKS dans Grafana","description":"Dashboard provisionné sur AWS : cible UP, CPU Java, mémoire JVM et débit HTTP ; datasource saine et quatre requêtes non vides.","screenshot":"14-aws-eks/grafana-dashboard.png"},
+  {"title":"Contrôler la convergence et les coûts","description":"Le plan suivant ne détecte aucun changement. Estimation : 0,16 USD/h ; démonstration courte et nettoyage approuvé des volumes puis du cluster.","screenshot":"14-aws-eks/terraform-no-drift.png"}
+]

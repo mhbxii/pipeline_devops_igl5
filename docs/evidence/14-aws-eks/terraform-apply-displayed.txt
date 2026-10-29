@@ -1,0 +1,7 @@
+﻿Approved saved plan applied; actual Terraform output below.
+Plan SHA256: 9ed4328c282aa07b41181184be73f520d8d21554df4e1a92a2cc7ae8b627eff5
+aws_launch_template.worker: Creation complete after 7s [identifier redacted]
+aws_eks_cluster.demo: Creation complete after 14m54s [identifier redacted]
+aws_eks_node_group.demo: Creation complete after 1m59s [identifier redacted]
+aws_eks_addon.ebs: Creation complete after 47s [identifier redacted]
+Apply complete! Resources: 4 added, 0 changed, 0 destroyed.

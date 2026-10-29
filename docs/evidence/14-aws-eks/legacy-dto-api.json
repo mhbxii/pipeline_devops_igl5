@@ -1,0 +1,37 @@
+{
+  "result": "PASS",
+  "participantId": 2,
+  "eventIds": [
+    1,
+    2
+  ],
+  "logisticsId": 1,
+  "operations": [
+    {
+      "method": "POST",
+      "path": "/event/addPart",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/event/addEvent/2",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/event/addEvent",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/event/addAffectLog/dto-evidence-1793301887-by-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/taches/participants/2",
+      "status": 200
+    }
+  ],
+  "note": "Real HTTP/MySQL calls; generated IDs and computed cost cannot be assigned by clients."
+}

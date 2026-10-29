@@ -1,0 +1,82 @@
+Started by user tache-admin
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/tache-eks-delivery
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 15 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Verify upstream release)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+Promoting release from tache-ci #9: tests, Sonar gate, Nexus and public image already verified.
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ /var/jenkins_home/eks-tools/kubectl version --client
+Client Version: v1.36.6
+Kustomize Version: v5.8.1
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy AWS EKS)
+[Pipeline] withCredentials
+Masking supported pattern matches of $KUBECONFIG
+[Pipeline] {
+[Pipeline] sh
++ set -eu
++ /var/jenkins_home/eks-tools/kubectl --context events-tache-eks -n events-tache set image deployment/events events=ayyoub1/events-tache@sha256:abd5ce51159c9588d7f863c5a9682c0c0f7da7e19b16f6f45bda9719458d182c
++ printf {"spec":{"template":{"metadata":{"annotations":{"jenkins.io/eks-build":"%s"}}}}} jenkins-tache-eks-delivery-2
++ /var/jenkins_home/eks-tools/kubectl --context events-tache-eks -n events-tache patch deployment/events --type=merge -p {"spec":{"template":{"metadata":{"annotations":{"jenkins.io/eks-build":"jenkins-tache-eks-delivery-2"}}}}}
+deployment.apps/events patched
++ /var/jenkins_home/eks-tools/kubectl --context events-tache-eks -n events-tache rollout status deployment/events --timeout=600s
+Waiting for deployment "events" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "events" rollout to finish: 1 old replicas are pending termination...
+deployment "events" successfully rolled out
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify AWS application)
+[Pipeline] withCredentials
+Masking supported pattern matches of $KUBECONFIG
+[Pipeline] {
+[Pipeline] sh
++ set -eu
++ forward_pid=1453
++ trap kill "$forward_pid" 2>/dev/null || true EXIT
++ curl --fail --retry 20 --retry-connrefused --retry-delay 2 http://127.0.0.1:18190/events/actuator/health/readiness
++ /var/jenkins_home/eks-tools/kubectl --context events-tache-eks -n events-tache port-forward --address 127.0.0.1 service/events 18190:8089
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to 127.0.0.1 port 18190 after 0 ms: Could not connect to server
+Warning: Problem : connection refused. Will retry in 2 seconds. 20 retries 
+Warning: left.
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to 127.0.0.1 port 18190 after 0 ms: Could not connect to server
+Warning: Problem : connection refused. Will retry in 2 seconds. 19 retries 
+Warning: left.
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    15    0    15    0     0     37      0 --:--:-- --:--:-- --:--:--    37
+{"status":"UP"}+ curl --fail http://127.0.0.1:18190/events/taches
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    47    0    47    0     0    114      0 --:--:-- --:--:-- --:--:--   114100    47    0    47    0     0    114      0 --:--:-- --:--:-- --:--:--   114
+["INVITE","ORGANISATEUR","SERVEUR","ANIMATEUR"]+ kill 1453
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

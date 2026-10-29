@@ -1,0 +1,12 @@
+{
+  "operation": "MySQL pod replaced using rollout restart deployment/mysql",
+  "participantAfterReplacement": {
+    "participantId": 2,
+    "tache": "INVITE"
+  },
+  "readiness": {
+    "status": "UP"
+  },
+  "result": "PASS",
+  "note": "Participant and assigned role created by legacy HTTP compatibility check survived MySQL pod replacement on the same EBS volume."
+}

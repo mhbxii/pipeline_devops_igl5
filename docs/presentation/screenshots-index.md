@@ -1,33 +1,37 @@
-# Captures et diapositives verifiees
+# Index des captures et diapositives
 
-Version GitHub : eventsProject-Tache-GitHub.pptx, 26 slides, sans notes orateur.
-Captures authentiques Windows et Edge. Ancienne copie de 25 slides ouverte conservee.
-
-| Slide | Titre | Capture sous docs/evidence | Description visible |
-|---|---|---|---|
-| 1 | Contribution Tache | Page de garde | eventsProject : gestion des rôles des participants. Diagnostic, tests et déploiement progressifs. |
-| 2 | Un périmètre respecté | 01-project-setup/setup-02-tache-model.png | Tache est un enum persisté en chaîne dans Participant ; le modèle partagé est conservé. |
-| 3 | Une branche dédiée et synchronisée | 05-git/git-01-branch-history.png | Branche Tache publiée sur origin après accord ; historique préservé et révisions locale/distante identiques. |
-| 4 | Maven et Java | 02-maven/maven-01-toolchain.png | Maven 3.9.14 sélectionné pour la session ; cible Java 8 et runtime Docker Java 17. |
-| 5 | La compilation initiale | 02-maven/maven-02-baseline-build.png | Journal sauvegardé : BUILD SUCCESS pour les 12 sources du dépôt initial. |
-| 6 | Le blocage initial : MySQL | 01-project-setup/setup-03-database-blocker.png | Journal du diagnostic initial : authentification root refusée et HTTP 500. |
-| 7 | MySQL : correction vérifiée | 01-project-setup/mysql-api-success.png | Base dédiée sur 3307 : création, affectation, lecture et retrait du rôle réussis. |
-| 8 | 38 tests automatisés | 08-jenkins/jenkins-tests.png | Service Mockito, contrats HTTP, JPA/H2 sans mocks et mapping sécurisé des anciennes entrées. |
-| 9 | Sécuriser les entrées existantes | 12-final-validation/legacy-dto-api.png | Quatre entrées utilisent des DTO : identifiants générés et coût calculé protégés ; compatibilité HTTP/MySQL vérifiée. |
-| 10 | Une analyse Sonar réellement évaluée | 06-sonarqube/sonar-final-new-code.png | Gate OK : nouveau code couvert à 81,9 %, duplication nulle et aucune violation nouvelle. |
-| 11 | Une qualité mesurée sans masquer le périmètre | 06-sonarqube/sonar-final-dashboard.png | Zéro vulnérabilité après correction des quatre entrées ; couverture globale 49,6 %, distincte du nouveau code. |
-| 12 | Une chaîne Jenkins exécutée | 08-jenkins/jenkins-pipeline-overview.png | Build #9 automatique réussi : 38 tests, gate Sonar, Nexus, image Docker Hub, rollout Kubernetes et vérification HTTP. |
-| 13 | GitHub déclenche Jenkins automatiquement | 08-jenkins/github-trigger.png | Le polling détecte le commit GitHub f510b9b et lance le build #9 : cause SCM enregistrée, sans lancement manuel. |
-| 14 | Une couverture métier mesurée | 04-unit-tests/coverage-service.png | TacheService : 24 lignes et 4 branches couvertes ; ce résultat concerne ce service. |
-| 15 | Des logs utiles | 03-logging/tache-levels.png | DEBUG, INFO, WARN sur API ; ERROR démontré par une panne simulée dans un test. |
-| 16 | Application et MySQL en conteneurs | 09-docker/docker-api-success.png | Cycle HTTP vérifié dans Docker ; readiness UP et utilisateur applicatif non privilégié. |
-| 17 | Vérifier les conteneurs | 09-docker/docker-containers.png | Application et base isolées ; volumes persistants et ports liés à localhost. |
-| 18 | Une image publique vérifiée | 09-docker/dockerhub-repository.png | ayyoub1/events-tache : manifeste linux/amd64 accessible sans compte et identique à l'image locale du build #9. |
-| 19 | Un déploiement Kubernetes réel | 10-kubernetes/kubernetes-resources.png | Pods applicatif et MySQL prêts, Services actifs et volume persistant lié. |
-| 20 | Vérifier le service métier | 10-kubernetes/kubernetes-api-success.png | Le cycle HTTP complet réussit via Kubernetes ; readiness inclut la base MySQL. |
-| 21 | Provisionner avec Terraform | 11-terraform/terraform-apply.png | Plan examiné et approuvé : 6 ressources Prometheus créées, aucune destruction. |
-| 22 | Contrôler la convergence | 11-terraform/terraform-no-drift.png | Un nouveau plan ne détecte aucune différence entre configuration et infrastructure. |
-| 23 | Observer une application réellement collectée | 13-monitoring/prometheus-targets.png | Prometheus collecte la cible Kubernetes events : 1/1 UP, métriques exposées par Actuator. |
-| 24 | Visualiser les métriques dans Grafana | 13-monitoring/grafana-dashboard.png | Dashboard provisionné : cible UP, CPU Java, mémoire JVM et débit HTTP ; quatre requêtes réelles vérifiées. |
-| 25 | Publier le livrable dans Nexus | 07-nexus/nexus-repository.png | Le dépôt Maven snapshots contient le JAR et le POM de tn.esprit:eventsProject:1.0.0-SNAPSHOT. |
-| 26 | Relier le build au programme exécuté | 12-final-validation/local-delivery.png | Même SHA-256 pour le JAR archivé par Jenkins, téléchargé de Nexus et présent dans le pod Kubernetes. |
+| Slide | Titre | Preuve |
+| --- | --- | --- |
+| 1 | Contribution Tache | Ouverture |
+| 2 | Un périmètre respecté | 01-project-setup/setup-02-tache-model.png |
+| 3 | Une branche dédiée et synchronisée | 05-git/git-01-branch-history.png |
+| 4 | Maven et Java | 02-maven/maven-01-toolchain.png |
+| 5 | La compilation initiale | 02-maven/maven-02-baseline-build.png |
+| 6 | Le blocage initial : MySQL | 01-project-setup/setup-03-database-blocker.png |
+| 7 | MySQL : correction vérifiée | 01-project-setup/mysql-api-success.png |
+| 8 | 38 tests automatisés | 08-jenkins/jenkins-tests.png |
+| 9 | Sécuriser les entrées existantes | 12-final-validation/legacy-dto-api.png |
+| 10 | Une analyse Sonar réellement évaluée | 06-sonarqube/sonar-final-new-code.png |
+| 11 | Une qualité mesurée sans masquer le périmètre | 06-sonarqube/sonar-final-dashboard.png |
+| 12 | Une chaîne Jenkins exécutée | 08-jenkins/jenkins-pipeline-overview.png |
+| 13 | GitHub déclenche Jenkins automatiquement | 08-jenkins/github-trigger.png |
+| 14 | Une couverture métier mesurée | 04-unit-tests/coverage-service.png |
+| 15 | Des logs utiles | 03-logging/tache-levels.png |
+| 16 | Application et MySQL en conteneurs | 09-docker/docker-api-success.png |
+| 17 | Vérifier les conteneurs | 09-docker/docker-containers.png |
+| 18 | Une image publique vérifiée | 09-docker/dockerhub-repository.png |
+| 19 | Un déploiement Kubernetes réel | 10-kubernetes/kubernetes-resources.png |
+| 20 | Vérifier le service métier | 10-kubernetes/kubernetes-api-success.png |
+| 21 | Provisionner avec Terraform | 11-terraform/terraform-apply.png |
+| 22 | Contrôler la convergence | 11-terraform/terraform-no-drift.png |
+| 23 | Observer une application réellement collectée | 13-monitoring/prometheus-targets.png |
+| 24 | Visualiser les métriques dans Grafana | 13-monitoring/grafana-dashboard.png |
+| 25 | Publier le livrable dans Nexus | 07-nexus/nexus-repository.png |
+| 26 | Relier le build au programme exécuté | 12-final-validation/local-delivery.png |
+| 27 | Créer une infrastructure AWS réelle | 14-aws-eks/terraform-apply.png |
+| 28 | Exécuter l'application sur EKS | 14-aws-eks/resources.png |
+| 29 | Vérifier le métier et la persistance AWS | 14-aws-eks/api-success.png |
+| 30 | Promouvoir la release avec Jenkins vers EKS | 14-aws-eks/jenkins-eks-stages.png |
+| 31 | Collecter les métriques dans AWS | 14-aws-eks/prometheus-targets.png |
+| 32 | Observer le déploiement EKS dans Grafana | 14-aws-eks/grafana-dashboard.png |
+| 33 | Contrôler la convergence et les coûts | 14-aws-eks/terraform-no-drift.png |

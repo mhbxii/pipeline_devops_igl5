@@ -1,0 +1,22 @@
+{
+  "job": "tache-eks-delivery",
+  "number": 1,
+  "result": "FAILURE",
+  "durationMillis": 83,
+  "stages": {
+    "_links": {
+      "self": {
+        "href": "/job/tache-eks-delivery/1/wfapi/describe"
+      }
+    },
+    "id": "1",
+    "name": "#1",
+    "status": "NOT_EXECUTED",
+    "startTimeMillis": 1793301735766,
+    "endTimeMillis": 1793301735849,
+    "durationMillis": 83,
+    "queueDurationMillis": 17,
+    "pauseDurationMillis": 0,
+    "stages": []
+  }
+}

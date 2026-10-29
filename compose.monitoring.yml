@@ -1,0 +1,34 @@
+name: events-monitoring
+services:
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    restart: unless-stopped
+    ports: ["127.0.0.1:9090:9090"]
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=7d
+    volumes:
+      - ./devops/prometheus:/etc/prometheus:ro
+      - prometheus_data:/prometheus
+    mem_limit: 384m
+  grafana:
+    image: grafana/grafana:12.2.0
+    restart: unless-stopped
+    depends_on: [prometheus]
+    ports: ["127.0.0.1:3000:3000"]
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:?Run scripts/Initialize-Lab.ps1}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./devops/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./devops/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    mem_limit: 256m
+networks:
+  default:
+    name: events-devops
+    external: true
+volumes:
+  prometheus_data:
+  grafana_data:

@@ -1,0 +1,20 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+rule_files: [/etc/prometheus/alerts.yml]
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: [localhost:9090]
+  - job_name: events-compose
+    metrics_path: /events/actuator/prometheus
+    static_configs:
+      - targets: [app:8089]
+  - job_name: events-kubernetes
+    metrics_path: /events/actuator/prometheus
+    static_configs:
+      - targets: [events-devops-control-plane:30089]
+  - job_name: events-terraform
+    metrics_path: /events/actuator/prometheus
+    static_configs:
+      - targets: [events-devops-control-plane:30090]

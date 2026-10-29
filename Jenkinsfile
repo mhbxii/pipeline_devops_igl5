@@ -8,11 +8,14 @@ pipeline {
     }
 
     environment {
-        NEXUS_SNAPSHOT_URL =
-            'http://localhost:8081/repository/events-snapshots/'
+        // Nexus : adapter si Jenkins ne partage pas le reseau de Nexus
+        NEXUS_BASE_URL = 'http://localhost:8081'
+        NEXUS_SNAPSHOT_REPO = 'events-snapshots'
 
-        MAVEN_ARTIFACT =
-            'tn.esprit:eventsProject:1.0.0-SNAPSHOT:jar'
+        // Coordonnees exactes de ton pom.xml
+        MAVEN_GROUP_ID = 'tn.esprit'
+        MAVEN_ARTIFACT_ID = 'eventsProject'
+        MAVEN_VERSION = '1.0.0-SNAPSHOT'
     }
 
     stages {
@@ -37,6 +40,7 @@ pipeline {
             steps {
                 bat 'mvn -B clean verify'
             }
+
             post {
                 always {
                     junit(
@@ -89,30 +93,96 @@ pipeline {
                         passwordVariable: 'NEXUS_PASSWORD'
                     )
                 ]) {
-                    bat '''
-                        if exist target\\nexus-artifact (
-                            rmdir /S /Q target\\nexus-artifact
+                    powershell '''
+                        $ErrorActionPreference = "Stop"
+
+                        $repoUrl = "$env:NEXUS_BASE_URL/repository/$env:NEXUS_SNAPSHOT_REPO/"
+                        $artifactPath = "tn/esprit/eventsProject/1.0.0-SNAPSHOT"
+                        $metadataUrl = "$repoUrl$artifactPath/maven-metadata.xml"
+
+                        $headers = @{
+                            Authorization = "Basic " + [Convert]::ToBase64String(
+                                [Text.Encoding]::UTF8.GetBytes(
+                                    "$env:NEXUS_USERNAME`:$env:NEXUS_PASSWORD"
+                                )
+                            )
+                        }
+
+                        Write-Host "Reading snapshot metadata from Nexus..."
+                        Write-Host $metadataUrl
+
+                        $metadata = Invoke-RestMethod `
+                            -Uri $metadataUrl `
+                            -Headers $headers `
+                            -Method Get
+
+                        # Select the latest JAR snapshot without a classifier.
+                        $snapshotVersions = $metadata.SelectNodes(
+                            "//*[local-name()='snapshotVersion']"
                         )
 
-                        mkdir target\\nexus-artifact
+                        if (-not $snapshotVersions) {
+                            throw "No snapshot versions found in Nexus metadata."
+                        }
 
-                        mvn -B -s settings.xml ^
-                          org.apache.maven.plugins:maven-dependency-plugin:3.8.1:copy ^
-                          "-Dartifact=%MAVEN_ARTIFACT%" ^
-                          "-DoutputDirectory=target/nexus-artifact" ^
-                          "-Dmdep.stripVersion=true" ^
-                          "-DremoteRepositories=events-nexus::default::%NEXUS_SNAPSHOT_URL%"
+                        $jarVersion = $snapshotVersions |
+                            Where-Object {
+                                $_.SelectSingleNode("./*[local-name()='extension']").InnerText -eq "jar" -and
+                                $null -eq $_.SelectSingleNode("./*[local-name()='classifier']")
+                            } |
+                            Sort-Object {
+                                $_.SelectSingleNode("./*[local-name()='updated']").InnerText
+                            } -Descending |
+                            Select-Object -First 1
 
-                        if errorlevel 1 exit /b 1
+                        if (-not $jarVersion) {
+                            throw "No executable JAR version found in Nexus metadata."
+                        }
 
-                        if not exist "target\\nexus-artifact\\eventsProject.jar" (
-                            echo ERROR: JAR not downloaded from Nexus
-                            exit /b 1
-                        )
+                        $resolvedVersion = $jarVersion.SelectSingleNode(
+                            "./*[local-name()='value']"
+                        ).InnerText
 
-                        copy /Y "target\\nexus-artifact\\eventsProject.jar" "target\\app.jar"
+                        if ([string]::IsNullOrWhiteSpace($resolvedVersion)) {
+                            throw "Could not resolve the timestamped snapshot version."
+                        }
 
-                        if errorlevel 1 exit /b 1
+                        $jarUrl = "$repoUrl$artifactPath/eventsProject-$resolvedVersion.jar"
+
+                        New-Item -ItemType Directory `
+                            -Force -Path "target/nexus-artifact" | Out-Null
+
+                        $downloadPath = Join-Path `
+                            (Get-Location).Path `
+                            "target/nexus-artifact/eventsProject.jar"
+
+                        Write-Host "Downloading artifact from Nexus..."
+                        Invoke-WebRequest `
+                            -Uri $jarUrl `
+                            -Headers $headers `
+                            -OutFile $downloadPath `
+                            -UseBasicParsing
+
+                        if (-not (Test-Path $downloadPath)) {
+                            throw "JAR download failed."
+                        }
+
+                        if ((Get-Item $downloadPath).Length -eq 0) {
+                            throw "Downloaded JAR is empty."
+                        }
+
+                        Copy-Item `
+                            -Path $downloadPath `
+                            -Destination "target/app.jar" `
+                            -Force
+
+                        if (-not (Test-Path "target/app.jar")) {
+                            throw "target/app.jar was not created."
+                        }
+
+                        Write-Host "JAR downloaded successfully from Nexus."
+                        Get-Item "target/app.jar" |
+                            Select-Object Name, Length
                     '''
 
                     archiveArtifacts(
@@ -150,11 +220,15 @@ pipeline {
                                 throw "Docker Hub login failed."
                             }
 
-                            docker push "$env:DOCKERHUB_USERNAME/events-project:$env:BUILD_NUMBER"
+                            $image = "$env:DOCKERHUB_USERNAME/events-project:$env:BUILD_NUMBER"
+
+                            docker push $image
 
                             if ($LASTEXITCODE -ne 0) {
                                 throw "Docker Hub push failed."
                             }
+
+                            Write-Host "Published image: $image"
                         }
                         finally {
                             docker logout 2>$null
@@ -167,11 +241,11 @@ pipeline {
 
     post {
         success {
-            echo 'Succes : build, tests, SonarQube, Nexus et Docker Hub.'
+            echo 'SUCCESS: Build, tests, SonarQube, Nexus et Docker Hub.'
         }
 
         failure {
-            echo 'Echec : consultez la Console Output de Jenkins.'
+            echo 'FAILURE: Consultez la Console Output de Jenkins.'
         }
 
         always {

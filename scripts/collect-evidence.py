@@ -47,12 +47,24 @@ def collect():
             if key in ('uid', 'title', 'version')},
         'terraformResources': lambda: command(str(ROOT / '.local/bin/terraform.exe'), '-chdir=infra', 'state', 'list').splitlines(),
         'kubernetesResources': lambda: command('kubectl', '--kubeconfig', str(ROOT / '.local/kube/host-config'), '-n', 'events', 'get', 'deploy,sts,svc,pvc').splitlines(),
+        'kubernetesImage': lambda: command('kubectl', '--kubeconfig', str(ROOT / '.local/kube/host-config'), '-n', 'events', 'get', 'deployment', 'events-app', '-o', 'jsonpath={.spec.template.spec.containers[0].image}'),
     }
     for name, action in checks.items():
         try:
             result[name] = action()
         except Exception as error:
             result[name] = {'unavailable': type(error).__name__}
+    image = result.get('kubernetesImage', '')
+    if isinstance(image, str) and image.startswith('events-logistics:'):
+        published = VALUES.get('DOCKERHUB_USERNAME', 'arfaoui131') + '/' + image
+        try:
+            result['dockerHub'] = {'image': published, 'digests': json.loads(command(
+                'docker', 'image', 'inspect', published, '--format', '{{json .RepoDigests}}'))}
+        except Exception as error:
+            result['dockerHub'] = {'unavailable': type(error).__name__}
+    recovery = ROOT / '.local/recovery-evidence.json'
+    if recovery.exists():
+        result['recovery'] = json.loads(recovery.read_text())
     reports = list((ROOT / 'target/surefire-reports').glob('TEST-*.xml'))
     result['tests'] = {'suites': len(reports), 'tests': 0, 'failures': 0, 'errors': 0, 'skipped': 0}
     for path in reports:

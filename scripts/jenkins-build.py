@@ -5,6 +5,8 @@ import http.cookiejar
 import json
 from pathlib import Path
 import time
+import subprocess
+import xml.etree.ElementTree as ET
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -47,6 +49,13 @@ def main():
         if 'successfully validated' not in result:
             raise SystemExit(1)
         return
+    # Load the committed pipeline before each scripted build, preserving job history.
+    with request('/job/logistics-local/config.xml') as response:
+        config = ET.fromstring(response.read())
+    pipeline = subprocess.check_output(['git', 'show', 'HEAD:Jenkinsfile'], cwd=ROOT).decode()
+    config.find('definition/script').text = pipeline
+    with request('/job/logistics-local/config.xml', ET.tostring(config), 'application/xml'):
+        pass
     parameters = urllib.parse.urlencode({
         'SOURCE_MODE': 'LOCAL', 'BUILD_BRANCH': 'logistics', 'RUN_SONAR': 'true',
         'PUBLISH_NEXUS': 'true', 'BUILD_IMAGE': 'true',

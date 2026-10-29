@@ -19,11 +19,11 @@ try {
     & $terraform "-chdir=$projectRoot/infra" validate
     if ($LASTEXITCODE -ne 0) { throw 'Terraform validation failed' }
     if ($Action -ne 'Validate') {
-        & $terraform "-chdir=$projectRoot/infra" plan -input=false -out=lab.tfplan
+        & $terraform "-chdir=$projectRoot/infra" plan -input=false '-out=lab.tfplan'
         if ($LASTEXITCODE -ne 0) { throw 'Terraform plan failed' }
     }
     if ($Action -eq 'Apply') {
-        & $terraform "-chdir=$projectRoot/infra" apply -input=false lab.tfplan
+        & $terraform "-chdir=$projectRoot/infra" apply -input=false 'lab.tfplan'
         if ($LASTEXITCODE -ne 0) { throw 'Terraform apply failed' }
         python "$PSScriptRoot/smoke-test.py" --base-url http://localhost:8091/events
         if ($LASTEXITCODE -ne 0) { throw 'Terraform deployment smoke test failed' }

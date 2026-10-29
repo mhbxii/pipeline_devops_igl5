@@ -33,8 +33,9 @@ pipeline {
                         error('Invalid branch name')
                     }
                     deleteDir()
+                    env.CHECKOUT_BRANCH = params.BUILD_BRANCH
                     if (params.SOURCE_MODE == 'LOCAL') {
-                        sh 'git -c safe.directory=/opt/project clone --no-hardlinks --branch "$BUILD_BRANCH" /opt/project .'
+                        sh 'git -c safe.directory=/opt/project clone --no-hardlinks --branch "$CHECKOUT_BRANCH" /opt/project .'
                     } else {
                         git branch: params.BUILD_BRANCH, url: env.REPOSITORY_URL
                     }
@@ -78,6 +79,7 @@ pipeline {
                     if (!params.BUILD_IMAGE || !(params.IMAGE_NAMESPACE ==~ /[a-z0-9][a-z0-9_-]*/)) {
                         error('Pushing requires BUILD_IMAGE and a valid Docker Hub namespace')
                     }
+                    env.REGISTRY_NAMESPACE = params.IMAGE_NAMESPACE
                 }
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'REGISTRY_USER', passwordVariable: 'REGISTRY_TOKEN')]) {
                     sh '''
@@ -85,8 +87,8 @@ pipeline {
                         export DOCKER_CONFIG=$(mktemp -d)
                         trap 'docker logout >/dev/null 2>&1; rm -rf "$DOCKER_CONFIG"' EXIT
                         printf '%s' "$REGISTRY_TOKEN" | docker login -u "$REGISTRY_USER" --password-stdin
-                        docker tag "events-logistics:$IMAGE_TAG" "$IMAGE_NAMESPACE/events-logistics:$IMAGE_TAG"
-                        docker push "$IMAGE_NAMESPACE/events-logistics:$IMAGE_TAG"
+                        docker tag "events-logistics:$IMAGE_TAG" "$REGISTRY_NAMESPACE/events-logistics:$IMAGE_TAG"
+                        docker push "$REGISTRY_NAMESPACE/events-logistics:$IMAGE_TAG"
                     '''
                 }
             }

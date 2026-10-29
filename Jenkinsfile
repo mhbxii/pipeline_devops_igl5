@@ -107,8 +107,20 @@ pipeline {
                 }
             }
         }
-        stage('Verify local deployment') {
-            when { expression { params.DEPLOY_LOCAL_KIND } }
+        stage('Deploy Kubernetes') {
+            when { expression { params.DEPLOY_K8S } }
+            steps {
+                script { if (!params.PUBLISH_IMAGE) { error('Deployment requires a published image') } }
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh '''set -eu
+                        kubectl --context kind-events-tache -n events-tache set image deployment/events events="$DOCKER_REPOSITORY:$IMAGE_TAG"
+                        kubectl --context kind-events-tache -n events-tache rollout status deployment/events --timeout=600s
+                    '''
+                }
+            }
+        }
+        stage('Verify deployment') {
+            when { expression { params.DEPLOY_LOCAL_KIND || params.DEPLOY_K8S } }
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
                     sh '''set -eu
@@ -117,18 +129,6 @@ pipeline {
                         trap 'kill "$forward_pid" 2>/dev/null || true' EXIT
                         curl --fail --retry 20 --retry-connrefused --retry-delay 2 http://127.0.0.1:18090/events/actuator/health/readiness
                         curl --fail http://127.0.0.1:18090/events/taches
-                    '''
-                }
-            }
-        }
-        stage('Deploy Kubernetes') {
-            when { expression { params.DEPLOY_K8S } }
-            steps {
-                script { if (!params.PUBLISH_IMAGE) { error('Deployment requires a published image') } }
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-                    sh '''kubectl --context kind-events-tache -n events-tache set image deployment/events events="$DOCKER_REPOSITORY:$IMAGE_TAG"
-                        kubectl --context kind-events-tache -n events-tache rollout status deployment/events --timeout=240s
-                        kubectl --context kind-events-tache -n events-tache run verify-$BUILD_NUMBER --image=curlimages/curl:8.12.1 --restart=Never --rm -i --pod-running-timeout=120s -- --fail --retry 12 --retry-all-errors --retry-delay 5 http://events:8089/events/actuator/health/readiness
                     '''
                 }
             }

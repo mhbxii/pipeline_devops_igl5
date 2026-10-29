@@ -1,0 +1,106 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: events-grafana
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-data
+  namespace: events-grafana
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests: {storage: 1Gi}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-provisioning
+  namespace: events-grafana
+data:
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        uid: prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus.events-monitoring.svc.cluster.local:9090
+        isDefault: true
+        editable: false
+  dashboards.yaml: |
+    apiVersion: 1
+    providers:
+      - name: events
+        folder: Projet Tache
+        type: file
+        disableDeletion: true
+        options:
+          path: /var/lib/grafana/dashboards
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: events-grafana
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app: grafana}
+  template:
+    metadata:
+      labels: {app: grafana}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 472
+        runAsGroup: 472
+        fsGroup: 472
+      containers:
+        - name: grafana
+          image: grafana/grafana@sha256:488984b716c0862639f91a698adbe2862677a5a07bad42da5f03f3030883b205
+          env:
+            - {name: GF_SECURITY_ADMIN_USER, value: tache-admin}
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef: {name: grafana-admin, key: password}
+            - {name: GF_USERS_ALLOW_SIGN_UP, value: "false"}
+            - {name: GF_AUTH_ANONYMOUS_ENABLED, value: "false"}
+            - {name: GF_ANALYTICS_REPORTING_ENABLED, value: "false"}
+            - {name: GF_ANALYTICS_CHECK_FOR_UPDATES, value: "false"}
+            - {name: GOMAXPROCS, value: "2"}
+            - {name: GOMEMLIMIT, value: 160MiB}
+          ports: [{containerPort: 3000}]
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 500m, memory: 256Mi}
+          startupProbe:
+            httpGet: {path: /api/health, port: 3000}
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet: {path: /api/health, port: 3000}
+            periodSeconds: 10
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/grafana}
+            - {name: provisioning, mountPath: /etc/grafana/provisioning/datasources/datasources.yaml, subPath: datasources.yaml, readOnly: true}
+            - {name: provisioning, mountPath: /etc/grafana/provisioning/dashboards/dashboards.yaml, subPath: dashboards.yaml, readOnly: true}
+            - {name: dashboard, mountPath: /var/lib/grafana/dashboards, readOnly: true}
+      volumes:
+        - name: data
+          persistentVolumeClaim: {claimName: grafana-data}
+        - name: provisioning
+          configMap: {name: grafana-provisioning}
+        - name: dashboard
+          configMap: {name: grafana-dashboard}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: events-grafana
+spec:
+  selector: {app: grafana}
+  ports: [{port: 3000, targetPort: 3000}]

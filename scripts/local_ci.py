@@ -45,6 +45,9 @@ class Jenkins:
         prelude = "def input = new groovy.json.JsonSlurper().parseText(new String('" + encoded + "'.decodeBase64(), 'UTF-8'))\n"
         response = self.session.post(self.url + "/scriptText", data={"script": prelude + script}, timeout=40)
         text = response.text.replace(encoded, "[redacted payload]")
+        for key, value in payload.items():
+            if isinstance(value, str) and value and any(word in key.upper() for word in ("PASSWORD", "TOKEN", "SECRET")):
+                text = text.replace(value, "[redacted]")
         for key, value in environment().items():
             if value and ("PASSWORD" in key or "TOKEN" in key or "SECRET" in key):
                 text = text.replace(value, "[redacted]")

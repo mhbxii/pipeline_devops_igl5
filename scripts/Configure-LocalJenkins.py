@@ -14,6 +14,11 @@ cluster["tls-server-name"] = "127.0.0.1"
 payload = {"kubeconfig": json.dumps(config), "nexus_password": values["NEXUS_PASSWORD"]}
 if values.get("SONAR_TOKEN"):
     payload.update(sonar_token=values["SONAR_TOKEN"], sonar_webhook_secret=values["SONAR_WEBHOOK_SECRET"])
+credential = subprocess.run(["docker-credential-desktop.exe", "get"],
+    input="https://index.docker.io/v1/\n", capture_output=True, text=True, check=True)
+docker = json.loads(credential.stdout)
+if docker.get("Username") == "ayyoub1" and docker.get("Secret", "").startswith("dckr_pat_"):
+    payload.update(docker_user=docker["Username"], docker_token=docker["Secret"])
 script = r"""
 import com.cloudbees.plugins.credentials.*
 import com.cloudbees.plugins.credentials.domains.Domain
@@ -32,6 +37,10 @@ upsert(new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, 'nexus',
     'Local Maven publisher', 'tache-publisher', input.nexus_password))
 upsert(new FileCredentialsImpl(CredentialsScope.GLOBAL, 'kubeconfig', 'Project kind cluster',
     'kubeconfig.json', SecretBytes.fromRawBytes(input.kubeconfig.getBytes('UTF-8'))))
+if (input.docker_token) {
+    upsert(new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, 'dockerhub',
+        'User-approved Docker Hub publication', input.docker_user, input.docker_token))
+}
 if (input.sonar_token) {
     upsert(new StringCredentialsImpl(CredentialsScope.GLOBAL, 'sonar-token', 'Local analysis token', Secret.fromString(input.sonar_token)))
     upsert(new StringCredentialsImpl(CredentialsScope.GLOBAL, 'sonar-webhook', 'Webhook signature', Secret.fromString(input.sonar_webhook_secret)))

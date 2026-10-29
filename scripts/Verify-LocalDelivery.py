@@ -21,6 +21,9 @@ revision = next((a["lastBuiltRevision"]["SHA1"] for a in build["actions"] if a.g
 if not revision:
     raise SystemExit("Cannot establish SCM revision from actual Jenkins build metadata")
 expected_image = f"events-tache:tache-{revision[:12]}-{args.build}"
+parameters = {p["name"]: p.get("value") for a in build["actions"] for p in a.get("parameters", [])}
+if parameters.get("DEPLOY_K8S"):
+    expected_image = f"{parameters['DOCKER_REPOSITORY']}:tache-{revision[:12]}-{args.build}"
 values = environment()
 nexus = requests.Session()
 nexus.auth = ("tache-publisher", values["NEXUS_PASSWORD"])
@@ -49,8 +52,14 @@ deployment = json.loads(result.stdout)
 image = deployment["spec"]["template"]["spec"]["containers"][0]["image"]
 if image != expected_image or deployment["status"].get("availableReplicas", 0) < 1:
     raise SystemExit("Available Kubernetes deployment does not match the expected unique build image")
+result = subprocess.run(["kubectl", "--kubeconfig", str(ROOT / ".local/kubeconfig"), "--context", "kind-events-tache",
+    "-n", "events-tache", "exec", "deployment/events", "--", "sha256sum", "/app/app.jar"],
+    capture_output=True, text=True, check=True)
+pod_hash = result.stdout.split()[0]
+if pod_hash != archive_hash:
+    raise SystemExit("The JAR inside the actual running pod differs from the published build")
 summary = {"build": args.build, "commit": revision, "image": image, "nexusSnapshot": version,
-    "jenkinsJarSha256": archive_hash, "nexusJarSha256": nexus_hash,
+    "jenkinsJarSha256": archive_hash, "nexusJarSha256": nexus_hash, "runningPodJarSha256": pod_hash,
     "availableReplicas": deployment["status"]["availableReplicas"]}
 (ROOT / "docs/evidence/12-final-validation/local-delivery.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
 print(json.dumps(summary, indent=2))

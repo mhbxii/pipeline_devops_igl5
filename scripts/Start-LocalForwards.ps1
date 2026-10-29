@@ -1,3 +1,4 @@
+param([switch]$Restart, [switch]$IncludeGrafana)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 $kubectl = (Get-Command kubectl -ErrorAction Stop).Source
@@ -9,8 +10,11 @@ function Ensure-Forward($name, $namespace, $service, $localPort, $remotePort) {
         if ($owner.Name -ne 'kubectl.exe' -or $owner.CommandLine -notlike "*service/$service*") {
             throw "Port $localPort belongs to another process; it was not changed."
         }
-        Write-Output "$name forward already active on 127.0.0.1:$localPort"
-        return
+        if (-not $Restart) {
+            Write-Output "$name forward already active on 127.0.0.1:$localPort"
+            return
+        }
+        Stop-Process -Id $owner.ProcessId
     }
     $arguments = @("--kubeconfig=`"$config`"", '--context', 'kind-events-tache', '-n', $namespace,
         'port-forward', '--address', '127.0.0.1', "service/$service", "${localPort}:${remotePort}")
@@ -30,3 +34,5 @@ function Ensure-Forward($name, $namespace, $service, $localPort, $remotePort) {
 }
 Ensure-Forward app events-tache events 18089 8089
 Ensure-Forward prometheus events-monitoring prometheus 19090 9090
+
+if ($IncludeGrafana) { Ensure-Forward grafana events-grafana grafana 13000 3000 }

@@ -1,0 +1,11 @@
+.git
+.env*
+.local
+target/*
+!target/*.jar
+.idea
+.vscode
+**/.terraform
+**/*.tfstate*
+**/*.tfvars
+docs

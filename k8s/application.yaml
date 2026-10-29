@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: application
+  namespace: events-tache
+data:
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/eventsProject?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+  SPRING_DATASOURCE_USERNAME: events
+  SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+  SPRING_JPA_SHOW_SQL: "false"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events
+  namespace: events-tache
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: events}
+  template:
+    metadata:
+      labels: {app: events}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      containers:
+        - name: events
+          image: events-tache:local
+          imagePullPolicy: IfNotPresent
+          ports: [{containerPort: 8089}]
+          envFrom:
+            - configMapRef: {name: application}
+          env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef: {name: database, key: password}
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {cpu: "1", memory: 512Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+          startupProbe:
+            httpGet: {path: /events/actuator/health/liveness, port: 8089}
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet: {path: /events/actuator/health/readiness, port: 8089}
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: /events/actuator/health/liveness, port: 8089}
+            periodSeconds: 15
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events
+  namespace: events-tache
+spec:
+  selector: {app: events}
+  ports: [{name: http, port: 8089, targetPort: 8089}]

@@ -15,11 +15,13 @@ function Request($method, $path, $body, $expected) {
 }
 $roles = Request GET '/taches' $null 200
 if ($roles.Count -ne 4) { throw 'Expected four roles.' }
-$participant = Request POST '/event/addPart' '{"nom":"Evidence","prenom":"Tache","tache":"INVITE"}' 200
+$participant = Request POST '/event/addPart' '{"nom":"Evidence","prenom":"Tache"}' 200
 $id = $participant.idPart
 if ($id -le 0) { throw 'Participant was not persisted.' }
 $role = Request GET "/taches/participants/$id" $null 200
-if ($role.tache -ne 'INVITE') { throw 'Initial persisted role mismatch.' }
+if ($null -ne $role.tache) { throw 'New participant should have no role.' }
+$role = Request PUT "/taches/participants/$id" '{"tache":"INVITE"}' 200
+if ($role.tache -ne 'INVITE') { throw 'Initial role assignment failed.' }
 $role = Request PUT "/taches/participants/$id" '{"tache":"ORGANISATEUR"}' 200
 if ($role.tache -ne 'ORGANISATEUR') { throw 'Assignment failed.' }
 $role = Request GET "/taches/participants/$id" $null 200

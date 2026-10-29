@@ -24,6 +24,7 @@ pipeline {
         MAVEN_OPTS = '-Xmx384m -Dmaven.repo.local=/var/jenkins_home/.m2/repository'
         SONAR_USER_HOME = '/var/jenkins_home/.sonar'
         SONAR_SCANNER_JAVA_OPTS = '-Xmx512m'
+        KUBECONFIG = '/var/jenkins_home/.kube/config'
     }
     stages {
         stage('Checkout') {
@@ -109,6 +110,7 @@ pipeline {
                     sh '''
                         docker save "events-logistics:$IMAGE_TAG" | docker exec -i events-devops-control-plane ctr -n k8s.io images import -
                         sh scripts/deploy-k8s.sh "events-logistics:$IMAGE_TAG"
+                        python3 scripts/smoke-test.py --base-url http://events-devops-control-plane:30089/events
                     '''
                 }
             }

@@ -67,7 +67,14 @@ Mock tests cover decisions and repository interactions. H2 tests exercise actual
 
 ## Jenkins delivery
 
-Open `logistics-local` in Jenkins and use **Build with Parameters**. The job is created automatically from the mounted Jenkinsfile at Jenkins startup. Restart/recreate Jenkins after changing that file.
+Open `logistics-local` in Jenkins and use **Build with Parameters**. The job is created automatically from the mounted Jenkinsfile at startup. The scripted build helper refreshes the job from the committed `HEAD:Jenkinsfile` while retaining build history:
+
+```powershell
+python scripts/jenkins-build.py --lint
+python scripts/jenkins-build.py --push --deploy --wait
+```
+
+Use the helper or restart Jenkins after changing the pipeline definition. Recreate Jenkins after changing credentials in `.env` so Configuration as Code reloads them.
 
 The default `LOCAL` source mode clones **committed** code from this PC's `logistics` branch. This supports verification before pushing to the shared repository. `REMOTE` checks out the selected branch from GitHub; the branch must already be pushed. Other members' branches are never merged automatically.
 
@@ -93,10 +100,14 @@ The Terraform provider version and dependency lock are committed. Passwords are 
 
 To demonstrate Kubernetes recovery, delete one **application pod** in `events` and show the Deployment replacing it. To demonstrate database persistence, restart the application and rerun the date query. Node-local storage in kind survives pod recreation, but deleting the kind cluster deletes its local storage. This is a single-machine learning environment, not a highly available production cluster.
 
+`python scripts/verify-recovery.py` automates both an application-pod replacement and a MySQL-pod replacement, checks the PVC identity, and confirms the original logistics data survives. It briefly interrupts the Kubernetes demo database; the separate Compose and Terraform databases are unaffected.
+
 ## Monitoring and evaluation
 
 Prometheus scrapes the Compose, Kubernetes and Terraform applications every 15 seconds. Grafana is provisioned with availability, traffic, server errors, response time, JVM heap, DB connections and CPU panels. Generate traffic with the smoke tests; allow a couple of minutes for rate panels. Targets for environments you haven't started will be down, and their availability alerts will fire. Alert rules are included; external notification routing is not configured.
 
 See [the evaluation checklist](docs/EVALUATION.md) and [the defense guide](docs/DEFENSE.md). The supplied rubric's printed weights sum to 20.5 despite a `/20` total; confirm the marking convention with the instructor.
+
+Run `python scripts/collect-evidence.py` to save sanitized live status, test counts, coverage, artifact checksums and monitoring targets in `.local/evidence.json`. It reports unavailable checks instead of claiming they passed. It never exports passwords or Terraform state. Service image digests are pinned in Compose so subsequent startups use the downloaded versions.
 
 Useful references: [Jenkins in Docker](https://www.jenkins.io/doc/book/installing/docker/), [SonarQube container setup](https://docs.sonarsource.com/sonarqube-community-build/server-installation/from-docker-image/set-up-and-start-container), [kind quick start](https://kind.sigs.k8s.io/docs/user/quick-start/), and [Terraform Kubernetes deployment resource](https://registry.terraform.io/providers/hashicorp/kubernetes/2.38.0/docs/resources/deployment_v1).

@@ -27,4 +27,9 @@ Captures authentiques uniquement. Documenter les résultats immédiatement.
 Le 29 octobre 2026, l'utilisateur confirme AWS Academy Learner Lab et AWS/EKS
 obligatoire pour l'evaluation. La livraison kind verifiee ne termine donc pas la
 phase cloud. Acces au profil lab, region, budget et plan AWS restent a preparer.
-Aucune ressource AWS creee par l'agent ; apply et destruction soumis a revue/accord.
+État initial : aucune ressource AWS ; apply et destruction soumis à revue/accord.
+
+Mise à jour : plan AWS approuvé puis appliqué, quatre ressources créées, worker EKS
+Ready. API MySQL, volumes chiffrés, Prometheus/Grafana et promotion Jenkins #2
+vérifiés. Voir CURRENT_STATE.md et AWS_EKS_OPERATIONS.md. Les états Terraform local
+et AWS sont séparés. Le nettoyage AWS reste une décision destructive à approuver.

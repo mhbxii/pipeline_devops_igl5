@@ -1,10 +1,15 @@
 """Exercise the four original HTTP routes against the deployed MySQL application."""
+import argparse
 import json
 import time
 from local_ci import ROOT
 import requests
 
-base = "http://localhost:18089/events"
+parser = argparse.ArgumentParser()
+parser.add_argument('--base-url', default='http://localhost:18089/events')
+parser.add_argument('--evidence', default='docs/evidence/12-final-validation/legacy-dto-api.json')
+args = parser.parse_args()
+base = args.base_url
 session = requests.Session()
 prefix = f"dto-evidence-{int(time.time())}"
 results = []
@@ -34,5 +39,5 @@ assert role["tache"] == "INVITE"
 report = {"result": "PASS", "participantId": participant["idPart"], "eventIds": [event["idEvent"], second["idEvent"]],
           "logisticsId": item["idLog"], "operations": results,
           "note": "Real HTTP/MySQL calls; generated IDs and computed cost cannot be assigned by clients."}
-(ROOT / "docs/evidence/12-final-validation/legacy-dto-api.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+(ROOT / args.evidence).write_text(json.dumps(report, indent=2), encoding="utf-8")
 print(json.dumps(report, indent=2))

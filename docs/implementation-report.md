@@ -1,5 +1,24 @@
 # Rapport d'implémentation — résultats vérifiés
 
+## Extension AWS réelle — 29 octobre 2026
+Après inventaire en lecture seule, revue du plan et accord explicite, le root
+terraform/aws-eks a créé EKS 1.36, launch template, node group d'un t3.medium et
+EBS CSI : quatre créations, aucune modification ou suppression. Le plan suivant
+ne détecte aucune différence. VPC, subnets et LabRole existants restent des lectures.
+
+Quatre deployments prêts et trois volumes EBS gp3 chiffrés sont vérifiés. Le cycle
+Tache et les quatre routes historiques passent contre MySQL sur AWS. Le JAR du pod
+possède le SHA-256 déjà vérifié pour Jenkins #9 et Nexus. Prometheus collecte 1/1 UP ;
+Grafana fournit quatre requêtes non vides. Le job de promotion tache-eks-delivery #2
+est SUCCESS, avec nouveau rollout et contrôles HTTP. Le premier essai, bloqué par
+ScriptApproval, est conservé ; seul le script revu a été approuvé.
+
+Le job de promotion utilise un token Kubernetes de deux heures avec RBAC limité,
+sans clés AWS. Le cluster personnel de démonstration reste actif : estimation
+0,16 USD/h, nettoyage destructif à examiner et approuver. Aucun load balancer,
+NAT gateway, SSH ou NodePort public. Accès par tunnels authentifiés Kubernetes.
+Preuves : evidence/14-aws-eks ; procédure : AWS_EKS_OPERATIONS.md.
+
 ## Socle et application
 L'application réelle est eventsProject, Spring Boot 2.7.6. Tache est l'enum de rôles
 Participant, conformément au périmètre confirmé. La base root existante refusait

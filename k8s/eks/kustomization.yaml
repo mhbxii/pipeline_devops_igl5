@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../namespace.yaml
+  - ../mysql.yaml
+  - ../application.yaml
+  - ../grafana.yaml
+  - storage.yaml
+  - prometheus.yaml
+  - jenkins-rbac.yaml
+images:
+  - name: events-tache
+    newName: ayyoub1/events-tache
+    digest: sha256:abd5ce51159c9588d7f863c5a9682c0c0f7da7e19b16f6f45bda9719458d182c
+patches:
+  - target:
+      kind: PersistentVolumeClaim
+    patch: |-
+      - op: add
+        path: /spec/storageClassName
+        value: events-gp3
+  - target:
+      kind: PersistentVolumeClaim
+      name: mysql-data
+    patch: |-
+      - op: replace
+        path: /spec/resources/requests/storage
+        value: 4Gi

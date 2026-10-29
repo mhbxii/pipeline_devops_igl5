@@ -1,4 +1,5 @@
 # Captures a real, visible Windows evidence viewer. No synthetic screenshot rendering.
+param([switch]$EksOnly)
 $ErrorActionPreference = 'Stop'
 Add-Type -TypeDefinition 'using System.Runtime.InteropServices; public class EvidenceDpi { [DllImport("user32.dll")] public static extern bool SetProcessDPIAware(); }'
 [EvidenceDpi]::SetProcessDPIAware() | Out-Null
@@ -14,6 +15,10 @@ $items = @(
     @{ File='01-project-setup/setup-03-database-blocker'; Title='Blocage MySQL | lecture des journaux sauvegardes'; Command="Select-String baseline-startup.log -Pattern 'Access denied'; Get-Content baseline-api.txt"; Text=(@((Select-String docs/evidence/01-project-setup/baseline-startup.log -Pattern 'Access denied' | Select-Object -First 3 | ForEach-Object { $_.Line }); ''; (Get-Content docs/evidence/01-project-setup/baseline-api.txt)) | Out-String) }
 )
 $extra = @(
+    @{File='14-aws-eks/resources'; Title='AWS EKS | worker, deployments, stockage et monitoring verifies'; Source='14-aws-eks/resources.txt'},
+    @{File='14-aws-eks/api-success'; Title='AWS EKS | cycle HTTP reel et MySQL persistant'; Source='14-aws-eks/api-success.txt'},
+    @{File='14-aws-eks/terraform-apply'; Title='AWS EKS | Terraform apply approuve et resultat reel'; Source='14-aws-eks/terraform-apply.txt'},
+    @{File='14-aws-eks/terraform-no-drift'; Title='AWS EKS | plan Terraform sans changement'; Source='14-aws-eks/terraform-no-drift.txt'},
     @{File='08-jenkins/github-scm-config'; Title='Jenkins | SCM GitHub direct et polling H/5'; Source='08-jenkins/github-scm-config.json'},
     @{File='08-jenkins/github-trigger'; Title='Jenkins | declenchement automatique SCM et revision GitHub'; Source='08-jenkins/github-trigger.json'},
     @{File='09-docker/dockerhub-verification'; Title='Docker Hub | depot public et manifeste accessibles sans compte'; Source='09-docker/dockerhub-verification.json'},
@@ -54,6 +59,7 @@ foreach ($entry in $extra) {
     }
 }
 $manifest = @()
+if ($EksOnly) { $items = @($items | Where-Object { $_.File -like '14-aws-eks/*' }) }
 foreach ($item in $items) {
     $form = New-Object Windows.Forms.Form
     $form.Text = 'eventsProject - Evidence viewer (actual sources and command output)'
@@ -104,5 +110,6 @@ foreach ($item in $items) {
     $item.Text.TrimEnd() | Set-Content -Encoding UTF8 (Join-Path $root "docs/evidence/$($item.File)-displayed.txt")
     $manifest += [ordered]@{path="docs/evidence/$($item.File).png"; title=$item.Title; command=$item.Command; capturedAt=(Get-Date -Format o); method='Visible Windows Forms evidence viewer captured using CopyFromScreen'; sha256=(Get-FileHash $path -Algorithm SHA256).Hash}
 }
-$manifest | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 docs/evidence/01-project-setup/capture-manifest.json
+$manifestPath = if ($EksOnly) { 'docs/evidence/14-aws-eks/capture-manifest.json' } else { 'docs/evidence/01-project-setup/capture-manifest.json' }
+$manifest | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 $manifestPath
 Write-Output "Captured $($items.Count) real evidence-viewer windows."

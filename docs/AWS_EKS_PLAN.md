@@ -3,8 +3,9 @@
 Préparation du 29 octobre 2026, région us-east-1. Budget restant déclaré : 50 USD.
 Compte dédié à l'utilisateur. Fin de session annoncée : 23 h 16, heure de Tunis.
 Le plan exact a été approuvé par l'utilisateur, ainsi que kubectl local 1.36.6.
-Apply lancé ; launch template créé, cluster en cours de provisioning. Les résultats
-finaux seront documentés après vérification effective.
+Apply terminé avec succès : 4 added, 0 changed, 0 destroyed. Worker Ready et EBS CSI
+prêt. Preuve expurgée : docs/evidence/14-aws-eks/terraform-apply.txt.
+Les workloads restent à vérifier séparément.
 
 ## Contrôles effectués en lecture seule
 

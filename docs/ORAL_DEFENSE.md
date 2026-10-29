@@ -1,5 +1,21 @@
 # Préparation orale
 
+## Extension AWS/EKS
+
+**Pourquoi un second root Terraform ?** Le state terraform/aws-eks provisionne EKS,
+le launch template, le node group et EBS CSI. Le state terraform/ reste réservé à
+Prometheus local ; une erreur de contexte ne doit pas déplacer cette infrastructure.
+**Pourquoi un seul worker ?** Démonstration universitaire courte et économique ;
+ce choix n'assure pas la haute disponibilité. Le control plane utilise deux AZ.
+**Pourquoi gp3 et WaitForFirstConsumer ?** EBS doit être créé dans l'AZ du pod ;
+le stockage reste disponible après remplacement du pod, pas après suppression du PVC.
+**Pourquoi séparer CI et promotion EKS ?** Le build #9 a déjà produit une image testée,
+publiée et vérifiée. La promotion déploie son digest exact sans reconstruire un autre JAR.
+**Un plan Terraform contient-il tous les objets AWS ?** Non. EKS et le node group
+créent des dépendances ; les PVC créent aussi des volumes hors state infrastructure.
+**Comment Jenkins accède-t-il à EKS ?** Avec un token temporaire et un rôle limité à
+la livraison applicative ; aucune clé AWS n'est transmise à Jenkins.
+
 ## Débutant
 **Tache est-elle une table ?** Non. C'est un enum Java, stocké comme chaîne dans Participant.
 **Que fait pom.xml ?** Il définit les dépendances, la cible Java et les plugins Maven.

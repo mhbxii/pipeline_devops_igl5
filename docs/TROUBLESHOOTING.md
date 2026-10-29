@@ -1,5 +1,16 @@
 # Diagnostic
 
+## EKS et promotion Jenkins
+Le control plane AWS a nécessité 14 min 54 s, puis le worker 1 min 59 s : attendre
+le résultat de l'apply plutôt que relancer une création concurrente.
+L'application a redémarré deux fois pendant l'initialisation du nouveau MySQL ;
+après readiness de la base, elle est devenue Ready et le cycle HTTP a réussi.
+Le premier job EKS a été bloqué avant exécution par ScriptApproval : le helper
+approuve uniquement le script exact revu, sans désactiver Script Security.
+La deuxième promotion a réussi. Son rollout remplace le pod applicatif : relancer
+Start-LocalForwards.ps1 -Eks -IncludeGrafana -Restart pour renouveler le tunnel.
+Le stockage a été testé en remplaçant le pod MySQL : participant et rôle conservés.
+
 | Problème | Cause constatée | Action | Vérification |
 |---|---|---|---|
 | mvn introuvable | Maven absent du PATH | Réutiliser Maven 3.9.14 du cache local | Version enregistrée dans evidence/02-maven |

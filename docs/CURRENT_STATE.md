@@ -1,3 +1,15 @@
+# Exigence restante : AWS/EKS obligatoire
+
+Utilisateur : AWS Academy Learner Lab disponible ; EKS est exige par le professeur.
+La livraison locale ci-dessous reste verifiee, mais une phase cloud est obligatoire.
+AWS CLI 2.31.13 deja installe ; profil default existant eu-north-1 laisse intact.
+Aucun appel AWS avec ce profil, aucune ressource cloud creee.
+Action utilisateur : demarrer son lab et configurer le profil events-tache-lab avec
+les trois credentials temporaires localement, puis confirmer region/budget/session.
+Guide : docs/AWS_LEARNER_LAB_SETUP.md. Prochaine action agent : inventaire en lecture
+seule, conception EKS/Terraform separee et plan/cout a revoir avant tout apply.
+Comparaison du PDF de reference terminee ; rapport prive .local/moheb-review/comparison.md.
+
 # Livraison vérifiée — 29 octobre 2026
 
 ## Résultat final

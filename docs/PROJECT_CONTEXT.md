@@ -22,3 +22,9 @@ Total annoncé 20 ; somme 20,5. Ne pas normaliser.
 Contraintes : aucune installation sans intervention, aucune publication externe
 sans autorisation ; plan Terraform à examiner avant approbation de l'apply.
 Captures authentiques uniquement. Documenter les résultats immédiatement.
+
+## Exigence cloud confirmee par l'utilisateur
+Le 29 octobre 2026, l'utilisateur confirme AWS Academy Learner Lab et AWS/EKS
+obligatoire pour l'evaluation. La livraison kind verifiee ne termine donc pas la
+phase cloud. Acces au profil lab, region, budget et plan AWS restent a preparer.
+Aucune ressource AWS creee par l'agent ; apply et destruction soumis a revue/accord.

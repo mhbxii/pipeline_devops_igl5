@@ -1,17 +1,17 @@
 # Livraison vérifiée — 29 octobre 2026
 
 ## Résultat final
-Jenkins build #7 SUCCESS, commit b822c015d8ab476b984886ffbcb1215eaefcea4b :
+Jenkins build #9 automatique SUCCESS, commit f510b9b9f3d6447f58176a6e4e366cbc4ba37538 :
 compilation, 38 tests, couverture, Sonar, quality gate, package, Nexus, image Docker,
 publication publique, rollout Kubernetes et vérifications HTTP.
 
-Image : ayyoub1/events-tache:tache-b822c015d8ab-7, linux/amd64.
+Image : ayyoub1/events-tache:tache-f510b9b9f3d6-9, linux/amd64.
 Dépôt public : https://hub.docker.com/r/ayyoub1/events-tache.
 Accès anonyme au manifeste HTTP 200 ; manifeste identique à celui de l'image locale :
-sha256:03c654798e96949084e99d3740d0e9c4a61997388c3111ea89b7829a30b383ec.
-Snapshot Nexus : 1.0.0-20261029.142652-5.
+sha256:abd5ce51159c9588d7f863c5a9682c0c0f7da7e19b16f6f45bda9719458d182c.
+Snapshot Nexus : 1.0.0-20261029.153342-6.
 JAR Jenkins, Nexus et pod : SHA-256 identique
- a6773b4aaa68868f59b88ff952986e3e94f8b336d6e35f111716a4a0e3339bee.
+ 46b9ea9cc5fb3cffc5b284d57e184ea5b8b9e4729edf26eca426ef077efaa284.
 
 ## Application et qualité
 Tache reste un enum de rôles Participant. Les quatre entrées historiques ont été
@@ -24,6 +24,14 @@ Sonar : gate OK avec conditions évaluées, webhook signé HTTP 200 ; zéro vuln
 bug, code smell ou hotspot. Couverture nouveau code 81,9 %, globale 49,6 % ; service
 Tache entièrement couvert. Les quatre vulnérabilités de la baseline sont corrigées.
 
+## GitHub vers Jenkins
+Le job lit directement la branche Tache publique sur GitHub, sans miroir local.
+Polling H/5 : detection toutes les cinq minutes lorsque Jenkins tourne.
+Le commit f510b9b a declenche #9 via SCMTriggerCause, sans lancement manuel.
+Le polling log montre Changes found et le checkout du SHA attendu.
+Les commits limites a docs/ sont exclus. Le checkout local est desactive.
+#8 etait la baseline manuelle GitHub ; #9 prouve le vrai declenchement automatique.
+
 ## Infrastructure et preuves
 kind Kubernetes 1.32.2 : application et MySQL prêts, stockage persistant et probes.
 Terraform : six ressources Prometheus appliquées après revue et accord ; dernier
@@ -32,8 +40,10 @@ Grafana 13.3.0 : base OK, datasource sain, quatre requêtes réelles non vides.
 Grafana utilise un manifeste séparé dans events-grafana ; Terraform gère Prometheus.
 
 Captures authentiques Jenkins, Sonar, Nexus, Docker Hub, Prometheus et Grafana.
-Présentation française éditable, 25 slides, descriptions visibles et aucune note
-orateur ; contenu XML et export image contrôlés. Index : presentation/screenshots-index.md.
+Présentation française éditable, 26 slides, descriptions visibles et aucune note
+orateur ; contenu XML et export image controles.
+Version actuelle : presentation/eventsProject-Tache-GitHub.pptx ; ancien deck ouvert conserve.
+Index : presentation/screenshots-index.md.
 
 ## Incidents résolus et limites
 #1 : option Jenkins sans plugin retirée ; #3 : callback Sonar privé débloqué ;
@@ -46,37 +56,17 @@ Sonar utilise H2 dans ce laboratoire personnel. sonar.validateWebhooks=false est
 un réglage global local pour le callback privé ; la signature HMAC reste vérifiée.
 Le socket Docker de Jenkins reste réservé aux jobs de confiance.
 Commits réels par jalon, sans dates falsifiées ; branche Tache publiee apres accord utilisateur.
-Push de 20 commits confirme ; revisions locale et distante c3c58e3 identiques.
-Preuve : evidence/05-git/remote-sync.txt. Aucune fusion ni force-push.
+Branche Tache synchronisee sur origin ; aucune fusion ni force-push.
+Les premieres preuves de synchronisation restent conservees dans 05-git/.
 
 ## Reprise
 
-Compose: docker-compose.devops.yml; profils jenkins/sonar/nexus.
-Kubeconfig: .local/kubeconfig; secrets et state hors Git.
-Ports localhost: Jenkins 8080, Sonar 9000, Nexus 8081; forwards app 18089,
-Prometheus 19090, Grafana 13000 (Start-LocalForwards.ps1 -IncludeGrafana).
-Presentation: docs/presentation/eventsProject-Tache.pptx; slides.json; sans notes.
-Ne pas modifier les branches des autres membres ni publier Git sans autorisation.
-
-
-Prochaine action : demonstration utilisateur et preparation orale ; livraison terminee.
-
-## Connexion GitHub demandee par l'utilisateur
-Migration du job vers GitHub Tache et polling H/5 en cours. Lecture anonyme du
-repo public verifiee depuis Jenkins. Job temporairement desactive avant migration.
-Bootstrap, Compose et parametres adaptes ; image Jenkins reconstruite et conteneur
-recree avec ses volumes. Aucun build automatique encore revendique.
-Prochaine action : push du commit de configuration, reactiver le job puis observer
-la vraie cause SCMTriggerCause et le SHA GitHub sans declenchement manuel.
-
-### Migration SCM : etat de polling historique
-Le premier poll conserve aussi /git-src depuis le dernier build reussi ; ce chemin
-n'est plus monte. Les logs reels sont conserves dans github-migration-initial-poll.log.
-Build #8 demande manuellement comme baseline : checkout GitHub, tests et Sonar,
-sans publication Nexus/Docker Hub ni rollout. Le build automatique sera valide
-separement apres le prochain commit source et avec SCMTriggerCause reel.
-
-Baseline #8 SUCCESS : checkout GitHub 02fe596, 38 tests, gate OK ; pas de publication
-ni de rollout. La migration du SCM est initialisee. Prochain commit : correction
-du lecteur de polling log par build et captures automatiques de la nouvelle preuve.
-Attendre ensuite le vrai timer SCM pour prouver detection du nouveau commit.
+Compose : docker-compose.devops.yml, profils jenkins/sonar/nexus.
+Kubeconfig : .local/kubeconfig ; secrets .env et state Terraform ignores.
+Jenkins 8080, Sonar 9000, Nexus 8081 ; forwards app 18089, Prometheus 19090,
+Grafana 13000 via Start-LocalForwards.ps1 -IncludeGrafana.
+SCM GitHub direct ; aucune mise a jour de miroir a effectuer.
+Presentation : docs/presentation/eventsProject-Tache-GitHub.pptx, 26 slides sans notes.
+Generer avec docs/presentation/Build-GitHubPresentation.ps1 et valider avec
+docs/presentation/Validate-GitHubPresentation.py. Ancien deck ouvert conserve.
+Prochaine action : revue de la presentation et preparation orale ; automatisation GitHub validee.

@@ -17,7 +17,7 @@ Kubernetes kind 1.32.2 : namespace events-tache, application et MySQL prêts, PV
 Terraform : namespace events-monitoring, quota, ConfigMap, PVC, Deployment et Service
 Prometheus. Apply approuvé et vérifié ; scrape Actuator UP.
 Jenkins #7 a verifie la livraison publique complete. Le SCM lit maintenant GitHub
-Tache par HTTPS avec polling H/5 ; validation du declenchement automatique en cours.
+Tache par HTTPS avec polling H/5 ; declenchement automatique #9 SUCCESS verifie.
 Grafana provisionne quatre panneaux Prometheus dans events-grafana.
 Docker Hub public verifie : ayyoub1/events-tache.
 

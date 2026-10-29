@@ -76,10 +76,10 @@ Relancer les deux port-forwards documentés, puis reprendre Jenkins/Sonar.
 ## Livraison complète locale et publication publique
 python scripts/Run-LocalPipeline.py --full
 python scripts/Run-LocalPipeline.py --full --publish
-python scripts/Verify-SonarAnalysis.py --build 7
-python scripts/Verify-LocalDelivery.py --build 7
+python scripts/Verify-SonarAnalysis.py --build 9
+python scripts/Verify-LocalDelivery.py --build 9
 
-Le numéro 7 désigne le dernier build de livraison entièrement vérifié au moment
+Le numéro 9 désigne le dernier build de livraison entièrement vérifié au moment
 de cette commande ; employer le dernier build réussi après une nouvelle livraison.
 La publication publique est autorisée uniquement vers ayyoub1/events-tache.
 
@@ -88,7 +88,7 @@ python scripts/Initialize-LocalGrafana.py
 powershell -File scripts/Start-LocalForwards.ps1 -Restart -IncludeGrafana
 python scripts/Verify-Grafana.py
 python scripts/Capture-Grafana.py
-python scripts/Capture-CiDashboards.py --build 7
+python scripts/Capture-CiDashboards.py --build 9
 python scripts/Capture-ServiceDashboards.py
 powershell -File scripts/Capture-BaselineEvidence.ps1
 powershell -File scripts/Build-BaselinePresentation.ps1
@@ -96,3 +96,20 @@ python scripts/Validate-Presentation.py
 
 python scripts/Verify-PublicImage.py
 python scripts/Capture-PublicRegistry.py
+
+## Declenchement depuis GitHub
+Le job tache-ci lit maintenant la branche Tache sur GitHub directement. Le polling
+H/5 recherche les changements toutes les cinq minutes. Le job doit etre actif,
+Docker Desktop et Jenkins en fonctionnement, et GitHub accessible.
+Un commit ne touchant que docs/ est ignore ; aucune commande de miroir local.
+Les parametres par defaut du job publient vers le depot Docker Hub deja approuve
+et deploient dans le cluster kind local. Le mode --full est l'alternative locale.
+
+Pour observer un build deja demarre sans en demander un autre :
+python scripts/Run-LocalPipeline.py --build NUMERO
+Pour prouver le timer SCM sans demander de build :
+python scripts/Verify-GitHubTrigger.py --after-build NUMERO_PRECEDENT --expected-commit SHA
+
+## Presentation GitHub (ancienne copie ouverte conservee)
+powershell -File docs/presentation/Build-GitHubPresentation.ps1
+python docs/presentation/Validate-GitHubPresentation.py

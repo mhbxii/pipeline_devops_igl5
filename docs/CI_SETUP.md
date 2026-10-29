@@ -5,6 +5,8 @@ quality gate, package, Maven deploy vers Nexus, image Docker, import kind,
 rollout et vérifications HTTP. Preuves : docs/evidence/08-jenkins/build-4-*.
 Le build #7 a aussi réussi publication publique et déploiement depuis Docker Hub.
 Le manifeste public et les trois JAR (Jenkins/Nexus/pod) sont identiques.
+Le build #9 a ensuite exécuté cette chaîne automatiquement après détection du
+commit GitHub f510b9b par polling SCM ; cause et polling log sont conservés.
 
 ## Services
 

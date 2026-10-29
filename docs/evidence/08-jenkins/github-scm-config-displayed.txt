@@ -1,0 +1,11 @@
+﻿Job: tache-ci
+Source: https://github.com/mhbxii/pipeline_devops_igl5.git
+Branch: */Tache
+Script: Jenkinsfile
+Polling: H/5 * * * *
+Excluded: docs/.*
+Disabled: False
+Anonymous source read: True
+Publish Docker Hub: True
+Deploy Kubernetes: True
+Destination: ayyoub1/events-tache

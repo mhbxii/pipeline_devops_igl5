@@ -53,3 +53,10 @@ publication externe. H2 Sonar et socket Docker Jenkins sont des choix de laborat
 Build #7 SUCCESS : publication publique, rollout et HTTP vérifiés.
 Les trois JAR Jenkins/Nexus/pod ont le même SHA-256.
 Voir VERIFIED_DELIVERY.md et evidence/09-docker/dockerhub-verification.json.
+
+## Automatisation GitHub
+Checkout direct et polling H/5 configures. Le premier poll referencait encore
+l'ancien SCM historique : baseline #8 manuelle reussie, sans publication/deploiement.
+Le commit suivant f510b9b a declenche #9 via le vrai timer SCM. Cause et log enregistres.
+Presentation GitHub : 26 slides, fichier distinct pour conserver la copie ouverte.
+Build #9 automatique SUCCESS : publication publique, rollout, HTTP et trois JAR de SHA-256 identique.

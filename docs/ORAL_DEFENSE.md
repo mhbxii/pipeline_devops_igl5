@@ -122,3 +122,14 @@ PATCH de 256 Kio, validation SHA-256 puis publication et relecture du manifeste.
 L'image reste construite par Docker. Le programme refuse un tag existant différent
 et n'affiche jamais le token ni les URLs signées. Une erreur de transport arrête
 la publication ; une requête PATCH ambiguë est reprise après consultation de l'offset du registre.
+
+## Questions sur le declenchement automatique
+**Pourquoi un polling plutot qu'un webhook ?** Jenkins est lie a localhost. Le polling
+sortant fonctionne sans tunnel ni endpoint entrant public et verifie les changements
+chaque cinq minutes. Il ne fonctionne que lorsque Jenkins et Docker Desktop tournent.
+**Comment prouver le declenchement ?** Le JSON du build contient SCMTriggerCause,
+le SHA attendu et l'URL GitHub. Le polling log par build conserve la detection reelle.
+**Pourquoi le premier checkout manuel ?** Jenkins retenait le SCM local du dernier
+build reussi. #8 etablit la baseline GitHub ; la preuve automatique est distincte.
+**Pourquoi exclure docs/ ?** Capturer des preuves ne doit pas republier 38 Mio d'image.
+Les commits limites a docs/ sont ignores ; code et configurations restent surveilles.

@@ -1,7 +1,8 @@
 # Plan de soutenance
 
-25 diapositives, descriptions francaises visibles, aucune note orateur.
-Build #7 : chaine publique complete verifiee ; branche Tache synchronisee.
+26 slides francaises, descriptions visibles, aucune note orateur.
+Build #9 automatique GitHub : chaine publique complete verifiee.
+Fichier : eventsProject-Tache-GitHub.pptx.
 
 1. Contribution Tache
 2. Un périmètre respecté
@@ -15,16 +16,17 @@ Build #7 : chaine publique complete verifiee ; branche Tache synchronisee.
 10. Une analyse Sonar réellement évaluée
 11. Une qualité mesurée sans masquer le périmètre
 12. Une chaîne Jenkins exécutée
-13. Une couverture métier mesurée
-14. Des logs utiles
-15. Application et MySQL en conteneurs
-16. Vérifier les conteneurs
-17. Une image publique vérifiée
-18. Un déploiement Kubernetes réel
-19. Vérifier le service métier
-20. Provisionner avec Terraform
-21. Contrôler la convergence
-22. Observer une application réellement collectée
-23. Visualiser les métriques dans Grafana
-24. Publier le livrable dans Nexus
-25. Relier le build au programme exécuté
+13. GitHub déclenche Jenkins automatiquement
+14. Une couverture métier mesurée
+15. Des logs utiles
+16. Application et MySQL en conteneurs
+17. Vérifier les conteneurs
+18. Une image publique vérifiée
+19. Un déploiement Kubernetes réel
+20. Vérifier le service métier
+21. Provisionner avec Terraform
+22. Contrôler la convergence
+23. Observer une application réellement collectée
+24. Visualiser les métriques dans Grafana
+25. Publier le livrable dans Nexus
+26. Relier le build au programme exécuté

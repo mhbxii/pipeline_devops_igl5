@@ -1,10 +1,10 @@
 ﻿{
-  "build": 7,
-  "commit": "b822c015d8ab476b984886ffbcb1215eaefcea4b",
-  "image": "ayyoub1/events-tache:tache-b822c015d8ab-7",
-  "nexusSnapshot": "1.0.0-20261029.142652-5",
-  "jenkinsJarSha256": "a6773b4aaa68868f59b88ff952986e3e94f8b336d6e35f111716a4a0e3339bee",
-  "nexusJarSha256": "a6773b4aaa68868f59b88ff952986e3e94f8b336d6e35f111716a4a0e3339bee",
-  "runningPodJarSha256": "a6773b4aaa68868f59b88ff952986e3e94f8b336d6e35f111716a4a0e3339bee",
+  "build": 9,
+  "commit": "f510b9b9f3d6447f58176a6e4e366cbc4ba37538",
+  "image": "ayyoub1/events-tache:tache-f510b9b9f3d6-9",
+  "nexusSnapshot": "1.0.0-20261029.153342-6",
+  "jenkinsJarSha256": "46b9ea9cc5fb3cffc5b284d57e184ea5b8b9e4729edf26eca426ef077efaa284",
+  "nexusJarSha256": "46b9ea9cc5fb3cffc5b284d57e184ea5b8b9e4729edf26eca426ef077efaa284",
+  "runningPodJarSha256": "46b9ea9cc5fb3cffc5b284d57e184ea5b8b9e4729edf26eca426ef077efaa284",
   "availableReplicas": 1
 }

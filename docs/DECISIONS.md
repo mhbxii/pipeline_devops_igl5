@@ -41,3 +41,10 @@ Les bases publiques peuvent être montées dans le dépôt sans transfert. Aprè
 réponse PATCH perdue, interroger l'offset distant permet d'éviter une duplication.
 Le programme refuse tout hôte d'upload autre que registry-1.docker.io en HTTPS et
 ne publie que dans le dépôt explicitement approuvé.
+
+## Integration GitHub
+Le miroir local et sa permission de checkout sont retires. Le bootstrap configure
+GitHub Tache, polling H/5, exclusion docs/. Apres la baseline manuelle #8,
+le commit f510b9b a ete detecte par le timer et a lance #9 avec SCMTriggerCause.
+La publication et le rollout sont actives par defaut pour les prochains commits
+eligibles. L'observateur ne demande aucun build ni poll manuellement.

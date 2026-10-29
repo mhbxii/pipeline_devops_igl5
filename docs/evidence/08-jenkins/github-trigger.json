@@ -1,0 +1,15 @@
+{
+  "build": 9,
+  "commit": "f510b9b9f3d6447f58176a6e4e366cbc4ba37538",
+  "sourceUrls": [
+    "https://github.com/mhbxii/pipeline_devops_igl5.git"
+  ],
+  "causes": [
+    {
+      "_class": "hudson.triggers.SCMTrigger$SCMTriggerCause",
+      "shortDescription": "Started by an SCM change"
+    }
+  ],
+  "timestampMillis": 1793287933676,
+  "observedWithoutManualTrigger": true
+}

@@ -1,0 +1,31 @@
+Started on Oct 29, 2026, 3:32:02 PM
+Using strategy: Default
+[poll] Last Built Revision: Revision 02fe59630044fe34977a70bda85a7fb09dd78240 (refs/remotes/origin/Tache)
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/tache-ci@script/8d47031758110876dfff3847aac1b2211596757e5a8a0d299b756cb90973a08f/.git # timeout=10
+Fetching changes from the remote Git repositories
+ > git config remote.origin.url https://github.com/mhbxii/pipeline_devops_igl5.git # timeout=10
+Fetching upstream changes from https://github.com/mhbxii/pipeline_devops_igl5.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/mhbxii/pipeline_devops_igl5.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Polling for changes in
+ > git rev-parse refs/remotes/origin/Tache^{commit} # timeout=10
+ > git log --full-history --no-abbrev --format=raw -M -m --raw 02fe59630044fe34977a70bda85a7fb09dd78240..f510b9b9f3d6447f58176a6e4e366cbc4ba37538 # timeout=10
+Using strategy: Default
+[poll] Last Built Revision: Revision 02fe59630044fe34977a70bda85a7fb09dd78240 (refs/remotes/origin/Tache)
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/tache-ci/.git # timeout=10
+Fetching changes from the remote Git repositories
+ > git config remote.origin.url https://github.com/mhbxii/pipeline_devops_igl5.git # timeout=10
+Fetching upstream changes from https://github.com/mhbxii/pipeline_devops_igl5.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/mhbxii/pipeline_devops_igl5.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Polling for changes in
+ > git rev-parse refs/remotes/origin/Tache^{commit} # timeout=10
+ > git log --full-history --no-abbrev --format=raw -M -m --raw 02fe59630044fe34977a70bda85a7fb09dd78240..f510b9b9f3d6447f58176a6e4e366cbc4ba37538 # timeout=10
+Done. Took 3.1 sec
+Changes found

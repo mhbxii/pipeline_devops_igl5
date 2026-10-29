@@ -13,6 +13,25 @@ $items = @(
     @{ File='02-maven/maven-02-baseline-build'; Title='Compilation | lecture du journal sauvegarde'; Command='Get-Content docs/evidence/02-maven/baseline-compile.log -Tail 10'; Text=((Get-Content docs/evidence/02-maven/baseline-compile.log -Tail 10) | Out-String) },
     @{ File='01-project-setup/setup-03-database-blocker'; Title='Blocage MySQL | lecture des journaux sauvegardes'; Command="Select-String baseline-startup.log -Pattern 'Access denied'; Get-Content baseline-api.txt"; Text=(@((Select-String docs/evidence/01-project-setup/baseline-startup.log -Pattern 'Access denied' | Select-Object -First 3 | ForEach-Object { $_.Line }); ''; (Get-Content docs/evidence/01-project-setup/baseline-api.txt)) | Out-String) }
 )
+$extra = @(
+    @{File='07-nexus/nexus-verification'; Title='Nexus | publication et integrite du JAR verifiees'; Source='07-nexus/nexus-verification.txt'},
+    @{File='10-kubernetes/kubernetes-resources'; Title='Kubernetes | pods prets, Services et stockage'; Source='10-kubernetes/kubernetes-resources.txt'},
+    @{File='10-kubernetes/kubernetes-api-success'; Title='Kubernetes | cycle HTTP reel sur le Service'; Source='10-kubernetes/kubernetes-api-success.txt'},
+    @{File='11-terraform/terraform-apply'; Title='Terraform | apply approuve et execute'; Source='11-terraform/terraform-apply.txt'},
+    @{File='11-terraform/terraform-no-drift'; Title='Terraform | infrastructure conforme, aucune derive'; Source='11-terraform/terraform-no-drift.txt'},
+    @{File='01-project-setup/mysql-api-success'; Title='MySQL corrige | verification HTTP reelle'; Source='01-project-setup/mysql-api-success.txt'},
+    @{File='04-unit-tests/tests-success'; Title='JUnit / Mockito / JPA sans mocks | journal Maven'; Source='02-maven/maven-verify.log'},
+    @{File='04-unit-tests/coverage-service'; Title='JaCoCo | couverture du service Tache'; Source='04-unit-tests/tache-coverage.txt'},
+    @{File='03-logging/tache-levels'; Title='Log4j2 | API reelle et panne simulee en test'; Source='03-logging/tache-runtime-levels.txt'},
+    @{File='09-docker/docker-api-success'; Title='Docker | cycle HTTP reussi dans le conteneur'; Source='09-docker/docker-api-success.txt'},
+    @{File='09-docker/docker-containers'; Title='Docker | conteneurs et utilisateur applicatif'; Source='09-docker/docker-containers.txt'}
+)
+foreach ($entry in $extra) {
+    $source = "docs/evidence/$($entry.Source)"
+    if (Test-Path $source) {
+        $items += @{File=$entry.File; Title=$entry.Title; Command="Get-Content $source (journal sauvegarde)"; Text=((Get-Content $source -Tail 18) | Out-String)}
+    }
+}
 $manifest = @()
 foreach ($item in $items) {
     $form = New-Object Windows.Forms.Form
@@ -61,8 +80,8 @@ foreach ($item in $items) {
     $bitmap.Dispose()
     $form.Close()
     $form.Dispose()
-    $item.Text | Set-Content -Encoding UTF8 (Join-Path $root "docs/evidence/$($item.File)-displayed.txt")
+    $item.Text.TrimEnd() | Set-Content -Encoding UTF8 (Join-Path $root "docs/evidence/$($item.File)-displayed.txt")
     $manifest += [ordered]@{path="docs/evidence/$($item.File).png"; title=$item.Title; command=$item.Command; capturedAt=(Get-Date -Format o); method='Visible Windows Forms evidence viewer captured using CopyFromScreen'; sha256=(Get-FileHash $path -Algorithm SHA256).Hash}
 }
 $manifest | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 docs/evidence/01-project-setup/capture-manifest.json
-Write-Output 'Captured 5 real evidence-viewer windows.'
+Write-Output "Captured $($items.Count) real evidence-viewer windows."

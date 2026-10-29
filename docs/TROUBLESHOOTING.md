@@ -25,3 +25,17 @@ POST participant, PUT role, GET persiste, DELETE role, getLogs -> HTTP 200.
 Preuve : evidence/01-project-setup/mysql-api-success.txt.
 Les secrets sont generes dans .env non suivi. Ne pas supprimer le volume pour reinitialiser
 sans accord : cela detruirait les donnees locales.
+
+## Publication Nexus terminée
+Le HTTP 403 venait de l'EULA Community Edition, et non d'un mauvais mot de passe.
+EULA acceptée après demande et accord explicite de l'utilisateur.
+Maven deploy : BUILD SUCCESS ; snapshot 1.0.0-20261029.085753-1 publié.
+Le JAR téléchargé est identique au JAR local (SHA-256 comparé).
+Preuves : 07-nexus/nexus-publish.log et nexus-verification.txt.
+
+## Limite de disque hôte
+C: est descendu à environ 700 Mio ; builds/téléchargements lourds interrompus.
+Prune du cache inutilisé approuvé : 31,91 Go récupérés dans Docker, mais le VHDX
+ne rétrécit pas automatiquement sur l'hôte. Un compactage administrateur est requis
+avant de reprendre les images lourdes. Le helper est préparé, pas exécuté.
+Référence : https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/compact-vdisk.

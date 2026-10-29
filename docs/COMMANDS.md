@@ -1,39 +1,74 @@
-# Commandes
+﻿# Commandes vérifiées
 
-Exécutées : git status --short ; git branch --show-current ; git log -5 --oneline ;
-java -version ; docker version ; docker compose version ; kubectl config current-context.
-`mvn -version` échoue sur le PATH initial ; Maven du cache utilisé ensuite.
-Les journaux de compilation sont conservés dans docs/evidence/02-maven.
-
-La configuration temporaire JAVA_HOME/PATH ne modifie pas Windows globalement.
-
+## Maven et base locale
 ```powershell
 . ./scripts/Use-ProjectJava.ps1
-mvn -B compile
-# Diagnostic sans création de base ni modification de schéma :
-$env:SPRING_DATASOURCE_URL='jdbc:mysql://localhost:3306/eventsProject?serverTimezone=UTC'
-$env:SPRING_JPA_HIBERNATE_DDL_AUTO='none'
-mvn -B spring-boot:run
+mvn -version
+mvn clean
+mvn compile
+mvn test
+mvn package
+mvn install
+mvn verify
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Initialize-LocalDatabase.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Start-LocalApplication.ps1
 ```
+Toutes les phases Maven ont réussi, sans masquer des tests. 20 tests au dernier verify/install.
 
-Compilation initiale : BUILD SUCCESS, 12 sources. Aucune option skipTests utilisée.
-Ce résultat ne prouve pas les tests (aucun test initial) ni la connexion DB.
-`git ls-remote --heads origin` réussit : branche Tache distante absente.
-
-
-## Mise a jour : captures et PowerPoint realises
-Cinq PNG authentiques sont captures dans un visualiseur Windows visible (CopyFromScreen,
-zone cliente uniquement). Git et versions executes a la capture ; sources lues sur disque ;
-compilation et erreurs JDBC affichees depuis les journaux sauvegardes et identifiees comme telles.
-Les mentions precedentes de captures manuelles attendues sont remplacees par ce statut.
-Manifeste : docs/evidence/01-project-setup/capture-manifest.json (dates et SHA-256).
-Presentation : docs/presentation/eventsProject-Tache-phase-01.pptx.
-Verification : 7 diapositives, 5 images embarquees, 7 notes orales en francais ; archive
-PPTX valide et export PowerPoint inspecte visuellement (preview/contact-sheet.jpg).
-Le blocage MySQL persiste. Aucune reussite CI/CD supplementaire n'est revendiquee.
-Reproduction (bureau Windows deverrouille, PowerPoint installe) :
+## Docker
 ```powershell
+docker compose -f docker-compose.devops.yml --profile app up -d --build app
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Test-TacheApi.ps1
+```
+API/MySQL réussis ; app/mysql Compose ensuite arrêtés pour libérer la RAM.
+
+## Kubernetes
+```powershell
+.local/tools/kind.exe create cluster --name events-tache --config k8s/kind.yaml --image kindest/node:v1.32.2 --kubeconfig .local/kubeconfig --wait 180s
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Deploy-LocalKubernetes.ps1
+kubectl --kubeconfig .local/kubeconfig --context kind-events-tache -n events-tache get pods,services,pvc
+kubectl --kubeconfig .local/kubeconfig --context kind-events-tache -n events-tache port-forward --address 127.0.0.1 service/events 18089:8089
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Test-TacheApi.ps1 -BaseUrl http://localhost:18089/events
+```
+Garder le port-forward actif dans un autre terminal. Le script crée un participant de
+preuve qu'il conserve sans rôle. Les archives explicites de plateforme corrigent
+l'import containerd multi-plateforme ; Docker Desktop API 1.48 les prend en charge.
+
+## Terraform (apply déjà approuvé et exécuté)
+```powershell
+.local/tools/terraform.exe '-chdir=terraform' fmt
+.local/tools/terraform.exe '-chdir=terraform' init -input=false
+.local/tools/terraform.exe '-chdir=terraform' validate
+.local/tools/terraform.exe '-chdir=terraform' plan '-out=monitoring.tfplan'
+.local/tools/terraform.exe '-chdir=terraform' apply monitoring.tfplan
+.local/tools/terraform.exe '-chdir=terraform' plan -detailed-exitcode
+```
+Résultat : six créations puis zéro différence. Toute modification suivante exige
+un nouveau plan et un accord avant apply. State et plans ignorés par Git.
+
+## Preuves et PowerPoint
+```powershell
+kubectl --kubeconfig .local/kubeconfig --context kind-events-tache -n events-monitoring port-forward --address 127.0.0.1 service/prometheus 19090:9090
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Capture-BaselineEvidence.ps1
+python scripts/Capture-ServiceDashboards.py
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Build-BaselinePresentation.ps1
 ```
-Aucun logiciel supplementaire installe. Aucune capture manuelle requise pour cette phase.
+Utilise les outils déjà installés : Windows Forms, Edge/Playwright, PowerPoint.
+Ne pas afficher .env, docker compose config ou les Secrets dans les preuves.
+La variante `docker compose ... config --quiet` vérifie la syntaxe sans exposer les valeurs.
+
+## Intervention de compactage (préparée, non exécutée)
+L'agent n'a pas de droits administrateur. Après sauvegarde des travaux WSL, ouvrir
+PowerShell en tant qu'administrateur et lancer depuis la racine du projet :
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Compact-DockerDisk.ps1 -AllowWslShutdown
+```
+Ce script arrête Docker et toutes les WSL ; ne pas l'exécuter pendant un travail WSL.
+Il ne formate pas le disque, ne supprime pas de volume et ne change pas sa capacité maximale.
+Après relance de Docker :
+```powershell
+docker start events-tache-control-plane
+docker compose -f docker-compose.devops.yml --profile nexus up -d nexus
+kubectl --kubeconfig .local/kubeconfig --context kind-events-tache -n events-tache get pods
+```
+Relancer les deux port-forwards documentés, puis reprendre Jenkins/Sonar.

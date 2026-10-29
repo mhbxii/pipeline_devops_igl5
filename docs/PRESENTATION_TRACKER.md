@@ -1,24 +1,17 @@
-# Présentation progressive
+# Presentation progressive
 
-Diapositives 1–4 préparables maintenant ; résultats de compilation à compléter.
-Toutes les captures restent à réaliser : aucun PNG créé ni prétendu.
-Voir presentation/screenshots-index.md pour les commandes exactes.
-Les autres diapositives restent en attente de résultats réels.
+Livrable courant : presentation/eventsProject-Tache.pptx.
+Descriptions en francais directement sur les diapositives. Aucune note orateur.
+Le fichier phase-01 est un ancien instantane et peut etre ouvert/verrouille dans PowerPoint.
+Le generateur utilise un nouveau nom pour conserver ce document ouvert.
+Source editable des titres/descriptions : presentation/slides.json.
+Captures : visualiseur Windows reel pour commandes/logs ; navigateur Edge pour dashboards.
+Scripts : Capture-BaselineEvidence.ps1, Capture-ServiceDashboards.py,
+Build-BaselinePresentation.ps1. Aucune capture ou reussite inventee.
+Jalons couverts : modele, Git, Maven, diagnostic MySQL et correction, 20 tests,
+JaCoCo, Log4j2, Docker, Kubernetes, Terraform, cible Prometheus UP.
+Nexus, Sonar et Jenkins : a ajouter seulement apres resultats reels.
 
-
-## Mise a jour : captures et PowerPoint realises
-Cinq PNG authentiques sont captures dans un visualiseur Windows visible (CopyFromScreen,
-zone cliente uniquement). Git et versions executes a la capture ; sources lues sur disque ;
-compilation et erreurs JDBC affichees depuis les journaux sauvegardes et identifiees comme telles.
-Les mentions precedentes de captures manuelles attendues sont remplacees par ce statut.
-Manifeste : docs/evidence/01-project-setup/capture-manifest.json (dates et SHA-256).
-Presentation : docs/presentation/eventsProject-Tache-phase-01.pptx.
-Verification : 7 diapositives, 5 images embarquees, 7 notes orales en francais ; archive
-PPTX valide et export PowerPoint inspecte visuellement (preview/contact-sheet.jpg).
-Le blocage MySQL persiste. Aucune reussite CI/CD supplementaire n'est revendiquee.
-Reproduction (bureau Windows deverrouille, PowerPoint installe) :
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Capture-BaselineEvidence.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Build-BaselinePresentation.ps1
-```
-Aucun logiciel supplementaire installe. Aucune capture manuelle requise pour cette phase.
+Etat courant : 19 diapositives, 18 captures integrees, zero note orateur.
+Nexus et controle SHA-256 ajoutes (slides 18 et 19). Validation XML des descriptions
+francaises et export image complet via scripts/Validate-Presentation.py.

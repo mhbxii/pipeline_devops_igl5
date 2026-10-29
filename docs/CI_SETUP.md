@@ -63,3 +63,15 @@ Après publication autorisée de la branche, créer un job Pipeline depuis SCM, 
 Tache, chemin Jenkinsfile. Un webhook GitHub peut pointer vers /github-webhook/ si
 Jenkins est accessible ; sans tunnel, utiliser Build Now ou un polling SCM configuré.
 Une URL ngrok n'est pas nécessaire pour le premier build manuel local.
+
+## Mise à jour d'exécution
+Nexus a réellement démarré et reçu le livrable. Le JAR téléchargé a le même SHA-256.
+L'EULA obligatoire a été acceptée avec accord utilisateur. Le script refuse désormais
+une instance non acceptée plutôt que de consentir automatiquement.
+Jenkins/Sonar : téléchargements/builds interrompus par manque de disque hôte.
+L'image Nexus est maintenant épinglée par digest ; Sonar reste une configuration préparée.
+
+Analyse Sonar préparée : scanner Maven 5.8.0.7211 épinglé, Java 21 pour cette étape
+(JAVA_HOME /opt/java/openjdk), build/test sous Java 17. Token transmis par environnement,
+provisionnement d'un autre JRE désactivé. Exécution toujours en attente d'espace disque.
+Référence : https://docs.sonarsource.com/sonarqube-community-build/analyzing-source-code/scanners/sonarscanner-for-maven.

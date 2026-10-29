@@ -11,7 +11,7 @@ if (Test-Path -LiteralPath $envPath) {
         $rng = [System.Security.Cryptography.RandomNumberGenerator]::Create()
         $rng.GetBytes($bytes)
         $rng.Dispose()
-        "$key=$([Convert]::ToBase64String($bytes))"
+        "$key=Aa1!$([Convert]::ToBase64String($bytes))"
     }
     $lines += @('SONAR_TOKEN=', 'DOCKERHUB_USERNAME=', 'DOCKERHUB_TOKEN=')
     [IO.File]::WriteAllLines($envPath, $lines, (New-Object Text.UTF8Encoding $false))

@@ -10,6 +10,7 @@ Get-Content (Join-Path $projectRoot '.env') | ForEach-Object {
 $env:TF_VAR_mysql_password = $values.MYSQL_PASSWORD
 $env:TF_VAR_mysql_root_password = $values.MYSQL_ROOT_PASSWORD
 $env:TF_VAR_kubeconfig_path = Join-Path $projectRoot '.local/kube/host-config'
+$ErrorActionPreference = 'Continue'
 try {
     & $terraform "-chdir=$projectRoot/infra" fmt -check
     if ($LASTEXITCODE -ne 0) { throw 'Terraform formatting failed' }

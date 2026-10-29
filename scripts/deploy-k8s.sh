@@ -11,4 +11,7 @@ kubectl --context kind-events-devops -n events create secret generic events-db \
 kubectl --context kind-events-devops apply -k k8s
 kubectl --context kind-events-devops -n events rollout status statefulset/mysql --timeout=300s
 kubectl --context kind-events-devops -n events set image deployment/events-app "app=$image"
+if [ "$image" = events-logistics:local ]; then
+  kubectl --context kind-events-devops -n events rollout restart deployment/events-app
+fi
 kubectl --context kind-events-devops -n events rollout status deployment/events-app --timeout=300s

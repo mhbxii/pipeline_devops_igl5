@@ -70,3 +70,6 @@ Presentation : docs/presentation/eventsProject-Tache-GitHub.pptx, 26 slides sans
 Generer avec docs/presentation/Build-GitHubPresentation.ps1 et valider avec
 docs/presentation/Validate-GitHubPresentation.py. Ancien deck ouvert conserve.
 Prochaine action : revue de la presentation et preparation orale ; automatisation GitHub validee.
+
+Exclusion docs/ verifiee reellement : commit 1727b73 ignore par polling, No changes,
+#9 toujours dernier build SUCCESS. Preuve : 08-jenkins/github-docs-ignored.json et .log.

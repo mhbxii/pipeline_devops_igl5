@@ -1,0 +1,10 @@
+{
+  "verifiedAt": "2026-10-29T15:59:13.635157+00:00",
+  "ignoredCommit": "1727b737bcfa7a92e6a69c466a880f47ed3220a7",
+  "pollResult": "No changes",
+  "lastBuild": {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+    "number": 9,
+    "result": "SUCCESS"
+  }
+}

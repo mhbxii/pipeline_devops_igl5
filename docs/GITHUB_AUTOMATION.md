@@ -38,3 +38,7 @@ est éligible. Jenkins et Docker Desktop doivent fonctionner pour que le polling
 Sources officielles :
 - https://www.jenkins.io/doc/book/pipeline/syntax/#triggers
 - https://www.jenkins.io/doc/pipeline/steps/params/fromscm/ (PathRestriction)
+
+Verification complementaire : le poll a ignore le commit de documentation
+1727b73 (Found only excluded paths), puis annonce No changes. Aucun nouveau build :
+#9 reste SUCCESS. Preuves : evidence/08-jenkins/github-docs-ignored.json et .log.

@@ -34,16 +34,22 @@ kind est téléchargé avec checksum. Aucun daemon Docker n'est installé dans J
 L'utilisateur jenkins accède au socket Docker : ce pouvoir reste privilégié, même
 sans UID root. Ce laboratoire n'exécute que des jobs de confiance.
 
-Le SCM est un dépôt bare local, monté en lecture seule dans Jenkins. Il permet
-les builds de vrais commits sans publier la branche du groupe. Pour mettre à jour :
+Le SCM lit directement https://github.com/mhbxii/pipeline_devops_igl5.git,
+branche */Tache, fichier Jenkinsfile. Le dépôt est public : aucun token GitHub n'est
+nécessaire au checkout. Le montage /git-src et l'autorisation de checkout local
+ont été retirés. Le bootstrap conserve ce réglage après redémarrage.
 
-```powershell
-git --git-dir=.local/jenkins-repo fetch origin refs/heads/Tache:refs/heads/Tache
-```
+Le polling H/5 vérifie GitHub toutes les cinq minutes lorsque Jenkins fonctionne.
+Une modification du code déclenche le job ; les commits touchant uniquement docs/
+sont exclus pour éviter un rebuild de publication pour chaque capture. Cette
+exclusion impose un polling avec workspace, selon le plugin Git.
+Aucun tunnel ni webhook entrant n'est nécessaire. Les publications Docker Hub et
+déploiements Kubernetes approuvés sont désormais activés par défaut ; --full reste
+le mode alternatif de livraison locale sans publication Docker Hub.
 
-Le polling H/5 surveille ce miroir local. Aucun webhook GitHub public n'est démontré.
-La branche Tache est publiee apres accord ; aucune fusion des branches des autres membres.
-Le job SCM continue de lire le miroir local ; aucun webhook GitHub public n'est configure.
+Configure-GitHubScm.py configure le job existant ; --enable le réactive après migration.
+Verify-GitHubTrigger.py observe la cause SCMTriggerCause et le commit réellement
+checkouté depuis GitHub, sans demander manuellement un build ni un polling.
 
 ## Gate et livrables
 

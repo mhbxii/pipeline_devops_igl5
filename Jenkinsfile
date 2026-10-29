@@ -4,11 +4,11 @@ pipeline {
     parameters {
         booleanParam(name: 'RUN_SONAR', defaultValue: true, description: 'Use configured local-sonar installation and verify its quality gate')
         booleanParam(name: 'PUBLISH_NEXUS', defaultValue: true, description: 'Publish to the configured local Nexus using the nexus credential')
-        booleanParam(name: 'PUBLISH_IMAGE', defaultValue: false, description: 'Requires authorized Docker Hub publication and dockerhub credential')
-        booleanParam(name: 'DEPLOY_K8S', defaultValue: false, description: 'Requires image publication and kubeconfig credential accessible from the agent')
-        booleanParam(name: 'DEPLOY_LOCAL_KIND', defaultValue: true, description: 'Load the built image directly into the existing local kind cluster and verify it')
+        booleanParam(name: 'PUBLISH_IMAGE', defaultValue: true, description: 'Publish to the user-approved public Docker Hub repository using dockerhub credential')
+        booleanParam(name: 'DEPLOY_K8S', defaultValue: true, description: 'Deploy the published image to the project kind cluster')
+        booleanParam(name: 'DEPLOY_LOCAL_KIND', defaultValue: false, description: 'Alternative: load directly into kind instead of publishing; disable DEPLOY_K8S first')
         string(name: 'NEXUS_URL', defaultValue: 'http://nexus:8081', description: 'Base URL without trailing slash')
-        string(name: 'DOCKER_REPOSITORY', defaultValue: '', description: 'Docker Hub account/repository for authorized publication')
+        string(name: 'DOCKER_REPOSITORY', defaultValue: 'ayyoub1/events-tache', description: 'User-approved public destination')
     }
     environment {
         JAVA_HOME = '/opt/java17'

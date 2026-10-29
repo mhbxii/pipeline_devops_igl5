@@ -4,6 +4,8 @@ import hudson.security.FullControlOnceLoggedInAuthorizationStrategy
 import hudson.plugins.git.GitSCM
 import hudson.plugins.git.BranchSpec
 import hudson.plugins.git.UserRemoteConfig
+import hudson.plugins.git.extensions.impl.PathRestriction
+import hudson.triggers.SCMTrigger
 import org.jenkinsci.plugins.workflow.job.WorkflowJob
 import org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition
 
@@ -19,10 +21,11 @@ instance.setAuthorizationStrategy(authorization)
 instance.setNumExecutors(1)
 instance.setSystemMessage('Local Tache laboratory: trusted jobs only; Docker daemon access is privileged.')
 def job = instance.getItem('tache-ci') ?: instance.createProject(WorkflowJob, 'tache-ci')
-def scm = new GitSCM([new UserRemoteConfig('/git-src', null, null, null)],
-    [new BranchSpec('*/Tache')], false, [], null, null, [])
+def scm = new GitSCM([new UserRemoteConfig('https://github.com/mhbxii/pipeline_devops_igl5.git', null, null, null)],
+    [new BranchSpec('*/Tache')], false, [], null, null, [new PathRestriction('', 'docs/.*')])
 def definition = new CpsScmFlowDefinition(scm, 'Jenkinsfile')
 definition.setLightweight(false)
 job.setDefinition(definition)
+job.addTrigger(new SCMTrigger('H/5 * * * *'))
 job.save()
 instance.save()

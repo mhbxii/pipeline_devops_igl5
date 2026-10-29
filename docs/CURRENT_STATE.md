@@ -60,3 +60,11 @@ Ne pas modifier les branches des autres membres ni publier Git sans autorisation
 
 
 Prochaine action : demonstration utilisateur et preparation orale ; livraison terminee.
+
+## Connexion GitHub demandee par l'utilisateur
+Migration du job vers GitHub Tache et polling H/5 en cours. Lecture anonyme du
+repo public verifiee depuis Jenkins. Job temporairement desactive avant migration.
+Bootstrap, Compose et parametres adaptes ; image Jenkins reconstruite et conteneur
+recree avec ses volumes. Aucun build automatique encore revendique.
+Prochaine action : push du commit de configuration, reactiver le job puis observer
+la vraie cause SCMTriggerCause et le SHA GitHub sans declenchement manuel.

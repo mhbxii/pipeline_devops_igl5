@@ -61,8 +61,10 @@ ERROR est demontre par un test de panne simulee, pas par une panne de production
 ### Questions intermédiaires
 **Pourquoi deux JDK dans Jenkins ?** Le contrôleur et le projet ont des contraintes de
 compatibilité différentes. Le build utilise explicitement /opt/java17.
-**Pourquoi un dépôt Git local en lecture seule ?** Jenkins peut tester les commits sans
-publier la branche ni exposer .env ; le vrai webhook distant reste à démontrer.
+**Comment GitHub déclenche-t-il Jenkins ?** Le job lit directement la branche Tache
+publique par HTTPS et vérifie les changements toutes les cinq minutes. Aucun token
+de lecture ni tunnel entrant n'est nécessaire. Les commits limités à docs/ sont exclus.
+Une cause SCMTriggerCause et le SHA checkouté prouvent le déclenchement automatique.
 **Le bootstrap est-il validé par un build ?** Oui, build #4 réussi après reprise du stockage.
 **Pourquoi le Secret n'est-il pas dans YAML ?** Il est construit en mémoire et envoyé à kubectl ;
 le fichier source .env et le kubeconfig sont ignorés par Git.

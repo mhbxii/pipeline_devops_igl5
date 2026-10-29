@@ -45,3 +45,4 @@ build/
 *.tfvars
 !*.tfvars.example
 crash.log
+__pycache__/

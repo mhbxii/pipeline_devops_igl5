@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-app
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  strategy:
+    rollingUpdate: {maxUnavailable: 0, maxSurge: 1}
+  selector:
+    matchLabels: {app: events-app}
+  template:
+    metadata:
+      labels: {app: events-app}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: app
+          image: events-logistics:local
+          imagePullPolicy: IfNotPresent
+          ports: [{containerPort: 8089, name: http}]
+          envFrom: [{configMapRef: {name: events-config}}]
+          env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef: {name: events-db, key: password}
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {cpu: "1", memory: 512Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+          startupProbe:
+            httpGet: {path: /events/actuator/health/liveness, port: http}
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet: {path: /events/actuator/health, port: http}
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: /events/actuator/health/liveness, port: http}
+            periodSeconds: 15
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-app
+spec:
+  type: NodePort
+  selector: {app: events-app}
+  ports:
+    - port: 8089
+      targetPort: http
+      nodePort: 30089

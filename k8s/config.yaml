@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: events-config
+data:
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/eventsProject?serverTimezone=UTC
+  SPRING_DATASOURCE_USERNAME: events
+  LOGISTICS_LOG_LEVEL: INFO

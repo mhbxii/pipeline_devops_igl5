@@ -10,4 +10,6 @@ RUN curl -fsSLo /usr/local/bin/kubectl https://dl.k8s.io/release/${KUBECTL_VERSI
     && echo "$(cat /tmp/kubectl.sha256)  /usr/local/bin/kubectl" | sha256sum -c - \
     && chmod +x /usr/local/bin/kubectl
 USER jenkins
+RUN git config --global --add safe.directory /git-src
 RUN jenkins-plugin-cli --plugins workflow-aggregator git credentials-binding junit sonar pipeline-stage-view
+COPY --chown=jenkins:jenkins bootstrap.groovy /usr/share/jenkins/ref/init.groovy.d/bootstrap.groovy

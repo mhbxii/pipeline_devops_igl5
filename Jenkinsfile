@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    options { timestamps(); disableConcurrentBuilds(); buildDiscarder(logRotator(numToKeepStr: '10')) }
+    options { timestamps(); skipDefaultCheckout(true); disableConcurrentBuilds(); buildDiscarder(logRotator(numToKeepStr: '10')) }
     parameters {
         booleanParam(name: 'RUN_SONAR', defaultValue: false, description: 'Requires configured SonarQube installation named local-sonar and webhook')
         booleanParam(name: 'PUBLISH_NEXUS', defaultValue: false, description: 'Requires authorized Nexus publication and nexus credential')

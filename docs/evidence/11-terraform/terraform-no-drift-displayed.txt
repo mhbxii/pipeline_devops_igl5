@@ -1,0 +1,12 @@
+﻿kubernetes_namespace_v1.monitoring: Refreshing state... [id=events-monitoring]
+kubernetes_resource_quota_v1.monitoring: Refreshing state... [id=events-monitoring/monitoring-budget]
+kubernetes_persistent_volume_claim_v1.prometheus: Refreshing state... [id=events-monitoring/prometheus-data]
+kubernetes_service_v1.prometheus: Refreshing state... [id=events-monitoring/prometheus]
+kubernetes_config_map_v1.prometheus: Refreshing state... [id=events-monitoring/prometheus]
+kubernetes_deployment_v1.prometheus: Refreshing state... [id=events-monitoring/prometheus]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+

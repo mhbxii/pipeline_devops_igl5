@@ -1,0 +1,19 @@
+﻿kubernetes_deployment_v1.prometheus: Still creating... [00m40s elapsed]
+kubernetes_deployment_v1.prometheus: Still creating... [00m50s elapsed]
+kubernetes_deployment_v1.prometheus: Still creating... [01m00s elapsed]
+kubernetes_deployment_v1.prometheus: Still creating... [01m10s elapsed]
+kubernetes_deployment_v1.prometheus: Still creating... [01m20s elapsed]
+kubernetes_deployment_v1.prometheus: Still creating... [01m30s elapsed]
+kubernetes_deployment_v1.prometheus: Still creating... [01m40s elapsed]
+kubernetes_deployment_v1.prometheus: Still creating... [01m50s elapsed]
+kubernetes_deployment_v1.prometheus: Still creating... [02m00s elapsed]
+kubernetes_deployment_v1.prometheus: Still creating... [02m10s elapsed]
+kubernetes_deployment_v1.prometheus: Still creating... [02m20s elapsed]
+kubernetes_deployment_v1.prometheus: Creation complete after 2m29s [id=events-monitoring/prometheus]
+
+Apply complete! Resources: 6 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+managed_namespace = "events-monitoring"
+

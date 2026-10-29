@@ -34,8 +34,13 @@ pipeline {
         stage('SonarQube analysis') {
             when { expression { params.RUN_SONAR } }
             steps {
-                withSonarQubeEnv('local-sonar') {
-                    sh 'mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar -Dsonar.projectKey=events-tache -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
+                withEnv(['JAVA_HOME=/opt/java/openjdk', 'PATH+SONAR_JAVA=/opt/java/openjdk/bin']) {
+                    withSonarQubeEnv('local-sonar') {
+                        sh '''set +x
+                            export SONAR_TOKEN="$SONAR_AUTH_TOKEN"
+                            mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.8.0.7211:sonar -Dsonar.scanner.skipJreProvisioning=true -Dsonar.projectKey=events-tache -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                        '''
+                    }
                 }
             }
         }

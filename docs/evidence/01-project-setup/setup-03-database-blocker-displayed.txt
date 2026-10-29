@@ -1,0 +1,6 @@
+﻿java.sql.SQLException: Access denied for user 'root'@'localhost'
+java.sql.SQLException: Access denied for user 'root'@'localhost'
+java.sql.SQLException: Access denied for user 'root'@'localhost'
+
+The remote server returned an error: (500) Internal Server Error.
+

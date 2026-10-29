@@ -1,0 +1,42 @@
+﻿[
+    {
+        "path":  "docs/evidence/05-git/git-01-branch-history.png",
+        "title":  "Git | commandes executees maintenant",
+        "command":  "git branch --show-current; git log -5 --oneline",
+        "capturedAt":  "2026-10-29T09:06:55.6788799+01:00",
+        "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
+        "sha256":  "AD4715A949DA38F4945610179EFEEC290C4F3B687949F00C3550E84C0BBC1E52"
+    },
+    {
+        "path":  "docs/evidence/01-project-setup/setup-02-tache-model.png",
+        "title":  "Sources actuelles | Tache.java et Participant.java",
+        "command":  "Get-Content Tache.java; Get-Content Participant.java (paths: src/main/java/tn/esprit/eventsproject/entities)",
+        "capturedAt":  "2026-10-29T09:06:56.6156922+01:00",
+        "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
+        "sha256":  "5407EC3654202ADE72383045177233729561753B213E814CC4F9FEB20169C590"
+    },
+    {
+        "path":  "docs/evidence/02-maven/maven-01-toolchain.png",
+        "title":  "Maven / Java | commande executee maintenant",
+        "command":  ". ./scripts/Use-ProjectJava.ps1",
+        "capturedAt":  "2026-10-29T09:06:57.5032819+01:00",
+        "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
+        "sha256":  "155CE68290BF47B7CB1873C9E7E0E086462B01AB1E197678653793922C3E7236"
+    },
+    {
+        "path":  "docs/evidence/02-maven/maven-02-baseline-build.png",
+        "title":  "Compilation | lecture du journal sauvegarde",
+        "command":  "Get-Content docs/evidence/02-maven/baseline-compile.log -Tail 10",
+        "capturedAt":  "2026-10-29T09:06:58.4001421+01:00",
+        "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
+        "sha256":  "96B41D32C63ED9E19EBBAE97547C6B9A3EFA24867606D82E3339CEEAC636419A"
+    },
+    {
+        "path":  "docs/evidence/01-project-setup/setup-03-database-blocker.png",
+        "title":  "Blocage MySQL | lecture des journaux sauvegardes",
+        "command":  "Select-String baseline-startup.log -Pattern \u0027Access denied\u0027; Get-Content baseline-api.txt",
+        "capturedAt":  "2026-10-29T09:06:59.2788934+01:00",
+        "method":  "Visible Windows Forms evidence viewer captured using CopyFromScreen",
+        "sha256":  "569CAED335432CC72F10768914A09C27A3E44228322F43EF64C1A7BF2F41B499"
+    }
+]

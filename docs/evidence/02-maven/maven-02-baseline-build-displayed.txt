@@ -1,0 +1,11 @@
+﻿[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/thoughtworks/qdox/qdox/2.0.1/qdox-2.0.1.jar (334 kB at 466 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.4.1/plexus-utils-3.4.1.jar (264 kB at 305 kB/s)
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 12 source files to C:\Users\Ayyoub\FORMATIK\DevOps\pipeline_devops_igl5\target\classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:01 min
+[INFO] Finished at: 2026-10-29T08:58:35+01:00
+[INFO] ------------------------------------------------------------------------
+

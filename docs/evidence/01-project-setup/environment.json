@@ -1,0 +1,15 @@
+﻿{
+    "branch":  "Tache",
+    "javaDefault":  "22.0.2",
+    "javaBaseline":  "1.8.0_202",
+    "maven":  "3.9.14 (existing cache, outside default PATH)",
+    "dockerEngine":  "28.0.4",
+    "compose":  "2.34.0",
+    "kubernetes":  "No current context",
+    "terraform":  "Not found on PATH",
+    "ramTotalKiB":  15985568,
+    "ramFreeKiBAtAssessment":  699756,
+    "diskFreeBytesAtAssessment":  18077270016,
+    "mysqlPort":  "127.0.0.1:3306 via wslrelay; identity not yet established",
+    "remoteTacheBranch":  "Absent at initial inspection"
+}

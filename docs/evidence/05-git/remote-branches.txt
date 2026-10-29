@@ -1,0 +1,5 @@
+﻿de7dfdae59987cab76d18946bd8be8cd9cc3e1ff	refs/heads/develop
+02120a87bd674f7569345e5a1176ec26be4e86ca	refs/heads/event
+de7dfdae59987cab76d18946bd8be8cd9cc3e1ff	refs/heads/logistics
+de7dfdae59987cab76d18946bd8be8cd9cc3e1ff	refs/heads/main
+578cda8e520d7f916130f67a691df7bc46c96372	refs/heads/participant

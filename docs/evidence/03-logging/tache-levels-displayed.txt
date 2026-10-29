@@ -1,0 +1,12 @@
+﻿=2026-10-29 09:16:35 -  DEBUG- tn.esprit.eventsproject.services.TacheService - Reading role participantId=1 
+=2026-10-29 09:16:35 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=1 previous=INVITE role=ORGANISATEUR 
+=2026-10-29 09:16:35 -  DEBUG- tn.esprit.eventsproject.services.TacheService - Reading role participantId=1 
+=2026-10-29 09:16:35 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-29 09:16:35 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=1 reason=missing_role 
+=2026-10-29 09:16:35 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-29 09:16:35 -  DEBUG- tn.esprit.eventsproject.services.TacheService - Reading role participantId=2147483647 
+=2026-10-29 09:16:35 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=1 
+=2026-10-29 09:16:35 -  DEBUG- tn.esprit.eventsproject.services.TacheService - Reading role participantId=1 
+=2026-10-29 09:15:13 -  ERROR- tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role operation failed exceptionType=IllegalStateException 
+=2026-10-29 09:15:13 -  DEBUG- org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Writing [{error=Role operation failed}] 
+

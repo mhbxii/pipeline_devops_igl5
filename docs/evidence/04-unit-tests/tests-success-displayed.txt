@@ -1,0 +1,19 @@
+﻿[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.12:report (report) @ eventsProject ---
+[INFO] Loading execution data file C:\Users\Ayyoub\FORMATIK\DevOps\pipeline_devops_igl5\target\jacoco.exec
+[INFO] Analyzed bundle 'eventsProject' with 13 classes
+[INFO] 
+[INFO] --- jar:3.2.2:jar (default-jar) @ eventsProject ---
+[INFO] Building jar: C:\Users\Ayyoub\FORMATIK\DevOps\pipeline_devops_igl5\target\eventsProject-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:2.7.6:repackage (repackage) @ eventsProject ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  31.171 s
+[INFO] Finished at: 2026-10-29T09:24:50+01:00
+[INFO] ------------------------------------------------------------------------
+

@@ -1,0 +1,13 @@
+﻿GET /taches -> HTTP 200
+POST /event/addPart -> HTTP 200
+GET /taches/participants/2 -> HTTP 200
+PUT /taches/participants/2 -> HTTP 200
+GET /taches/participants/2 -> HTTP 200
+PUT /taches/participants/2 -> HTTP 400
+PUT /taches/participants/2 -> HTTP 400
+GET /taches/participants/2147483647 -> HTTP 404
+DELETE /taches/participants/2 -> HTTP 204
+GET /taches/participants/2 -> HTTP 200
+GET /event/getLogs/2026-01-01/2026-12-31 -> HTTP 200
+PASS: MySQL-backed HTTP lifecycle; participantId=2 remains present with no role.
+

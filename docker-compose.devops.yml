@@ -12,6 +12,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./.local/jenkins-repo:/git-src:ro
     group_add: ["${DOCKER_SOCKET_GID:-0}"]
+    networks: [default, kind]
     mem_limit: 1g
     environment:
       JAVA_OPTS: -Xms128m -Xmx512m -Djenkins.install.runSetupWizard=false -Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true
@@ -23,6 +24,9 @@ services:
       - "127.0.0.1:9000:9000"
     environment:
       SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+      SONAR_WEB_JAVAOPTS: -Xms128m -Xmx384m
+      SONAR_CE_JAVAOPTS: -Xms64m -Xmx256m
+      SONAR_SEARCH_JAVAOPTS: -Xms512m -Xmx512m
     volumes:
       - sonar-data:/opt/sonarqube/data
       - sonar-extensions:/opt/sonarqube/extensions
@@ -79,3 +83,7 @@ volumes:
   sonar-data:
   sonar-extensions:
   nexus-data:
+networks:
+  kind:
+    external: true
+    name: kind

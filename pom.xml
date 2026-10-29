@@ -14,9 +14,9 @@
     <name>eventsProject</name>
     <description>eventsProject</description>
     <scm>
-        <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
-        <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
-        <url>http://somerepository.com/view.cgi</url>
+        <connection>scm:git:https://github.com/mhbxii/pipeline_devops_igl5.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/mhbxii/pipeline_devops_igl5.git</developerConnection>
+        <url>https://github.com/mhbxii/pipeline_devops_igl5</url>
     </scm>
     <properties>
         <java.version>1.8</java.version>

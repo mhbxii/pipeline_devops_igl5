@@ -264,14 +264,15 @@ pipeline {
                         '''
 
                         script {
+                            // Noms alignes sur outputs.tf : cluster_name et cluster_endpoint
                             def clusterName = bat(
                                 returnStdout: true,
-                                script: '@echo off\r\nterraform output -raw eks_cluster_name'
+                                script: '@echo off\r\nterraform output -raw cluster_name'
                             ).trim()
 
                             def clusterEndpoint = bat(
                                 returnStdout: true,
-                                script: '@echo off\r\nterraform output -raw eks_cluster_endpoint'
+                                script: '@echo off\r\nterraform output -raw cluster_endpoint'
                             ).trim()
 
                             if (!clusterName || !clusterEndpoint) {
@@ -344,13 +345,13 @@ pipeline {
 
                         Write-Host "===== CREATE NAMESPACE ====="
                         kubectl apply -f k8s/namespace.yaml
-                        
+
                         Write-Host "===== DEPLOY CONFIGMAP ====="
                         kubectl apply -f k8s/configmap.yaml
-                        
+
                         Write-Host "===== DEPLOY SECRET ====="
                         kubectl apply -f k8s/secret.yaml
-                        
+
                         Write-Host "===== DEPLOY MYSQL ====="
                         kubectl apply -f k8s/mysql-deployment.yaml
 
@@ -366,7 +367,7 @@ pipeline {
                         Write-Host "===== DEPLOY APPLICATION ====="
                         kubectl apply -f $tempFile
                         Remove-Item $tempFile -Force
-                        
+
                         Write-Host "===== DEPLOY SERVICE ====="
                         kubectl apply -f k8s/service.yaml
 

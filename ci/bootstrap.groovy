@@ -28,4 +28,10 @@ definition.setLightweight(false)
 job.setDefinition(definition)
 job.addTrigger(new SCMTrigger('H/5 * * * *'))
 job.save()
+def legacy = instance.getItem('tache-eks-delivery')
+if (legacy != null && !legacy.isBuilding()) {
+    legacy.setDisabled(true)
+    legacy.setDescription('Archived history; merged into tache-ci / Jenkinsfile.')
+    legacy.save()
+}
 instance.save()

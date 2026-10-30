@@ -10,8 +10,14 @@ services:
     volumes:
       - jenkins-data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
+      # Share the canonical local state and its lock; do not create a second state.
+      - type: bind
+        source: ./terraform/aws-eks
+        target: /terraform-eks-state
+        bind:
+          create_host_path: false
     group_add: ["${DOCKER_SOCKET_GID:-0}"]
-    networks: [default, kind]
+    networks: [default]
     mem_limit: 1g
     environment:
       JAVA_OPTS: -Xms128m -Xmx512m -Djenkins.install.runSetupWizard=false
@@ -82,7 +88,3 @@ volumes:
   sonar-data:
   sonar-extensions:
   nexus-data:
-networks:
-  kind:
-    external: true
-    name: kind

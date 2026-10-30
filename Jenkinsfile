@@ -1,12 +1,13 @@
 pipeline {
     agent any
-    options { skipDefaultCheckout(true); disableConcurrentBuilds(); timeout(time: 35, unit: 'MINUTES'); buildDiscarder(logRotator(numToKeepStr: '10')) }
+    options { skipDefaultCheckout(true); disableConcurrentBuilds(); timeout(time: 90, unit: 'MINUTES'); buildDiscarder(logRotator(numToKeepStr: '10')) }
     parameters {
+        booleanParam(name: 'RUN_TERRAFORM', defaultValue: true, description: 'Validate and plan the AWS EKS infrastructure')
+        booleanParam(name: 'APPLY_TERRAFORM', defaultValue: false, description: 'Request manual approval of the saved AWS EKS plan before applying')
         booleanParam(name: 'RUN_SONAR', defaultValue: true, description: 'Use configured local-sonar installation and verify its quality gate')
         booleanParam(name: 'PUBLISH_NEXUS', defaultValue: true, description: 'Publish to the configured local Nexus using the nexus credential')
         booleanParam(name: 'PUBLISH_IMAGE', defaultValue: true, description: 'Publish to the user-approved public Docker Hub repository using dockerhub credential')
-        booleanParam(name: 'DEPLOY_K8S', defaultValue: true, description: 'Deploy the published image to the project kind cluster')
-        booleanParam(name: 'DEPLOY_LOCAL_KIND', defaultValue: false, description: 'Alternative: load directly into kind instead of publishing; disable DEPLOY_K8S first')
+        booleanParam(name: 'DEPLOY_EKS', defaultValue: true, description: 'Deploy this build image to the prepared AWS EKS application')
         string(name: 'NEXUS_URL', defaultValue: 'http://nexus:8081', description: 'Base URL without trailing slash')
         string(name: 'DOCKER_REPOSITORY', defaultValue: 'ayyoub1/events-tache', description: 'User-approved public destination')
     }
@@ -19,11 +20,11 @@ pipeline {
         stage('Validate configuration') {
             steps {
                 script {
-                    if (params.DEPLOY_LOCAL_KIND && params.DEPLOY_K8S) { error('Choose one deployment destination') }
-                    if ((params.DEPLOY_LOCAL_KIND || params.DEPLOY_K8S) && !params.RUN_SONAR) {
+                    if (params.APPLY_TERRAFORM && !params.RUN_TERRAFORM) { error('APPLY_TERRAFORM requires RUN_TERRAFORM') }
+                    if (params.DEPLOY_EKS && !params.RUN_SONAR) {
                         error('Deployment requires Sonar analysis and its quality gate')
                     }
-                    if (params.DEPLOY_K8S && !params.PUBLISH_IMAGE) { error('Remote deployment requires image publication') }
+                    if (params.DEPLOY_EKS && !params.PUBLISH_IMAGE) { error('Remote deployment requires image publication') }
                 }
             }
         }
@@ -64,6 +65,75 @@ pipeline {
             when { expression { params.RUN_SONAR } }
             steps { timeout(time: 10, unit: 'MINUTES') { waitForQualityGate abortPipeline: true } }
         }
+        stage('Terraform EKS validate') {
+            when { expression { params.RUN_TERRAFORM } }
+            steps {
+                sh '''set -eu
+                    command -v terraform >/dev/null || { echo 'Rebuild Jenkins with Terraform first; see docs/JENKINS_TERRAFORM.md'; exit 1; }
+                    test -s /terraform-eks-state/terraform.tfstate || { echo 'Canonical AWS state is missing; refusing to create a second state.'; exit 1; }
+                    terraform -chdir=terraform/aws-eks fmt -check
+                    terraform -chdir=terraform/aws-eks init -input=false -reconfigure -lockfile=readonly -no-color -backend-config=path=/terraform-eks-state/terraform.tfstate
+                    terraform -chdir=terraform/aws-eks validate -no-color
+                '''
+            }
+        }
+        stage('Terraform EKS plan') {
+            when { expression { params.RUN_TERRAFORM } }
+            steps {
+                script { env.TF_PLAN_DIR = sh(script: 'mktemp -d /tmp/events-terraform.XXXXXXXX', returnStdout: true).trim() }
+                withCredentials([
+                    file(credentialsId: 'aws-lab-credentials', variable: 'AWS_SHARED_CREDENTIALS_FILE'),
+                    file(credentialsId: 'aws-eks-tfvars', variable: 'EKS_TFVARS')
+                ]) {
+                    sh '''set -eu
+                        set +x
+                        umask 077
+                        export TF_IN_AUTOMATION=1 AWS_EC2_METADATA_DISABLED=true
+                        status=0
+                        terraform -chdir=terraform/aws-eks plan -input=false -no-color -lock-timeout=60s -var-file="$EKS_TFVARS" -var=aws_profile=events-tache-lab -detailed-exitcode -out="$TF_PLAN_DIR/eks.tfplan" || status=$?
+                        case "$status" in
+                            0) echo 'Terraform EKS: no changes.' ;;
+                            2) echo 'Terraform EKS: review the proposed AWS changes and cost before approval.' ;;
+                            *) exit "$status" ;;
+                        esac
+                        printf '%s' "$status" > "$TF_PLAN_DIR/status"
+                    '''
+                    script { env.TF_HAS_CHANGES = sh(script: 'cat "$TF_PLAN_DIR/status"', returnStdout: true).trim() }
+                }
+                script {
+                    if (env.TF_HAS_CHANGES == '2' && params.DEPLOY_EKS && !params.APPLY_TERRAFORM) {
+                        error('AWS infrastructure changes require review and approved apply before delivery. For a plan-only run, disable DEPLOY_EKS.')
+                    }
+                }
+            }
+        }
+        stage('Terraform EKS approval and apply') {
+            when { expression { params.RUN_TERRAFORM && params.APPLY_TERRAFORM && env.TF_HAS_CHANGES == '2' } }
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    input message: 'Review this build Terraform EKS plan and AWS cost. Apply this exact plan?', ok: 'Approve AWS apply', submitter: 'tache-admin'
+                }
+                withCredentials([file(credentialsId: 'aws-lab-credentials', variable: 'AWS_SHARED_CREDENTIALS_FILE')]) {
+                    sh '''set -eu
+                        set +x
+                        export TF_IN_AUTOMATION=1 AWS_EC2_METADATA_DISABLED=true
+                        terraform -chdir=terraform/aws-eks apply -input=false -no-color -lock-timeout=60s "$TF_PLAN_DIR/eks.tfplan"
+                    '''
+                }
+            }
+        }
+        stage('Check EKS delivery access') {
+            when { expression { params.DEPLOY_EKS } }
+            steps {
+                withCredentials([file(credentialsId: 'eks-kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh '''set -eu
+                        kubectl version --client
+                        kubectl --context events-tache-eks --request-timeout=30s -n events-tache get deployment/events service/events
+                        echo 'Existing EKS application is accessible. Fresh clusters require the bootstrap described in docs/AWS_EKS_OPERATIONS.md.'
+                    '''
+                }
+            }
+        }
         stage('Package') { steps { sh 'mvn -B package' } }
         stage('Publish Nexus') {
             when { expression { params.PUBLISH_NEXUS } }
@@ -94,48 +164,41 @@ pipeline {
                 }
             }
         }
-        stage('Deploy local kind') {
-            when { expression { params.DEPLOY_LOCAL_KIND } }
+        stage('Deploy AWS EKS') {
+            when { expression { params.DEPLOY_EKS } }
             steps {
-                script { if (params.DEPLOY_K8S) { error('Choose one deployment destination') } }
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                withCredentials([file(credentialsId: 'eks-kubeconfig', variable: 'KUBECONFIG')]) {
                     sh '''set -eu
-                        archive=$(mktemp --suffix=.tar)
-                        trap 'rm -f "$archive"' EXIT
-                        docker image save --platform=linux/amd64 -o "$archive" events-tache:$IMAGE_TAG
-                        kind load image-archive "$archive" --name events-tache
-                        kubectl --context kind-events-tache -n events-tache set image deployment/events events=events-tache:$IMAGE_TAG
-                        kubectl --context kind-events-tache -n events-tache rollout status deployment/events --timeout=240s
+                        kubectl --context events-tache-eks -n events-tache get deployment/events >/dev/null
+                        kubectl --context events-tache-eks -n events-tache set image deployment/events events="$DOCKER_REPOSITORY:$IMAGE_TAG"
+                        kubectl --context events-tache-eks -n events-tache rollout status deployment/events --timeout=600s
                     '''
                 }
             }
         }
-        stage('Deploy Kubernetes') {
-            when { expression { params.DEPLOY_K8S } }
+        stage('Verify AWS application') {
+            when { expression { params.DEPLOY_EKS } }
             steps {
-                script { if (!params.PUBLISH_IMAGE) { error('Deployment requires a published image') } }
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                withCredentials([file(credentialsId: 'eks-kubeconfig', variable: 'KUBECONFIG')]) {
                     sh '''set -eu
-                        kubectl --context kind-events-tache -n events-tache set image deployment/events events="$DOCKER_REPOSITORY:$IMAGE_TAG"
-                        kubectl --context kind-events-tache -n events-tache rollout status deployment/events --timeout=600s
-                    '''
-                }
-            }
-        }
-        stage('Verify deployment') {
-            when { expression { params.DEPLOY_LOCAL_KIND || params.DEPLOY_K8S } }
-            steps {
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-                    sh '''set -eu
-                        kubectl --context kind-events-tache -n events-tache port-forward --address 127.0.0.1 service/events 18090:8089 > /tmp/events-forward-$BUILD_NUMBER.log 2>&1 &
+                        kubectl --context events-tache-eks -n events-tache port-forward --address 127.0.0.1 service/events 18190:8089 > /tmp/events-forward-$BUILD_NUMBER.log 2>&1 &
                         forward_pid=$!
                         trap 'kill "$forward_pid" 2>/dev/null || true' EXIT
-                        curl --fail --retry 20 --retry-connrefused --retry-delay 2 http://127.0.0.1:18090/events/actuator/health/readiness
-                        curl --fail http://127.0.0.1:18090/events/taches
+                        curl --fail --retry 20 --retry-connrefused --retry-delay 2 http://127.0.0.1:18190/events/actuator/health/readiness
+                        curl --fail http://127.0.0.1:18190/events/taches
                     '''
                 }
             }
         }
     }
-    post { success { archiveArtifacts artifacts: 'target/*.jar', fingerprint: true } }
+    post {
+        always {
+            sh '''set -eu
+                case "${TF_PLAN_DIR:-}" in
+                    /tmp/events-terraform.*) rm -rf -- "$TF_PLAN_DIR" ;;
+                esac
+            '''
+        }
+        success { archiveArtifacts artifacts: 'target/*.jar', fingerprint: true }
+    }
 }

@@ -38,27 +38,19 @@ une nouvelle revue du plan Terraform ; ne pas ouvrir 0.0.0.0/0 par commodité.
 
 ## Livraison Jenkins vers AWS
 
-`ci/Jenkinsfile.eks` définit un job distinct de promotion, `tache-eks-delivery`.
-Il contrôle que tache-ci #9 est SUCCESS, puis déploie le manifeste Docker public
-vérifié par digest et contrôle readiness/rôles par HTTP depuis Jenkins.
-Il ne recompile pas cette release et ne lance pas Terraform apply.
-Le pipeline CI principal conserve son historique et sa destination kind.
+Le pipeline unique est désormais Jenkinsfile, job tache-ci : compilation, tests,
+Sonar, Terraform AWS, publications et livraison de l'image du build courant sur EKS.
+L'ancien ci/Jenkinsfile.eks est supprimé ; les scripts de configuration désactivent
+le job de promotion et conservent son historique. Voir JENKINS_TERRAFORM.md.
+Ces modifications locales ne sont pas encore une nouvelle démonstration AWS.
 
-Le binaire kubectl Linux 1.36.6 est téléchargé dans .local/tools/ et vérifié par
-SHA-256, puis copié dans le volume Jenkins. Après disponibilité des workloads :
-
-```powershell
-python scripts/Configure-EksJenkins.py
-```
-
-Ce script configure le job, sans le lancer. Il crée un token Kubernetes temporaire
-de deux heures pour le ServiceAccount jenkins-deployer. Le rôle autorise seulement
+Après bootstrap, `python scripts/Configure-EksJenkins.py` renouvelle le Secret file
+`eks-kubeconfig` pour tache-ci, sans créer de job. Le token de deux heures autorise
 lecture/patch/watch du Deployment events, lecture des pods et du Service events,
-et création de tunnels port-forward dans events-tache. Aucun accès Secrets ou IAM.
-Le credential Jenkins est un Secret file, utilisé via withCredentials.
-Les jobs Jenkins restent réservés aux auteurs de confiance : le daemon Docker est
-privilégié dans ce laboratoire local. Le token court ne remplace pas cette limite.
-Renouveler ce credential pendant une session active avant une nouvelle promotion.
+et port-forward dans events-tache. Aucun accès Secrets ou IAM.
+Les credentials Terraform AWS sont distincts et temporaires. Le bootstrap des
+workloads reste opérateur et approuvé : le token limité ne peut créer ces ressources.
+Les jobs Jenkins sont réservés aux auteurs de confiance.
 
 ## Fin de démonstration et maîtrise des frais
 
@@ -92,4 +84,4 @@ la réexécuter après destruction. Un futur déploiement demandera un nouveau p
 une nouvelle revue et un accord. La vérification est en lecture seule : cluster,
 EC2, ASG, launch template, volumes, interfaces réseau, security group et state.
 Le job EKS est désactivé après la démo et son credential temporaire supprimé ;
-Configure-EksJenkins.py le réactive seulement après recréation et nouvelle connexion.
+Configure-EksJenkins.py renouvelle uniquement le credential de tache-ci après recréation.

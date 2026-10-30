@@ -1,8 +1,7 @@
-"""Install the approved project-local kubectl and a temporary, scoped EKS credential.
+"""Renew the namespace-scoped EKS credential for the unified tache-ci pipeline.
 
-Does not trigger a build. The dedicated promotion job reuses the verified release.
-The Kubernetes service-account token expires in two hours; rerun to renew it while
-the lab is active. No AWS keys are given to Jenkins.
+Requires the approved cluster and workloads. Does not install tools, create a
+second job, run Terraform, or trigger a build. The token expires in two hours.
 """
 import json
 import subprocess
@@ -17,20 +16,11 @@ token = subprocess.check_output(K + ['-n', 'events-tache', 'create', 'token',
 config['users'] = [{'name': 'jenkins-deployer', 'user': {'token': token}}]
 config['contexts'][0]['context']['user'] = 'jenkins-deployer'
 config['contexts'][0]['context']['namespace'] = 'events-tache'
-container = 'events-tache-jenkins-1'
-subprocess.run(['docker', 'exec', '-u', 'root', container, 'mkdir', '-p',
-                '/var/jenkins_home/eks-tools'], check=True)
-subprocess.run(['docker', 'cp', str(ROOT / '.local/tools/kubectl-eks-linux'),
-                container + ':/var/jenkins_home/eks-tools/kubectl'], check=True)
-subprocess.run(['docker', 'exec', '-u', 'root', container, 'chmod', '755',
-                '/var/jenkins_home/eks-tools/kubectl'], check=True)
 script = r'''
 import jenkins.model.Jenkins
 import com.cloudbees.plugins.credentials.*
 import com.cloudbees.plugins.credentials.domains.Domain
 import org.jenkinsci.plugins.plaincredentials.impl.FileCredentialsImpl
-import org.jenkinsci.plugins.workflow.job.WorkflowJob
-import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
 def store = SystemCredentialsProvider.getInstance().getStore()
 def domain = Domain.global()
 def credential = new FileCredentialsImpl(CredentialsScope.GLOBAL, 'eks-kubeconfig',
@@ -39,18 +29,13 @@ def credential = new FileCredentialsImpl(CredentialsScope.GLOBAL, 'eks-kubeconfi
 def old = store.getCredentials(domain).find { it.id == credential.id }
 if (old) store.updateCredentials(domain, old, credential)
 else store.addCredentials(domain, credential)
-def instance = Jenkins.get()
-def job = instance.getItem('tache-eks-delivery') ?: instance.createProject(WorkflowJob, 'tache-eks-delivery')
-if (job.isBuilding()) throw new IllegalStateException('Wait for current EKS delivery')
-job.setDefinition(new CpsFlowDefinition(input.pipeline, false))
-job.setDisabled(false)
-job.setDescription('AWS EKS promotion of verified tache-ci #9; no Terraform apply; temporary namespace-scoped credential.')
-job.save()
-// Approve only this exact reviewed pipeline, which reads upstream Jenkins metadata.
-// Do not disable script security or approve other pending scripts/signatures.
-def approval = org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval.get()
-approval.pendingScripts.findAll { it.script == input.pipeline }.each { approval.approveScript(it.hash) }
-println('Configured tache-eks-delivery; namespace-scoped token expires in two hours. No build triggered.')
+def legacy = Jenkins.get().getItem('tache-eks-delivery')
+if (legacy != null) {
+    if (legacy.isBuilding()) throw new IllegalStateException('Wait for the legacy EKS build')
+    legacy.setDisabled(true)
+    legacy.setDescription('Archived history; EKS delivery now belongs to tache-ci / Jenkinsfile.')
+    legacy.save()
+}
+println('Renewed eks-kubeconfig for tache-ci; token expires in two hours. Legacy job disabled; no build triggered.')
 '''
-print(Jenkins().groovy(script, {'EKS_SECRET': json.dumps(config),
-      'pipeline': (ROOT / 'ci/Jenkinsfile.eks').read_text(encoding='utf-8')}).strip())
+print(Jenkins().groovy(script, {'EKS_SECRET': json.dumps(config)}).strip())

@@ -154,3 +154,13 @@ le SHA attendu et l'URL GitHub. Le polling log par build conserve la detection r
 build reussi. #8 etablit la baseline GitHub ; la preuve automatique est distincte.
 **Pourquoi exclure docs/ ?** Capturer des preuves ne doit pas republier 38 Mio d'image.
 Les commits limites a docs/ sont ignores ; code et configurations restent surveilles.
+# Ajout du 30 octobre 2026 : pipeline unique EKS
+
+Jenkinsfile unifie CI et livraison AWS : tests/gate, Terraform AWS, publications,
+rollout EKS et HTTP. L'image provient du build courant, sans promotion figée de #9.
+Le backend partage le state AWS canonique ; le state kind reste intact.
+APPLY_TERRAFORM est désactivé par défaut ; son activation exige encore la revue du
+plan exact et une confirmation Jenkins. Secrets et plans ne sont pas archivés.
+Le bootstrap initial reste opérateur : le token de livraison ne peut créer les
+namespaces ou Secrets. Cette nouvelle CI n'est pas encore démontrée sur AWS.
+Voir JENKINS_TERRAFORM.md pour les prérequis et limites.

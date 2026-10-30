@@ -1,3 +1,18 @@
+# Pipeline unique EKS — 30 octobre 2026
+
+Sources sur Tache : Jenkinsfile unique pour CI, Terraform AWS/EKS et
+livraison de l'image du build courant vers EKS. ci/Jenkinsfile.eks supprimé ;
+configuration de l'ancien job adaptée pour conserver seulement son historique.
+Étapes kind retirées du pipeline. State AWS canonique partagé, state kind intact.
+Guide : docs/JENKINS_TERRAFORM.md. Apply optionnel avec approbation du plan exact.
+Commit et publication sur Tache autorisés par l'utilisateur le 30 octobre 2026.
+Activation en attente : reconstruction Jenkins après accord,
+session lab et credentials renouvelés, nouveau plan/accord et bootstrap EKS.
+Aucun nouvel apply, installation ou déploiement AWS effectué.
+Contrôles réussis : validateur déclaratif Jenkins, fmt/validate Terraform AWS,
+configuration Compose, syntaxe des quatre helpers Python et de tous les blocs
+shell multiligne, git diff --check. Aucune exécution cloud du pipeline fusionné.
+
 # AWS/EKS : démonstration vérifiée, ressources supprimées après accord
 
 Nettoyage explicitement approuvé : suppression des trois namespaces/PVC, puis

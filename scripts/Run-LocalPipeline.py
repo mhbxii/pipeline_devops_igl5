@@ -1,4 +1,4 @@
-"""Trigger and record a real Jenkins run; all publication stays local by default."""
+"""Trigger or observe tache-ci; cloud planning/delivery requires explicit flags."""
 import argparse
 import json
 import re
@@ -8,7 +8,8 @@ from local_ci import ROOT, Jenkins, environment
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--full", action="store_true", help="Enable configured local Sonar analysis and Nexus publication")
-parser.add_argument("--publish", action="store_true", help="Use the approved public Docker Hub repository and deploy its published image")
+parser.add_argument("--publish", action="store_true", help="Use the approved public Docker Hub repository and deploy its published image to the prepared EKS application")
+parser.add_argument("--terraform", action="store_true", help="Plan AWS infrastructure; never applies automatically")
 parser.add_argument("--build", type=int, help="Observe an already-triggered build instead")
 args = parser.parse_args()
 if args.publish and not args.full:
@@ -18,11 +19,11 @@ job = api.url + "/job/tache-ci"
 if args.build:
     number = args.build
 else:
-    endpoint = "/buildWithParameters" if args.full else "/build"
-    params = {"RUN_SONAR": "true", "PUBLISH_NEXUS": "true", "DEPLOY_LOCAL_KIND": "true",
-              "PUBLISH_IMAGE": "false", "DEPLOY_K8S": "false", "NEXUS_URL": "http://nexus:8081"} if args.full else {}
-    if args.publish:
-        params.update(PUBLISH_IMAGE="true", DEPLOY_K8S="true", DEPLOY_LOCAL_KIND="false", DOCKER_REPOSITORY="ayyoub1/events-tache")
+    endpoint = "/buildWithParameters"
+    params = {"RUN_SONAR": str(args.full).lower(), "PUBLISH_NEXUS": str(args.full).lower(),
+              "PUBLISH_IMAGE": str(args.publish).lower(), "DEPLOY_EKS": str(args.publish).lower(),
+              "RUN_TERRAFORM": str(args.terraform).lower(), "APPLY_TERRAFORM": "false",
+              "NEXUS_URL": "http://nexus:8081", "DOCKER_REPOSITORY": "ayyoub1/events-tache"}
     response = api.session.post(job + endpoint, data=params, timeout=20)
     response.raise_for_status()
     queue_path = urlparse(response.headers["Location"]).path.rstrip("/")

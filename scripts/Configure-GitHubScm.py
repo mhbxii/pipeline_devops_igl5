@@ -20,11 +20,10 @@ def scm = new GitSCM([new UserRemoteConfig('https://github.com/mhbxii/pipeline_d
 def definition = new CpsScmFlowDefinition(scm, 'Jenkinsfile')
 definition.setLightweight(false)
 job.setDefinition(definition)
-def parameters = job.getProperty(ParametersDefinitionProperty).parameterDefinitions.collect { parameter ->
-    if (parameter.name in ['RUN_SONAR', 'PUBLISH_NEXUS', 'PUBLISH_IMAGE', 'DEPLOY_K8S']) {
+def parameters = (job.getProperty(ParametersDefinitionProperty)?.parameterDefinitions ?: []).findAll { !(it.name in ['DEPLOY_LOCAL_KIND', 'DEPLOY_K8S']) }.collect { parameter ->
+    if (parameter.name in ['RUN_SONAR', 'PUBLISH_NEXUS', 'PUBLISH_IMAGE', 'DEPLOY_EKS']) {
         return new BooleanParameterDefinition(parameter.name, true, parameter.description)
     }
-    if (parameter.name == 'DEPLOY_LOCAL_KIND') return new BooleanParameterDefinition(parameter.name, false, parameter.description)
     if (parameter.name == 'DOCKER_REPOSITORY') return new StringParameterDefinition(parameter.name, 'ayyoub1/events-tache', parameter.description)
     return parameter
 }
@@ -32,6 +31,13 @@ job.addProperty(new ParametersDefinitionProperty(parameters))
 job.addTrigger(new SCMTrigger('H/5 * * * *'))
 if (input.enable) job.setDisabled(false)
 job.save()
+def legacy = Jenkins.get().getItem('tache-eks-delivery')
+if (legacy != null) {
+    if (legacy.isBuilding()) throw new IllegalStateException('Wait for the legacy EKS delivery')
+    legacy.setDisabled(true)
+    legacy.setDescription('Archived history; merged into tache-ci / Jenkinsfile.')
+    legacy.save()
+}
 println(groovy.json.JsonOutput.toJson([
     job: job.name, sourceUrl: scm.userRemoteConfigs[0].url, branch: scm.branches[0].name,
     scriptPath: definition.scriptPath, excludedRegions: 'docs/.*', polling: 'H/5 * * * *',

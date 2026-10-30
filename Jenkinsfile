@@ -249,7 +249,7 @@ pipeline {
             }
         }
 
-        stage('10 - Terraform Apply') {
+        stage('10 - Terraform Apply and Read Outputs') {
             steps {
                 withCredentials([
                     string(credentialsId: 'aws_access_key_id', variable: 'AWS_ACCESS_KEY_ID'),
@@ -259,14 +259,33 @@ pipeline {
                     dir('terraform') {
                         bat '''
                             @echo off
-                            echo ===== TERRAFORM APPLY =====
                             terraform apply -auto-approve -input=false tfplan
                             if errorlevel 1 exit /b 1
-
-                            echo ===== TERRAFORM OUTPUTS =====
-                            terraform output
-                            echo SUCCESS: Infrastructure deployed.
                         '''
+
+                        script {
+                            def clusterName = bat(
+                                returnStdout: true,
+                                script: '@echo off\r\nterraform output -raw eks_cluster_name'
+                            ).trim()
+
+                            def clusterEndpoint = bat(
+                                returnStdout: true,
+                                script: '@echo off\r\nterraform output -raw eks_cluster_endpoint'
+                            ).trim()
+
+                            if (!clusterName || !clusterEndpoint) {
+                                error('Terraform outputs are empty. Check outputs.tf.')
+                            }
+
+                            env.EKS_CLUSTER_NAME = clusterName
+                            env.EKS_CLUSTER_ENDPOINT = clusterEndpoint
+
+                            echo "EKS cluster name: ${env.EKS_CLUSTER_NAME}"
+                            echo "EKS cluster endpoint: ${env.EKS_CLUSTER_ENDPOINT}"
+                        }
+
+                        bat 'terraform output'
                     }
                 }
             }

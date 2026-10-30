@@ -15,6 +15,11 @@ pipeline {
         MAVEN_GROUP_ID = 'tn.esprit'
         MAVEN_ARTIFACT_ID = 'eventsProject'
         MAVEN_VERSION = '1.0.0-SNAPSHOT'
+
+        // AWS / EKS
+        AWS_DEFAULT_REGION = 'us-east-1'
+        EKS_CLUSTER_NAME = 'events-cluster'
+        K8S_NAMESPACE = 'events-project'
     }
 
     stages {
@@ -194,11 +199,188 @@ pipeline {
                 }
             }
         }
+
+        stage('9 - Terraform Init & Validate') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'aws_access_key_id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY'),
+                    string(credentialsId: 'aws_session_token', variable: 'AWS_SESSION_TOKEN')
+                ]) {
+                    dir('terraform') {
+                        bat '''
+                            @echo off
+                            echo ===== TERRAFORM VERSION =====
+                            terraform --version
+                            if errorlevel 1 (
+                                echo ERROR: Terraform not found. Install Terraform first.
+                                exit /b 1
+                            )
+
+                            echo ===== TERRAFORM INIT =====
+                            terraform init -input=false
+                            if errorlevel 1 exit /b 1
+
+                            echo ===== TERRAFORM FORMAT CHECK =====
+                            terraform fmt -check -recursive
+                            if errorlevel 1 (
+                                echo WARNING: Terraform files are not properly formatted. Running fmt...
+                                terraform fmt -recursive
+                            )
+
+                            echo ===== TERRAFORM VALIDATE =====
+                            terraform validate
+                            if errorlevel 1 exit /b 1
+
+                            echo ===== TERRAFORM PLAN =====
+                            terraform plan -out=tfplan -input=false
+                            if errorlevel 1 exit /b 1
+
+                            echo SUCCESS: Terraform validated and plan generated.
+                        '''
+                    }
+                    archiveArtifacts(
+                        artifacts: 'terraform/tfplan',
+                        allowEmptyArchive: true,
+                        fingerprint: true
+                    )
+                }
+            }
+        }
+
+        stage('10 - Terraform Apply') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'aws_access_key_id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY'),
+                    string(credentialsId: 'aws_session_token', variable: 'AWS_SESSION_TOKEN')
+                ]) {
+                    dir('terraform') {
+                        bat '''
+                            @echo off
+                            echo ===== TERRAFORM APPLY =====
+                            terraform apply -auto-approve -input=false tfplan
+                            if errorlevel 1 exit /b 1
+
+                            echo ===== TERRAFORM OUTPUTS =====
+                            terraform output
+                            echo SUCCESS: Infrastructure deployed.
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('11 - Configure Kubernetes') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'aws_access_key_id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY'),
+                    string(credentialsId: 'aws_session_token', variable: 'AWS_SESSION_TOKEN')
+                ]) {
+                    bat '''
+                        @echo off
+                        echo ===== CONFIGURE KUBECONFIG =====
+                        aws eks update-kubeconfig --region %AWS_DEFAULT_REGION% --name %EKS_CLUSTER_NAME%
+                        if errorlevel 1 (
+                            echo ERROR: Failed to configure kubeconfig
+                            exit /b 1
+                        )
+
+                        echo ===== VERIFY CLUSTER ACCESS =====
+                        kubectl cluster-info
+                        if errorlevel 1 (
+                            echo ERROR: Cannot reach the EKS cluster
+                            exit /b 1
+                        )
+
+                        echo ===== VERIFY NODES =====
+                        kubectl get nodes
+                        if errorlevel 1 (
+                            echo ERROR: Cannot list cluster nodes
+                            exit /b 1
+                        )
+
+                        echo SUCCESS: Kubernetes cluster configured and accessible.
+                    '''
+                }
+            }
+        }
+
+        stage('12 - Kubernetes Deployment') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'aws_access_key_id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY'),
+                    string(credentialsId: 'aws_session_token', variable: 'AWS_SESSION_TOKEN'),
+                    usernamePassword(
+                        credentialsId: 'dockerhub_credentials',
+                        usernameVariable: 'DOCKERHUB_USERNAME',
+                        passwordVariable: 'DOCKERHUB_TOKEN'
+                    )
+                ]) {
+                    powershell '''
+                        $ErrorActionPreference = "Stop"
+
+                        Write-Host "===== CREATE NAMESPACE ====="
+                        kubectl apply -f k8s/namespace.yaml
+                        
+                        Write-Host "===== DEPLOY CONFIGMAP ====="
+                        kubectl apply -f k8s/configmap.yaml
+                        
+                        Write-Host "===== DEPLOY SECRET ====="
+                        kubectl apply -f k8s/secret.yaml
+                        
+                        Write-Host "===== DEPLOY MYSQL ====="
+                        kubectl apply -f k8s/mysql-deployment.yaml
+
+                        Write-Host "===== PREPARE DEPLOYMENT MANIFEST ====="
+                        $deploymentFile = "k8s/deployment.yaml"
+                        $tempFile = "k8s/deployment-rendered.yaml"
+                        $content = Get-Content $deploymentFile -Raw
+                        $newImage = "$env:DOCKERHUB_USERNAME/events-project:$env:BUILD_NUMBER"
+                        $content = $content -replace "IMAGE_PLACEHOLDER", $newImage
+                        $content | Set-Content $tempFile -NoNewline
+                        Write-Host "Image set to: $newImage"
+
+                        Write-Host "===== DEPLOY APPLICATION ====="
+                        kubectl apply -f $tempFile
+                        Remove-Item $tempFile -Force
+                        
+                        Write-Host "===== DEPLOY SERVICE ====="
+                        kubectl apply -f k8s/service.yaml
+
+                        Write-Host "===== WAIT FOR MYSQL TO BE READY ====="
+                        kubectl rollout status deployment/events-mysql -n events-project --timeout=120s
+
+                        Write-Host "===== WAIT FOR ROLLOUT ====="
+                        kubectl rollout status deployment/events-project -n events-project --timeout=300s
+
+                        Write-Host "===== POD STATUS ====="
+                        kubectl get pods -n events-project -o wide
+
+                        Write-Host "===== SERVICE STATUS ====="
+                        kubectl get services -n events-project
+
+                        Write-Host "===== APPLICATION ACCESS INFO ====="
+                        $svc = kubectl get svc events-project-service -n events-project -o jsonpath="{.status.loadBalancer.ingress[0].hostname}" 2>$null
+                        if ($svc) {
+                            Write-Host "Application URL: http://${svc}/events/"
+                        } else {
+                            Write-Host "LoadBalancer is provisioning. Check later with:"
+                            Write-Host "  kubectl get svc events-project-service -n events-project"
+                        }
+
+                        Write-Host "SUCCESS: Kubernetes deployment completed."
+                    '''
+                }
+            }
+        }
     }
 
     post {
         success {
-            echo 'SUCCESS: Build, tests, SonarQube, Nexus and Docker Hub.'
+            echo 'SUCCESS: Build, tests, SonarQube, Nexus, Docker Hub, Terraform and Kubernetes deployment completed.'
         }
         failure {
             echo 'FAILURE: Consultez la Console Output de Jenkins.'

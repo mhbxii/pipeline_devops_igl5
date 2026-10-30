@@ -1,0 +1,22 @@
+# AWS Configuration
+aws_region  = "us-east-1"
+aws_profile = "terraform"
+
+# EKS Cluster
+cluster_name       = "events-cluster"
+kubernetes_version = "1.32"
+
+# IAM Roles (AWS Academy - DO NOT MODIFY)
+eks_cluster_role_arn = "arn:aws:iam::228000713549:role/c231366a5819305l18006910t1w228000-LabEksClusterRole-FKw4SP1nvxL2"
+eks_node_role_arn    = "arn:aws:iam::228000713549:role/c231366a5819305l18006910t1w228000713-LabEksNodeRole-5qPX0IPXdKCx"
+
+# Network (Default VPC)
+vpc_id     = "vpc-0f5db0c7d9a256c1e"
+subnet_ids = ["subnet-0b61181e7b28d1cbe", "subnet-0af2fffb43772f438"]
+
+# Node Group
+node_instance_types = ["t3.medium"]
+node_desired_size   = 2
+node_min_size       = 1
+node_max_size       = 3
+node_disk_size      = 20

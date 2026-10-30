@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: events-config
+  namespace: events-project
+  labels:
+    app: events-project
+data:
+  SPRING_PROFILES_ACTIVE: "prod"
+  SERVER_PORT: "8089"
+  SERVER_SERVLET_CONTEXT_PATH: "/events"
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+  SPRING_JPA_SHOW_SQL: "false"
+  SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.MySQL8Dialect"
+  LOGGING_LEVEL_ROOT: "info"

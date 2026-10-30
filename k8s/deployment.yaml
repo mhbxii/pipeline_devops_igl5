@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-project
+  namespace: events-project
+  labels:
+    app: events-project
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: events-project
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: events-project
+    spec:
+      containers:
+        - name: events-project
+          image: IMAGE_PLACEHOLDER
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8089
+              name: http
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: events-config
+            - secretRef:
+                name: events-db-secret
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+          readinessProbe:
+            httpGet:
+              path: /events/
+              port: 8089
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /events/
+              port: 8089
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+      restartPolicy: Always

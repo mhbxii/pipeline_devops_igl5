@@ -25,13 +25,13 @@ variable "kubernetes_version" {
 variable "eks_cluster_role_arn" {
   description = "ARN of the existing IAM role for the EKS cluster"
   type        = string
-  sensitive   = false
+  default     = "arn:aws:iam::228000713549:role/c231366a5819305l18006910t1w228000-LabEksClusterRole-FKw4SP1nvxL2"
 }
 
 variable "eks_node_role_arn" {
   description = "ARN of the existing IAM role for the EKS node group"
   type        = string
-  sensitive   = false
+  default     = "arn:aws:iam::228000713549:role/c231366a5819305l18006910t1w228000713-LabEksNodeRole-5qPX0IPXdKCx"
 }
 
 variable "vpc_id" {

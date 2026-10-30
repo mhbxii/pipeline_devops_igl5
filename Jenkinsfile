@@ -18,6 +18,7 @@ pipeline {
 
         // AWS / EKS
         AWS_DEFAULT_REGION = 'us-east-1'
+        AWS_REGION = 'us-east-1'
         EKS_CLUSTER_NAME = 'events-cluster'
         K8S_NAMESPACE = 'events-project'
     }

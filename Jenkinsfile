@@ -95,8 +95,9 @@ pipeline {
                         set +x
                         umask 077
                         export TF_IN_AUTOMATION=1 AWS_EC2_METADATA_DISABLED=true
+                        cp "$EKS_TFVARS" "$TF_PLAN_DIR/eks.tfvars.json"
                         status=0
-                        terraform -chdir=terraform/aws-eks plan -input=false -no-color -lock-timeout=60s -var-file="$EKS_TFVARS" -var=aws_profile=events-tache-lab -detailed-exitcode -out="$TF_PLAN_DIR/eks.tfplan" || status=$?
+                        terraform -chdir=terraform/aws-eks plan -input=false -no-color -lock-timeout=60s -var-file="$TF_PLAN_DIR/eks.tfvars.json" -var=aws_profile=events-tache-lab -detailed-exitcode -out="$TF_PLAN_DIR/eks.tfplan" || status=$?
                         case "$status" in
                             0) echo 'Terraform EKS: no changes.' ;;
                             2) echo 'Terraform EKS: review the proposed AWS changes and cost before approval.' ;;

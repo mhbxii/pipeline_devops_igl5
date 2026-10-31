@@ -1,3 +1,10 @@
+# Correction Terraform Jenkins #17 — 31 octobre 2026
+
+Plan arrêté avant tout appel de création : fichier de variables JSON traité comme
+HCL, car le nom de fichier du credential ne porte pas le suffixe .json. Le pipeline
+copie désormais ce Secret file vers eks.tfvars.json dans son répertoire temporaire
+privé ; suppression inchangée en post/always. Aucun apply effectué.
+
 # Présentation prête — 31 octobre 2026
 
 Nouvelle soutenance : docs/presentation/eventsProject-Tache-Soutenance.pptx et PDF

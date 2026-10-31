@@ -1,5 +1,10 @@
 # Suivi du barème — résultats vérifiés
 
+État actuel : Jenkins #20 SUCCESS, chaîne complète vers EKS vérifiée. Terraform
+#19 appliqué après accord ; #20 sans différence. Un worker, quatre deployments,
+trois PVC chiffrés, Prometheus UP et Grafana sain avec quatre requêtes non vides.
+Preuves : evidence/17-terraform-pipeline/. Les blocages ci-dessous sont historiques.
+
 Support actuel : eventsProject-Tache-Soutenance.pptx, 26 diapositives ; voir
 presentation/presentation-plan.md et presentation/screenshots-index.md.
 Les renvois du tableau historique ci-dessous concernent les anciens decks.

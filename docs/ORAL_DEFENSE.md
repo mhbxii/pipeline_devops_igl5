@@ -183,3 +183,11 @@ en 8, JUnit en 9, JaCoCo en 10, Sonar en 11, pipeline unique en 13 et plan/apply
 en 14. Les slides 20–23 portent les preuves AWS du 29 octobre ; annoncer leur date
 et le nettoyage effectué. La slide 24 décrit la réactivation restante du lab.
 Le build #15 prouve CI/publication et runtime Docker/MySQL, pas un nouveau rollout EKS.
+
+# Vérification EKS actuelle — 31 octobre 2026
+
+#19 : quatre créations Terraform après revue et accord. #20 : plan sans différence,
+publication et rollout réussis, JAR Jenkins/Nexus/pod identiques. 52 tests ; un worker
+et quatre deployments prêts ; trois PVC chiffrés ; Prometheus UP et quatre requêtes
+Grafana non vides. Le rôle persiste au remplacement du pod applicatif. Les captures
+historiques du deck restent datées ; montrer Jenkins #20 pour la nouvelle démonstration.

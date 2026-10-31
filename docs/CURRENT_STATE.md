@@ -1,3 +1,17 @@
+# Pipeline complet EKS vérifié — 31 octobre 2026
+
+Jenkins #19 SUCCESS : plan revu et approuvé, quatre ressources AWS créées.
+Jenkins #20 SUCCESS sur 4dd4e98 : 52 tests, gate Sonar, Terraform validate et plan
+sans différence, Nexus, Docker Hub, rollout EKS et HTTP réels. Aucun nouvel apply
+nécessaire dans #20. L'extension JSON des variables et l'allowlist /32 sont corrigées.
+Un worker t3.medium Ready ; application, MySQL, Prometheus et Grafana : 1/1 Ready.
+Trois PVC gp3 chiffrés Bound (4 + 1 + 1 Gio). Prometheus : 1/1 UP. Grafana :
+datasource OK et quatre requêtes non vides. JAR Jenkins/Nexus/pod identiques.
+Utilisateur du pod : 10001. Rôle conservé après remplacement du pod applicatif.
+Preuves : docs/evidence/17-terraform-pipeline/. Le cluster reste ACTIF et facturé
+(environ 0,16 USD/h). Aucun nettoyage de cette nouvelle infrastructure effectué.
+Les sections suivantes retracent les étapes antérieures, dont les anciens blocages.
+
 # Correction Terraform Jenkins #17 — 31 octobre 2026
 
 #19 : tests, gate, validate et plan réussis avec CIDR actuel vérifié. L'utilisateur

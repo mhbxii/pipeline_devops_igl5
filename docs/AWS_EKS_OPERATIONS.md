@@ -42,7 +42,8 @@ Le pipeline unique est désormais Jenkinsfile, job tache-ci : compilation, tests
 Sonar, Terraform AWS, publications et livraison de l'image du build courant sur EKS.
 L'ancien ci/Jenkinsfile.eks est supprimé ; les scripts de configuration désactivent
 le job de promotion et conservent son historique. Voir JENKINS_TERRAFORM.md.
-Ces modifications locales ne sont pas encore une nouvelle démonstration AWS.
+Jenkins #20 a vérifié la chaîne complète sur le nouveau cluster après l'apply
+approuvé de #19 ; preuves actuelles : evidence/17-terraform-pipeline/.
 
 Après bootstrap, `python scripts/Configure-EksJenkins.py` renouvelle le Secret file
 `eks-kubeconfig` pour tache-ci, sans créer de job. Le token de deux heures autorise
@@ -75,7 +76,7 @@ le compte, le contexte, le hash du plan et l'identité des trois volumes avant d
 supprimer les namespaces. Il attend l'absence des volumes avant l'apply du plan :
 
 ```powershell
-python scripts/Remove-EksDemo.py --approved-plan-sha256 6f7d712fb3dcad774c4f35280f57759c47b83698ee0ec296269dcd617cb5c8eb
+python scripts/Remove-EksDemo.py --approved-plan-sha256 HASH_DU_NOUVEAU_PLAN_EXAMINE
 python scripts/Verify-EksCleanup.py
 ```
 

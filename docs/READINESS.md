@@ -1,59 +1,32 @@
-# Préparation de la démonstration — 31 octobre 2026
+# Projet vérifié sur AWS EKS — 31 octobre 2026
 
-Support actuel : [PowerPoint de soutenance](presentation/eventsProject-Tache-Soutenance.pptx)
-et [PDF](presentation/eventsProject-Tache-Soutenance.pdf). 26 slides françaises
-validées, aucune note orateur ; les captures AWS historiques sont explicitement datées.
+- Jenkins **#20 SUCCESS**, source `4dd4e988e514` : chaîne complète jusqu'au rollout EKS et aux vérifications HTTP.
+- **52 tests**, rapports JaCoCo HTML/XML, gate Sonar OK.
+- DTO explicites en entrée/sortie ; erreurs 400/404 contrôlées et HTTP/MySQL vérifié.
+- Terraform : création approuvée dans #19, plan sans différence dans #20.
+- EKS : un worker Ready, application/MySQL/Prometheus/Grafana chacun 1/1 Ready.
+- Trois PVC gp3 chiffrés Bound : MySQL 4 Gio, Prometheus et Grafana 1 Gio chacun.
+- Prometheus : 1/1 cible UP ; Grafana : datasource saine et quatre requêtes non vides.
+- Même JAR dans Jenkins, Nexus et le pod ; UID non-root 10001 ; rôle conservé au rollout.
 
-## Application et DTO
+Image : `ayyoub1/events-tache:tache-4dd4e988e514-20`. Snapshot Nexus : `1.0.0-20261031.080707-11`.
+Preuves actuelles : `evidence/17-terraform-pipeline/`.
 
-- Requêtes : listes explicites de champs modifiables, relations par ID positif.
-- Réponses : DTO dédiés ; pas de sérialisation récursive des entités JPA.
-- Contrat : routes et champs scalaires conservés, relations de réponse par ID.
-- Rôles : Tache reste l'enum Participant ; affectation, remplacement et retrait.
-- Références inexistantes : HTTP 404 ; identifiants invalides : HTTP 400.
-- Sources à expliquer : controllers/dto, TacheService, contrôleurs et tests.
+## Accès via tunnels locaux
 
-Contrats détaillés : [DTO_API.md](DTO_API.md).
+- Jenkins : http://localhost:8080/job/tache-ci/20/
+- API : http://localhost:18189/events/taches
+- Prometheus : http://localhost:19190/targets
+- Grafana : http://localhost:13100 (secret dans .env : EKS_GRAFANA_ADMIN_PASSWORD).
 
-## Vérifications locales terminées
+## Exploitation
 
-Maven verify : **52 tests réussis**, aucune erreur ni test ignoré. Rapports
-JaCoCo HTML et XML produits. Les nouveaux tests couvrent les graphes cycliques,
-les champs non affectables et les références manquantes.
+Le cluster reste actif : estimation environ 0,16 USD/h jusqu'au nettoyage.
+Renouveler le profil lab et exécuter Configure-AwsTerraformJenkins.py pour vérifier
+le compte et actualiser les /32. Si le plan change, le revoir avant approbation.
+Renouveler eks-kubeconfig via Configure-EksJenkins.py (token de deux heures).
+Le bootstrap Deploy-Eks.py est réservé à une création initiale du cluster.
+Le nettoyage exige un nouveau plan destroy et un accord ; ne pas réutiliser les anciens plans.
 
-Le JAR a été lancé temporairement contre le MySQL dédié. Les routes historiques,
-le cycle de rôle complet, les erreurs 400/404, la readiness et les métriques
-Prometheus ont été vérifiés. Ce processus de vérification a ensuite été arrêté.
-Preuves : `evidence/16-readiness/final-baseline-readiness.json` et
-`final-legacy-dto-api.json`.
-
-## Jenkins et infrastructure
-
-Jenkins reconstruit : Terraform 1.17.1 et kubectl 1.36.6. Un seul Jenkinsfile cible
-EKS ; l'ancien job est désactivé avec son historique conservé. Les hashes provider
-Windows/Linux sont présents et Terraform validate réussit sur les deux plateformes.
-
-Jenkins **#15 SUCCESS**, source `8a5a96f`, après correction du NPE historique.
-Sonar : gate OK, zéro bug/vulnérabilité/code smell/hotspot, couverture lignes 72,3 %.
-Nexus et Docker Hub publiés. JAR identique dans Jenkins, Nexus et l'image ;
-manifeste public HTTP 200 identique au manifeste local.
-
-Image : `ayyoub1/events-tache:tache-8a5a96f28c1e-15`.
-Nexus : `1.0.0-20261031.023455-10`.
-Cette image a aussi été exécutée temporairement contre MySQL : DTO/rôle,
-readiness, 404, métriques et UID 10001 vérifiés. Conteneur de test supprimé ensuite.
-Preuves : `evidence/16-readiness/release-15-verification.json`,
-`docker-image-15-smoke.json`, `sonar-build-15.json` et captures Jenkins/JUnit/JaCoCo.
-Terraform et livraison AWS étaient explicitement désactivés dans ce build.
-
-## Éléments encore bloqués
-
-La policy du Learner Lab `voc-cancel-cred` refuse actuellement EKS. Le cluster
-précédent a été supprimé. Les manifests Prometheus/Grafana et leur provisioning
-existent ; ils ne constituent pas une preuve de disponibilité sur un nouveau cluster.
-
-Pour terminer : redémarrer le lab, renouveler le profil dédié, vérifier le compte,
-les CIDRs /32 et le budget, revoir un nouveau plan Terraform et obtenir l'accord
-avant apply. Le bootstrap puis la livraison permettent les contrôles HTTP,
-Prometheus (cible UP), Grafana (datasource et quatre requêtes), PVC et persistance.
-Guides : JENKINS_TERRAFORM.md et AWS_EKS_OPERATIONS.md.
+La présentation existante reste le bilan de la phase CI #15 ; les preuves EKS
+actuelles sont disponibles dans Jenkins #20 et le dossier ci-dessus.

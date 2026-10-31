@@ -1,0 +1,13 @@
+EKS events-tache-ayyoub / us-east-1 / verified 2026-10-31T08:22:18.856724+00:00
+Node: 1 t3.medium Ready / v1.36.5-eks-577a51e
+events-tache / events: 1/1 Ready
+events-tache / mysql: 1/1 Ready
+events-monitoring / prometheus: 1/1 Ready
+events-grafana / grafana: 1/1 Ready
+mysql-data: Bound / encrypted gp3 / 4Gi
+prometheus-data: Bound / encrypted gp3 / 1Gi
+grafana-data: Bound / encrypted gp3 / 1Gi
+HTTP readiness: UP; MySQL-backed role lifecycle: see api-success.txt
+JAR SHA256 matches Jenkins #20 artifact:
+9b237854cbab2a91f6afdbceefcdc89615c1c559e39d1ab54879861853e63805
+Prometheus: 1/1 UP; Grafana: healthy, four nonempty queries

@@ -1,0 +1,14 @@
+{
+  "build": 20,
+  "result": "SUCCESS",
+  "revision": "4dd4e988e51411f6f3a7367a36d3881fd2b1ab6f",
+  "image": "ayyoub1/events-tache:tache-4dd4e988e514-20",
+  "jarSha256": "9b237854cbab2a91f6afdbceefcdc89615c1c559e39d1ab54879861853e63805",
+  "nexusSnapshot": "1.0.0-20261031.080707-11",
+  "nexusMatchesJenkins": true,
+  "anonymousRegistryHttp": 200,
+  "manifestDigest": "sha256:0a45640b61065185ab68c7719bb968ecf79cfde830655e9977d5f35ff58f5c7f",
+  "podMatchesJenkinsNexus": true,
+  "runtimeUid": "10001",
+  "roleSurvivedApplicationRollout": true
+}

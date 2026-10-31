@@ -15,7 +15,7 @@ python scripts/Deploy-Eks.py
 ./scripts/Start-LocalForwards.ps1 -Eks -IncludeGrafana
 ./scripts/Test-TacheApi.ps1 -BaseUrl http://localhost:18189/events
 python scripts/Verify-Eks.py --build NUMERO_DU_BUILD_UNIFIE_REUSSI
-python scripts/Capture-Grafana.py --eks
+python scripts/Capture-Grafana.py --eks --output-dir docs/evidence/17-terraform-pipeline
 ./scripts/Capture-BaselineEvidence.ps1 -EksOnly
 ```
 

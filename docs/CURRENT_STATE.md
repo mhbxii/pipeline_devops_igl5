@@ -1,5 +1,22 @@
 # Correction Terraform Jenkins #17 — 31 octobre 2026
 
+#19 : tests, gate, validate et plan réussis avec CIDR actuel vérifié. L'utilisateur
+a explicitement approuvé création et déploiement application/MySQL/Prometheus/
+Grafana. Plan privé sauvegardé .local/aws-eks-jenkins19.tfplan, SHA-256
+22e873452448ee9021d8feae03424ae897abd8459b8e594fcb936ab2d9575e2c.
+Apply lancé dans Jenkins après comparaison du hash ; #19 SUCCESS, 4 ressources
+créées. Kubeconfig EKS privé actualisé et bootstrap approuvé appliqué : namespaces,
+Secrets, RBAC, stockage, MySQL, application et monitoring. MySQL Ready ; attente
+des autres rollouts au moment de cette mise à jour. Image initiale fixée au digest
+vérifié du build #15, puis le pipeline livrera son propre nouveau build.
+
+Exécution demandée après correction : #18 a réussi compilation, 52 tests, Sonar,
+gate, Terraform validate et plan (4 créations). Arrêt volontaire avant approbation :
+allowlist API /32 périmée. Credential de variables et fichier privé local actualisés
+avec la sortie commune hôte/Jenkins ; autres variables et credentials AWS conservés.
+Nouveau build #19 demandé avec apply soumis à approbation et livraison/publications
+désactivées pour créer d'abord l'infrastructure. Aucun apply effectué à ce stade.
+
 Plan arrêté avant tout appel de création : fichier de variables JSON traité comme
 HCL, car le nom de fichier du credential ne porte pas le suffixe .json. Le pipeline
 copie désormais ce Secret file vers eks.tfvars.json dans son répertoire temporaire

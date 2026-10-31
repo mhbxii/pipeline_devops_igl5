@@ -69,7 +69,8 @@ L'ancien cluster a été supprimé. Aucune nouvelle exécution EKS n'est revendi
    historique conservé. Le premier build actualise les paramètres.
 3. Renouveler la session lab et configurer les deux Secret files Terraform.
    `python scripts/Configure-AwsTerraformJenkins.py` vérifie STS et le compte
-   attendu, puis copie uniquement le profil dédié et les variables privées.
+   attendu, contrôle l'accès EKS et actualise les sorties IPv4 /32 du poste et
+   de Jenkins, puis copie uniquement le profil dédié et les variables privées.
 4. Exécuter un build avec DEPLOY_EKS=false et publications désactivées pour revoir
    le plan. Un build avec APPLY_TERRAFORM=true demande confirmation du plan qu'il
    vient de produire ; ne confirmer qu'après revue.

@@ -1,0 +1,27 @@
+{
+  "build": 19,
+  "commit": "eda246a",
+  "planSha256": "22e873452448ee9021d8feae03424ae897abd8459b8e594fcb936ab2d9575e2c",
+  "create": 4,
+  "change": 0,
+  "destroy": 0,
+  "clusterVersion": "1.36",
+  "instanceTypes": [
+    "t3.medium"
+  ],
+  "operatorCidrCurrent": true,
+  "applyApproved": true,
+  "resources": [
+    "aws_eks_addon.ebs",
+    "aws_eks_cluster.demo",
+    "aws_eks_node_group.demo",
+    "aws_launch_template.worker"
+  ],
+  "approval": "Explicit user approval for creation and application/MySQL/Prometheus/Grafana deployment",
+  "applyResult": {
+    "added": 4,
+    "changed": 0,
+    "destroyed": 0,
+    "jenkinsResult": "SUCCESS"
+  }
+}

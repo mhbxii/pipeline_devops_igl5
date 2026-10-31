@@ -5,10 +5,13 @@ from local_ci import ROOT, environment
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--eks', action='store_true')
+parser.add_argument('--output-dir', help='Repository-relative evidence directory; preserves historical captures')
 args = parser.parse_args()
 base = 'http://localhost:13100' if args.eks else 'http://localhost:13000'
 secret_key = 'EKS_GRAFANA_ADMIN_PASSWORD' if args.eks else 'GRAFANA_ADMIN_PASSWORD'
 folder = '14-aws-eks' if args.eks else '13-monitoring'
+output = ROOT / args.output_dir if args.output_dir else ROOT / 'docs/evidence' / folder
+output.mkdir(parents=True, exist_ok=True)
 
 with sync_playwright() as p:
     browser = p.chromium.launch(channel="msedge", headless=True)
@@ -22,6 +25,6 @@ with sync_playwright() as p:
     page.get_by_text("Collecte Prometheus (up)", exact=True).wait_for(timeout=120000)
     page.get_by_text("UP", exact=True).wait_for(timeout=60000)
     page.wait_for_timeout(3000)
-    page.screenshot(path=str(ROOT / 'docs/evidence' / folder / 'grafana-dashboard.png'), full_page=True)
+    page.screenshot(path=str(output / 'grafana-dashboard.png'), full_page=True)
     browser.close()
 print("Captured the live provisioned Grafana dashboard.")

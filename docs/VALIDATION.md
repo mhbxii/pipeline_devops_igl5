@@ -22,7 +22,7 @@ The successful pipeline checked out source commit `0eb1979e6ace`. Later evidence
 - Sonar: http://localhost:9000/dashboard?id=events-logistics
 - Nexus: http://localhost:8081/
 - Docker Hub tags: https://hub.docker.com/r/arfaoui131/events-logistics/tags
-- Grafana: http://localhost:3000/d/events-logistics
+- Grafana: http://localhost:3000/d/events-logistics.
 - App health: ports 8089 (Compose), 8090 (Kubernetes), 8091 (Terraform), path `/events/actuator/health`
 
 Published registry digests:

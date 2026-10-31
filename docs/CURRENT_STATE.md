@@ -9,7 +9,8 @@ JaCoCo HTML/XML produits. JAR lancé temporairement sur 127.0.0.1:18099 contre l
 MySQL dédié : quatre routes historiques, cycle rôle complet, erreurs 400/404,
 readiness UP et métriques Prometheus JVM/HTTP vérifiés. Processus de vérification
 arrêté ensuite. Preuves : docs/evidence/16-readiness/. Contrats : docs/DTO_API.md.
-Hash provider Linux corrigé, activation Jenkins à reprendre avec les sources publiées.
+Hash provider Linux corrigé et validé sur Windows/Linux. Jenkins reconstruit et
+pipeline unique actif ; ancien job EKS désactivé, historique conservé.
 Blocage AWS actuel : STS répond, mais EKS ListClusters est explicitement refusé
 par la policy de lab voc-cancel-cred. Redémarrage du lab et renouvellement du
 profil demandés. Aucun contournement IAM ni apply effectué.
@@ -21,7 +22,15 @@ participant inexistant : garde 404 ajoutée, ainsi que 400 pour ID invalide et 4
 pour événement logistique absent. Maven verify final : 52 tests réussis ; succès
 HTTP/MySQL et nouveaux rejets 400/404 vérifiés sur le JAR actualisé.
 Preuve finale locale : docs/evidence/16-readiness/final-baseline-readiness.json.
-Une nouvelle CI doit confirmer zéro bug Sonar sur cette correction.
+Jenkins #15 sur 8a5a96f SUCCESS : 52 tests et gate OK ; zéro bug/vulnérabilité/code
+smell/hotspot, couverture lignes 72,3 %. Nexus et Docker Hub réellement publiés.
+Image : ayyoub1/events-tache:tache-8a5a96f28c1e-15 ; accès anonyme HTTP 200.
+Digest : sha256:5c4ff54095b9ae76310a7ae1a661fffcd7d5d08c2b317289863c131da39dfe22.
+Snapshot Nexus : 1.0.0-20261031.023455-10. JAR Jenkins/Nexus/image identiques.
+Image exécutée temporairement contre MySQL : readiness, DTO/rôle, 404, export
+Prometheus et UID non-root 10001 vérifiés ; conteneur de test supprimé ensuite.
+Preuves : docs/evidence/16-readiness/ et synthèse docs/READINESS.md.
+AWS reste bloqué : aucun nouveau cluster, apply ou succès monitoring EKS annoncé.
 
 # Pipeline unique EKS — 30 octobre 2026
 

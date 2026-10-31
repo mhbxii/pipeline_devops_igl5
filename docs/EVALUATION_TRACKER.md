@@ -6,8 +6,9 @@ DTO explicites en entrée et sortie : voir DTO_API.md. Maven verify final : 52 t
 réussis, rapports JaCoCo produits. HTTP réel sur le JAR contre MySQL : routes
 historiques, rôles, cas 400/404, readiness et export Prometheus validés.
 Preuves finales locales : 16-readiness/final-baseline-readiness.json et
-final-legacy-dto-api.json. Jenkins #14 SUCCESS (46 tests) prouve les publications ;
-la correction du NPE historique attend sa nouvelle vérification CI/Sonar.
+final-legacy-dto-api.json. Jenkins #15 SUCCESS (52 tests), gate OK et zéro bug/
+vulnérabilité/code smell/hotspot. Nexus/Docker publiés, JAR Jenkins/Nexus/image
+identiques et manifeste public vérifié ; voir release-15-verification.json.
 Le redémarrage AWS reste bloqué par la policy voc-cancel-cred du lab ; aucune
 nouvelle disponibilité EKS/Grafana/Prometheus n'est annoncée.
 

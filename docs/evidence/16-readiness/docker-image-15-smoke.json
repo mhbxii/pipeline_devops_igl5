@@ -1,0 +1,13 @@
+{
+  "jenkinsBuild": 15,
+  "revision": "8a5a96f28c1e9d1fd2aa14146af43c6efcfd7bfe",
+  "image": "ayyoub1/events-tache:tache-8a5a96f28c1e-15",
+  "readiness": "UP",
+  "mysqlDtoHttp": "PASS",
+  "missingReferenceHttp": 404,
+  "prometheusExporter": "PASS",
+  "runtimeUid": "10001",
+  "jarSha256": "45f32ac98daabce3acd0cc21c024c20c736a4bc1de72d300061d7421567877ed",
+  "temporaryContainerRemovedAfterTest": true,
+  "eksLive": false
+}

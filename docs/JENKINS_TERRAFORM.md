@@ -2,8 +2,9 @@
 
 Modification du 30 octobre 2026, branche Tache. Le pipeline unique est
 `Jenkinsfile`, job `tache-ci`. `ci/Jenkinsfile.eks` est supprimé. Les scripts de
-configuration désactivent l'ancien job sans effacer son historique. Commit et
-publication autorisés ; reconstruction et activation complète restent à effectuer.
+configuration désactivent l'ancien job sans effacer son historique. Sources publiées,
+Jenkins reconstruit et outils vérifiés. Jenkins #15 SUCCESS pour CI/publication ;
+activation EKS encore bloquée par l'accès au Learner Lab, sans nouvel apply.
 
 ## Parcours et défense des sources
 

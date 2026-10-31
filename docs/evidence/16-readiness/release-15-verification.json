@@ -1,0 +1,13 @@
+{
+  "jenkinsBuild": 15,
+  "result": "SUCCESS",
+  "revision": "8a5a96f28c1e9d1fd2aa14146af43c6efcfd7bfe",
+  "image": "ayyoub1/events-tache:tache-8a5a96f28c1e-15",
+  "jarSha256": "45f32ac98daabce3acd0cc21c024c20c736a4bc1de72d300061d7421567877ed",
+  "jarMatchesJenkinsNexusDocker": true,
+  "nexusSnapshot": "1.0.0-20261031.023455-10",
+  "anonymousRegistryHttp": 200,
+  "manifestDigest": "sha256:5c4ff54095b9ae76310a7ae1a661fffcd7d5d08c2b317289863c131da39dfe22",
+  "localAndRemoteManifestsMatch": true,
+  "eksLive": false
+}

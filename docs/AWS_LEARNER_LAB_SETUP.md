@@ -1,5 +1,10 @@
 # AWS Academy Learner Lab — préparation utilisateur
 
+Guide initial conservé pour le renouvellement des credentials. État au 31 octobre
+2026 : démonstration EKS passée puis nettoyée ; pipeline unique et Jenkins #15
+vérifiés, nouvelle activation bloquée par la policy de lab voc-cancel-cred.
+Voir CURRENT_STATE.md et READINESS.md pour les résultats actuels.
+
 L'utilisateur confirme que le déploiement AWS/EKS est obligatoire. La livraison
 locale kind, Terraform Prometheus et le monitoring sont vérifiés ; ils ne prouvent
 pas encore un déploiement EKS. Aucune ressource AWS n'a été créée pour ce projet.

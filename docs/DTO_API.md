@@ -36,3 +36,8 @@ cyclique, champs et collections), EventRestControllerCompatibilityTest (contrats
 HTTP historiques), TacheRestControllerTest (enum, erreurs, rôle absent et champs
 non affectables), TachePersistenceTest (persistance réelle JPA/H2).
 Les appels HTTP/MySQL réels sont vérifiés séparément : H2 ne prouve pas MySQL.
+
+Les références inexistantes des routes d'affectation d'événements/logistique
+retournent HTTP 404 ; un identifiant participant de chemin nul/négatif retourne
+HTTP 400. Ces contrôles évitent une NullPointerException avant la persistance.
+EventReferenceValidationTest et les appels HTTP/MySQL vérifient ces cas.

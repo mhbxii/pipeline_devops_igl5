@@ -5,12 +5,15 @@
   "scriptPath": "Jenkinsfile",
   "excludedRegions": "docs/.*",
   "polling": "H/5 * * * *",
-  "disabled": true,
+  "disabled": false,
   "anonymousSourceRead": true,
   "parameters": {
+    "RUN_TERRAFORM": true,
+    "APPLY_TERRAFORM": false,
     "RUN_SONAR": true,
     "PUBLISH_NEXUS": true,
     "PUBLISH_IMAGE": true,
+    "DEPLOY_EKS": true,
     "NEXUS_URL": "http://nexus:8081",
     "DOCKER_REPOSITORY": "ayyoub1/events-tache"
   }

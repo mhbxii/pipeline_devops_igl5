@@ -13,6 +13,15 @@ Hash provider Linux corrigé, activation Jenkins à reprendre avec les sources p
 Blocage AWS actuel : STS répond, mais EKS ListClusters est explicitement refusé
 par la policy de lab voc-cancel-cred. Redémarrage du lab et renouvellement du
 profil demandés. Aucun contournement IAM ni apply effectué.
+Sources et preuves publiées sur Tache : fee07ba. Jenkins #14 lancé sur ce commit
+avec tests/gate, publication Nexus et image publique ; Terraform/apply/livraison
+EKS explicitement désactivés pendant le blocage du lab. #14 SUCCESS, publications
+Nexus/Docker réelles. Le détail Sonar signale cependant un NPE historique sur
+participant inexistant : garde 404 ajoutée, ainsi que 400 pour ID invalide et 404
+pour événement logistique absent. Maven verify final : 52 tests réussis ; succès
+HTTP/MySQL et nouveaux rejets 400/404 vérifiés sur le JAR actualisé.
+Preuve finale locale : docs/evidence/16-readiness/final-baseline-readiness.json.
+Une nouvelle CI doit confirmer zéro bug Sonar sur cette correction.
 
 # Pipeline unique EKS — 30 octobre 2026
 

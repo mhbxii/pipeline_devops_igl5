@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import tn.esprit.eventsproject.entities.Event;
 import tn.esprit.eventsproject.entities.Logistics;
 import tn.esprit.eventsproject.entities.Participant;
@@ -33,7 +35,7 @@ public class EventServicesImpl implements IEventServices{
 
     @Override
     public Event addAffectEvenParticipant(Event event, int idParticipant) {
-        Participant participant = participantRepository.findById(idParticipant).orElse(null);
+        Participant participant = requireParticipant(idParticipant);
         if(participant.getEvents() == null){
             Set<Event> events = new HashSet<>();
             events.add(event);
@@ -48,7 +50,7 @@ public class EventServicesImpl implements IEventServices{
     public Event addAffectEvenParticipant(Event event) {
         Set<Participant> participants = event.getParticipants();
         for(Participant aParticipant:participants){
-            Participant participant = participantRepository.findById(aParticipant.getIdPart()).orElse(null);
+            Participant participant = requireParticipant(aParticipant.getIdPart());
             if(participant.getEvents() == null){
                 Set<Event> events = new HashSet<>();
                 events.add(event);
@@ -63,6 +65,9 @@ public class EventServicesImpl implements IEventServices{
     @Override
     public Logistics addAffectLog(Logistics logistics, String descriptionEvent) {
       Event event = eventRepository.findByDescription(descriptionEvent);
+      if (event == null) {
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
+      }
       if(event.getLogistics() == null){
           Set<Logistics> logisticsSet = new HashSet<>();
           logisticsSet.add(logistics);
@@ -95,6 +100,14 @@ public class EventServicesImpl implements IEventServices{
             }
         }
         return logisticsList;
+    }
+
+    private Participant requireParticipant(int id) {
+        if (id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Participant id must be positive");
+        }
+        return participantRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participant not found"));
     }
 
     @Scheduled(cron = "*/60 * * * * *")

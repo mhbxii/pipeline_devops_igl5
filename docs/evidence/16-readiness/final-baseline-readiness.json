@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-31",
+  "mavenVerify": "SUCCESS",
+  "junit": {
+    "tests": 52,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "jacocoCounters": {
+    "INSTRUCTION": {
+      "covered": 1006,
+      "missed": 320
+    },
+    "BRANCH": {
+      "covered": 18,
+      "missed": 22
+    },
+    "LINE": {
+      "covered": 180,
+      "missed": 69
+    },
+    "COMPLEXITY": {
+      "covered": 151,
+      "missed": 35
+    },
+    "METHOD": {
+      "covered": 144,
+      "missed": 22
+    },
+    "CLASS": {
+      "covered": 26,
+      "missed": 1
+    }
+  },
+  "mysqlReadiness": "UP",
+  "legacyDtoHttp": "PASS",
+  "roleLifecycleHttp": "PASS",
+  "referenceErrorHttp": [
+    {
+      "method": "POST",
+      "path": "/event/addEvent/2147483647",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/event/addEvent/0",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/event/addEvent",
+      "status": 404
+    },
+    {
+      "method": "PUT",
+      "path": "/event/addAffectLog/readiness-missing-20261031",
+      "status": 404
+    }
+  ],
+  "prometheusExporter": "PASS",
+  "jarSha256": "226138e6cd6875fb9e67aeb0b7ba31c2d4200d2ddeea5f1a042e53a6f35677a9",
+  "eksLive": false
+}

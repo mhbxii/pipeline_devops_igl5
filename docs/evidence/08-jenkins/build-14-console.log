@@ -1,0 +1,1002 @@
+Started by user tache-admin
+Checking out git https://github.com/mhbxii/pipeline_devops_igl5.git into /var/jenkins_home/workspace/tache-ci@script/8d47031758110876dfff3847aac1b2211596757e5a8a0d299b756cb90973a08f to read Jenkinsfile
+The recommended git tool is: NONE
+No credentials specified
+DEPRECATED: The extension that requires a workspace for polling is deprecated for Pipeline jobs. Use Pipeline-native SCM polling instead.
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/tache-ci@script/8d47031758110876dfff3847aac1b2211596757e5a8a0d299b756cb90973a08f/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/mhbxii/pipeline_devops_igl5.git # timeout=10
+Fetching upstream changes from https://github.com/mhbxii/pipeline_devops_igl5.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/mhbxii/pipeline_devops_igl5.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/Tache^{commit} # timeout=10
+Checking out Revision fee07badffc672abff9984fedb18ff02e6cdad7e (refs/remotes/origin/Tache)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f fee07badffc672abff9984fedb18ff02e6cdad7e # timeout=10
+Commit message: "feat: complete DTO boundaries and verify EKS pipeline readiness"
+ > git rev-list --no-walk ada9d41967def36f868c27bcd16321591434438a # timeout=10
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/tache-ci
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 30 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Validate configuration)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] checkout
+The recommended git tool is: NONE
+No credentials specified
+DEPRECATED: The extension that requires a workspace for polling is deprecated for Pipeline jobs. Use Pipeline-native SCM polling instead.
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/tache-ci/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/mhbxii/pipeline_devops_igl5.git # timeout=10
+Fetching upstream changes from https://github.com/mhbxii/pipeline_devops_igl5.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/mhbxii/pipeline_devops_igl5.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/Tache^{commit} # timeout=10
+Checking out Revision fee07badffc672abff9984fedb18ff02e6cdad7e (refs/remotes/origin/Tache)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f fee07badffc672abff9984fedb18ff02e6cdad7e # timeout=10
+Commit message: "feat: complete DTO boundaries and verify EKS pipeline readiness"
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ java -version
+openjdk version "17.0.15" 2025-04-15
+OpenJDK Runtime Environment Temurin-17.0.15+6 (build 17.0.15+6)
+OpenJDK 64-Bit Server VM Temurin-17.0.15+6 (build 17.0.15+6, mixed mode, sharing)
++ mvn -version
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: /opt/maven
+Java version: 17.0.15, vendor: Eclipse Adoptium, runtime: /opt/java17
+Default locale: en, platform encoding: UTF-8
+OS name: "linux", version: "6.6.87.2-microsoft-standard-wsl2", arch: "amd64", family: "unix"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Compile)
+[Pipeline] sh
++ mvn -B clean compile
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< tn.esprit:eventsProject >-----------------------
+[INFO] Building eventsProject 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ eventsProject ---
+[INFO] Deleting /var/jenkins_home/workspace/tache-ci/target
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (default) @ eventsProject ---
+[INFO] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/var/jenkins_home/workspace/tache-ci/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.2.0:resources (default-resources) @ eventsProject ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ eventsProject ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 19 source files to /var/jenkins_home/workspace/tache-ci/target/classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.793 s
+[INFO] Finished at: 2026-10-31T02:22:41Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Tests and coverage)
+[Pipeline] sh
++ set -eu
++ mvn -B test
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< tn.esprit:eventsProject >-----------------------
+[INFO] Building eventsProject 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (default) @ eventsProject ---
+[INFO] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/var/jenkins_home/workspace/tache-ci/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.2.0:resources (default-resources) @ eventsProject ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ eventsProject ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.2.0:testResources (default-testResources) @ eventsProject ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /var/jenkins_home/workspace/tache-ci/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.10.1:testCompile (default-testCompile) @ eventsProject ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 6 source files to /var/jenkins_home/workspace/tache-ci/target/test-classes
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ eventsProject ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-31 02:22:53 -  INFO - tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest - Starting EventRestControllerCompatibilityTest using Java 17.0.15 on 3c8d8f5aea52 with PID 4627 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-31 02:22:53 -  INFO - tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-31 02:22:57 -  INFO - org.springframework.boot.test.mock.web.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet '' 
+=2026-10-31 02:22:57 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Initializing Servlet '' 
+=2026-10-31 02:22:57 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Completed initialization in 8 ms 
+=2026-10-31 02:22:57 -  INFO - tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest - Started EventRestControllerCompatibilityTest in 4.752 seconds (JVM running for 8.01) 
+=2026-10-31 02:22:58 -  WARN - org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `tn.esprit.eventsproject.entities.Tache` from String "UNKNOWN": not one of the values accepted for Enum class: [INVITE, SERVEUR, ANIMATEUR, ORGANISATEUR]; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `tn.esprit.eventsproject.entities.Tache` from String "UNKNOWN": not one of the values accepted for Enum class: [INVITE, SERVEUR, ANIMATEUR, ORGANISATEUR]<EOL> at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 10] (through reference chain: tn.esprit.eventsproject.controllers.dto.EventRequests$ParticipantCreateRequest["tache"])] 
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.463 s - in tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest
+[INFO] Running tn.esprit.eventsproject.controllers.TacheRestControllerTest
+=2026-10-31 02:22:58 -  INFO - org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [tn.esprit.eventsproject.controllers.TacheRestControllerTest], using SpringBootContextLoader 
+=2026-10-31 02:22:58 -  INFO - org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [tn.esprit.eventsproject.controllers.TacheRestControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}. 
+=2026-10-31 02:22:58 -  INFO - org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [tn.esprit.eventsproject.controllers.TacheRestControllerTest]: TacheRestControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration. 
+=2026-10-31 02:22:58 -  INFO - org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration tn.esprit.eventsproject.EventsProjectApplication for test class tn.esprit.eventsproject.controllers.TacheRestControllerTest 
+=2026-10-31 02:22:58 -  INFO - org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener] 
+=2026-10-31 02:22:58 -  INFO - org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@17fe4f0f, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@65c6a7a, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@38d583cd, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@2ac42ce6, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@4fa78886, org.springframework.test.context.support.DirtiesContextTestExecutionListener@2a4d34b2, org.springframework.test.context.transaction.TransactionalTestExecutionListener@3e1201dd, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@353ab9e5, org.springframework.test.context.event.EventPublishingTestExecutionListener@46aaf47c, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@581a0bf, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@2b33553b, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@4ba62429, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@5a3e2035, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@52b2f795, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@6319ea75] 
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-31 02:22:58 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - Starting TacheRestControllerTest using Java 17.0.15 on 3c8d8f5aea52 with PID 4627 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-31 02:22:58 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-31 02:22:59 -  INFO - org.springframework.boot.test.mock.web.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet '' 
+=2026-10-31 02:22:59 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Initializing Servlet '' 
+=2026-10-31 02:22:59 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Completed initialization in 2 ms 
+=2026-10-31 02:22:59 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - Started TacheRestControllerTest in 0.878 seconds (JVM running for 9.973) 
+=2026-10-31 02:22:59 -  ERROR- tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role operation failed exceptionType=IllegalStateException 
+=2026-10-31 02:22:59 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:22:59 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:22:59 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:22:59 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:22:59 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.115 s - in tn.esprit.eventsproject.controllers.TacheRestControllerTest
+[INFO] Running tn.esprit.eventsproject.controllers.EventResponsesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.057 s - in tn.esprit.eventsproject.controllers.EventResponsesTest
+[INFO] Running tn.esprit.eventsproject.controllers.EventRequestsTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.085 s - in tn.esprit.eventsproject.controllers.EventRequestsTest
+[INFO] Running tn.esprit.eventsproject.services.TachePersistenceTest
+=2026-10-31 02:22:59 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [tn.esprit.eventsproject.services.TachePersistenceTest], using SpringBootContextLoader 
+=2026-10-31 02:22:59 -  INFO - org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [tn.esprit.eventsproject.services.TachePersistenceTest]: no resource found for suffixes {-context.xml, Context.groovy}. 
+=2026-10-31 02:22:59 -  INFO - org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [tn.esprit.eventsproject.services.TachePersistenceTest]: TachePersistenceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration. 
+=2026-10-31 02:22:59 -  INFO - org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration tn.esprit.eventsproject.EventsProjectApplication for test class tn.esprit.eventsproject.services.TachePersistenceTest 
+=2026-10-31 02:22:59 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener] 
+=2026-10-31 02:22:59 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@71bebbff, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@2740c1e, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@6cb890ac, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@7d4d3842, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@79a81557, org.springframework.test.context.support.DirtiesContextTestExecutionListener@5b9ee280, org.springframework.test.context.transaction.TransactionalTestExecutionListener@738b34af, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@67108db4, org.springframework.test.context.event.EventPublishingTestExecutionListener@5eab3eac, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@720d5d1b, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@588931b9, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@3b977a31, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@3cce6db1, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@24331ab6, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@35a6f370] 
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-31 02:23:00 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - Starting TachePersistenceTest using Java 17.0.15 on 3c8d8f5aea52 with PID 4627 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-31 02:23:00 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-31 02:23:00 -  INFO - org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+=2026-10-31 02:23:00 -  INFO - org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 71 ms. Found 3 JPA repository interfaces. 
+=2026-10-31 02:23:00 -  INFO - org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor - Replacing 'dataSource' DataSource bean with embedded version 
+=2026-10-31 02:23:00 -  INFO - org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory - Starting embedded database: url='jdbc:h2:mem:c4d00c9d-9cbd-47c8-b321-2eaeb3c85e67;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa' 
+=2026-10-31 02:23:01 -  INFO - org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default] 
+=2026-10-31 02:23:01 -  INFO - org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.14.Final 
+=2026-10-31 02:23:01 -  INFO - org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final} 
+=2026-10-31 02:23:02 -  INFO - org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect 
+Hibernate: drop table if exists event CASCADE 
+Hibernate: drop table if exists event_logistics CASCADE 
+Hibernate: drop table if exists logistics CASCADE 
+Hibernate: drop table if exists participant CASCADE 
+Hibernate: drop table if exists participant_events CASCADE 
+Hibernate: create table event (id_event integer generated by default as identity, cout float not null, date_debut date, date_fin date, description varchar(255), primary key (id_event))
+Hibernate: create table event_logistics (event_id_event integer not null, logistics_id_log integer not null, primary key (event_id_event, logistics_id_log))
+Hibernate: create table logistics (id_log integer generated by default as identity, description varchar(255), prix_unit float not null, quantite integer not null, reserve boolean not null, primary key (id_log))
+Hibernate: create table participant (id_part integer generated by default as identity, nom varchar(255), prenom varchar(255), tache varchar(255), primary key (id_part))
+Hibernate: create table participant_events (participants_id_part integer not null, events_id_event integer not null, primary key (participants_id_part, events_id_event))
+Hibernate: alter table event_logistics add constraint UK_hnhwi2rcis5h2gj0dvn0u21r unique (logistics_id_log)
+Hibernate: alter table event_logistics add constraint FK99lhmi6kdm74hjpsiaco1g3hd foreign key (logistics_id_log) references logistics
+Hibernate: alter table event_logistics add constraint FKjayu5dxqe4kbmonbtku21asqk foreign key (event_id_event) references event
+Hibernate: alter table participant_events add constraint FKjjnljm4c6ne60i0j1qqta2dxq foreign key (events_id_event) references event
+Hibernate: alter table participant_events add constraint FKqycnk1hsme42y3jxjuxtxknln foreign key (participants_id_part) references participant
+=2026-10-31 02:23:03 -  INFO - org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform] 
+=2026-10-31 02:23:03 -  INFO - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default' 
+=2026-10-31 02:23:04 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - Started TachePersistenceTest in 4.586 seconds (JVM running for 14.997) 
+=2026-10-31 02:23:04 -  INFO - org.springframework.test.context.transaction.TransactionContext - Began transaction (1) for test context [DefaultTestContext@161722eb testClass = TachePersistenceTest, testInstance = tn.esprit.eventsproject.services.TachePersistenceTest@185f2926, testMethod = persistsReadsReplacesAndClearsRoleWithoutRemovingParticipant@TachePersistenceTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@74c7ba2a testClass = TachePersistenceTest, locations = '{}', classes = '{class tn.esprit.eventsproject.EventsProjectApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{spring.jpa.hibernate.ddl-auto=create-drop, spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect, org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper=true}', contextCustomizers = set[[ImportsContextCustomizer@1be219b8 key = [org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration, org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration, org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration, org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration, org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration, org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration, org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration, org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration, org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManagerAutoConfiguration, tn.esprit.eventsproject.services.TacheService]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@6badba10, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@3c6c4689, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@1015a4b9, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@539a138b, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@351584c0, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@10b725a, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@3a6045c6, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@0], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@247091d5]; rollback [true] 
+Hibernate: insert into participant (id_part, nom, prenom, tache) values (default, ?, ?, ?)
+=2026-10-31 02:23:04 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=1 previous=null role=ORGANISATEUR 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+Hibernate: select tache from participant where id_part = ?
+=2026-10-31 02:23:04 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=1 previous=ORGANISATEUR role=SERVEUR 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+=2026-10-31 02:23:04 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=1 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+=2026-10-31 02:23:04 -  INFO - org.springframework.test.context.transaction.TransactionContext - Rolled back transaction for test: [DefaultTestContext@161722eb testClass = TachePersistenceTest, testInstance = tn.esprit.eventsproject.services.TachePersistenceTest@185f2926, testMethod = persistsReadsReplacesAndClearsRoleWithoutRemovingParticipant@TachePersistenceTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@74c7ba2a testClass = TachePersistenceTest, locations = '{}', classes = '{class tn.esprit.eventsproject.EventsProjectApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{spring.jpa.hibernate.ddl-auto=create-drop, spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect, org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper=true}', contextCustomizers = set[[ImportsContextCustomizer@1be219b8 key = [org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration, org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration, org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration, org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration, org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration, org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration, org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration, org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration, org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManagerAutoConfiguration, tn.esprit.eventsproject.services.TacheService]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@6badba10, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@3c6c4689, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@1015a4b9, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@539a138b, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@351584c0, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@10b725a, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@3a6045c6, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@0], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.029 s - in tn.esprit.eventsproject.services.TachePersistenceTest
+[INFO] Running tn.esprit.eventsproject.services.TacheServiceTest
+=2026-10-31 02:23:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=7 
+=2026-10-31 02:23:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=7 
+=2026-10-31 02:23:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=INVITE 
+=2026-10-31 02:23:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=ORGANISATEUR 
+=2026-10-31 02:23:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=SERVEUR 
+=2026-10-31 02:23:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=ANIMATEUR 
+=2026-10-31 02:23:05 -  WARN - tn.esprit.eventsproject.services.TacheService - Role operation rejected participantId=7 reason=participant_not_found 
+=2026-10-31 02:23:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=INVITE role=ORGANISATEUR 
+=2026-10-31 02:23:05 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=7 reason=missing_role 
+=2026-10-31 02:23:05 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=0 reason=invalid_id 
+=2026-10-31 02:23:05 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=-1 reason=invalid_id 
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.273 s - in tn.esprit.eventsproject.services.TacheServiceTest
+=2026-10-31 02:23:05 -  INFO - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default' 
+=2026-10-31 02:23:05 -  INFO - org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down' 
+Hibernate: drop table if exists event CASCADE 
+Hibernate: drop table if exists event_logistics CASCADE 
+Hibernate: drop table if exists logistics CASCADE 
+Hibernate: drop table if exists participant CASCADE 
+Hibernate: drop table if exists participant_events CASCADE 
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 46, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.12:report (report) @ eventsProject ---
+[INFO] Loading execution data file /var/jenkins_home/workspace/tache-ci/target/jacoco.exec
+[INFO] Analyzed bundle 'eventsProject' with 27 classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  22.309 s
+[INFO] Finished at: 2026-10-31T02:23:06Z
+[INFO] ------------------------------------------------------------------------
++ test -s target/site/jacoco/index.html
++ test -s target/site/jacoco/jacoco.xml
+Post stage
+[Pipeline] junit
+Recording test results
+[Checks API] No suitable checks publisher found.
+[Pipeline] archiveArtifacts
+Archiving artifacts
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (SonarQube analysis)
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withSonarQubeEnv
+Injecting SonarQube environment variables using the configuration: local-sonar
+[Pipeline] {
+[Pipeline] sh
++ set +x
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< tn.esprit:eventsProject >-----------------------
+[INFO] Building eventsProject 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- sonar:5.8.0.7211:sonar (default-cli) @ eventsProject ---
+[INFO] Java 21.0.13 Eclipse Adoptium (64-bit)
+[INFO] Linux 6.6.87.2-microsoft-standard-WSL2 (amd64)
+[INFO] Communicating with SonarQube Community Build 26.10.0.133078
+[INFO] JRE provisioning is disabled
+[INFO] Using the java executable '/opt/java/openjdk/bin/java' from JAVA_HOME
+[INFO] Starting SonarScanner Engine...
+[INFO] Java 21.0.13 Eclipse Adoptium (64-bit)
+[INFO] Load global settings
+[INFO] Load global settings (done) | time=244ms
+[INFO] Server id: 147B411E-AaGHJ4mZ4-8Hdx7cDqYo
+[INFO] Loading required plugins
+[INFO] Load plugins index
+[INFO] Load plugins index (done) | time=45ms
+[INFO] Load/download plugins
+[INFO] Load/download plugins (done) | time=32ms
+[INFO] Load project settings for component key: 'events-tache'
+[INFO] Load project settings for component key: 'events-tache' (done) | time=81ms
+[INFO] Process project properties
+[INFO] Process project properties (done) | time=35ms
+[INFO] Project key: events-tache
+[INFO] Base dir: /var/jenkins_home/workspace/tache-ci
+[INFO] Working dir: /var/jenkins_home/workspace/tache-ci/target/sonar
+[INFO] Load quality profiles
+[INFO] Load quality profiles (done) | time=294ms
+[INFO] Load active rules
+[INFO] Load active rules (done) | time=624ms
+[INFO] Load analysis cache
+[INFO] Load analysis cache (963 bytes) | time=36ms
+[INFO] Preprocessing files...
+[INFO] 2 languages detected in 26 preprocessed files (done) | time=197ms
+[INFO] 0 files ignored because of scm ignore settings
+[INFO] Loading plugins for detected languages
+[INFO] Load/download plugins
+[INFO] Load/download plugins (done) | time=29ms
+[INFO] Load project repositories
+[INFO] Load project repositories (done) | time=169ms
+[INFO] Indexing files...
+[INFO] Project configuration:
+[INFO] 26 files indexed (done) | time=17ms
+[INFO] Quality profile for java: Sonar way core
+[INFO] Quality profile for xml: Sonar way core
+[INFO] ------------- Run sensors on module eventsProject
+[INFO] Load metrics repository
+[INFO] Load metrics repository (done) | time=48ms
+[INFO] Sensor IaC YAML File Type Classification Sensor [iac]
+[INFO] Sensor IaC YAML File Type Classification Sensor [iac] (done) | time=5ms
+[INFO] Sensor JavaSensor [java]
+[INFO] Configured Java source version (sonar.java.source): 8, preview features enabled (sonar.java.enablePreview): false
+[INFO] Server-side caching is enabled. The Java analyzer will not try to leverage data from a previous analysis.
+[INFO] Using ECJ batch to parse 19 Main java source files with batch size 12 KB.
+[INFO] Starting batch processing.
+[INFO] The Java analyzer cannot skip unchanged files in this context. A full analysis is performed for all files.
+[INFO] 100% analyzed
+[INFO] Batch processing: Done.
+[INFO] Did not optimize analysis for any files, performed a full analysis for all 19 files.
+[WARNING] Unresolved imports/types have been detected during analysis. Enable DEBUG mode to see them.
+[WARNING] Use of preview features have been detected during analysis. Enable DEBUG mode to see them.
+[INFO] Using ECJ batch to parse 6 Test java source files with batch size 12 KB.
+[INFO] Starting batch processing.
+[INFO] 100% analyzed
+[INFO] Batch processing: Done.
+[INFO] Did not optimize analysis for any files, performed a full analysis for all 6 files.
+[INFO] No "Generated" source files to scan.
+[INFO] Sensor JavaSensor [java] (done) | time=4952ms
+[INFO] Sensor JaCoCo XML Report Importer [jacoco]
+[INFO] Importing 1 report(s). Turn your logs in debug mode in order to see the exhaustive list.
+[INFO] Sensor JaCoCo XML Report Importer [jacoco] (done) | time=64ms
+[INFO] Sensor IaC hadolint report Sensor [iac]
+[INFO] Sensor IaC hadolint report Sensor [iac] (done) | time=0ms
+[INFO] Sensor Java Config Sensor [iac]
+[INFO] There are no files to be analyzed for the Java language
+[INFO] Sensor Java Config Sensor [iac] (done) | time=0ms
+[INFO] Sensor IaC Docker Sensor [iac]
+[INFO] There are no files to be analyzed for the Docker language
+[INFO] Sensor IaC Docker Sensor [iac] (done) | time=5ms
+[INFO] Sensor SurefireSensor [java]
+[INFO] parsing [/var/jenkins_home/workspace/tache-ci/target/surefire-reports]
+[INFO] Sensor SurefireSensor [java] (done) | time=115ms
+[INFO] Sensor XML Sensor [xml]
+[INFO] 1 source file to be analyzed
+[INFO] 1/1 source file has been analyzed
+[INFO] Sensor XML Sensor [xml] (done) | time=274ms
+[INFO] Sensor TextAndSecretsSensor [text]
+[INFO] Available processors: 16
+[INFO] Using 16 threads for analysis.
+[INFO] Start fetching files for the text and secrets analysis
+[INFO] Using Git CLI to retrieve dirty files
+[INFO] Retrieving language associated files and files included via "sonar.text.inclusions" that are tracked by git
+[INFO] Starting the text and secrets analysis
+[INFO] 26 source files to be analyzed for the text and secrets analysis
+[INFO] 26/26 source files have been analyzed for the text and secrets analysis
+[INFO] Sensor TextAndSecretsSensor [text] (done) | time=797ms
+[INFO] ------------- Run sensors on project
+[INFO] Sensor JaCoCo Aggregate XML Report Importer [jacoco]
+[INFO] Sensor JaCoCo Aggregate XML Report Importer [jacoco] (done) | time=0ms
+[INFO] Sensor IaC Project Sensor [iac]
+[INFO] Sensor IaC Project Sensor [iac] (done) | time=3ms
+[INFO] Sensor JavaProjectSensor [java]
+[INFO] Sensor JavaProjectSensor [java] (done) | time=4ms
+[INFO] Sensor Zero Coverage Sensor
+[INFO] Sensor Zero Coverage Sensor (done) | time=0ms
+[INFO] Sensor Java CPD Block Indexer
+[INFO] Sensor Java CPD Block Indexer (done) | time=52ms
+[INFO] ------------- Gather SCA dependencies on project
+[INFO] Dependency analysis skipped
+[INFO] SCM Publisher SCM provider for this project is: git
+[INFO] SCM Publisher 8 source files to be analyzed
+[INFO] SCM Publisher 8/8 source files have been analyzed (done) | time=270ms
+[INFO] CPD Executor 8 files had no CPD blocks
+[INFO] CPD Executor Calculating CPD for 11 files
+[INFO] CPD Executor CPD calculation finished (done) | time=14ms
+[INFO] SCM revision ID 'fee07badffc672abff9984fedb18ff02e6cdad7e'
+[INFO] Analysis report generated in 122ms, dir size=257.5 kB
+[INFO] Analysis report compressed in 129ms, zip size=81.2 kB
+[INFO] Analysis report uploaded in 122ms
+[INFO] ANALYSIS SUCCESSFUL, you can find the results at: http://localhost:9000/dashboard?id=events-tache
+[INFO] Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
+[INFO] More about the report processing at http://localhost:9000/api/ce/task?id=45f10ae8-2893-4c69-9e54-99c1025981d5
+[INFO] Analysis total time: 17.813 s
+[INFO] SonarScanner Engine completed successfully
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  26.163 s
+[INFO] Finished at: 2026-10-31T02:23:36Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // withSonarQubeEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Quality gate)
+[Pipeline] timeout
+Timeout set to expire in 10 min
+[Pipeline] {
+[Pipeline] waitForQualityGate
+Checking status of SonarQube task '45f10ae8-2893-4c69-9e54-99c1025981d5' on server 'local-sonar'
+SonarQube task '45f10ae8-2893-4c69-9e54-99c1025981d5' status is 'IN_PROGRESS'
+The incoming webhook matched the configured webhook secret
+SonarQube task '45f10ae8-2893-4c69-9e54-99c1025981d5' status is 'SUCCESS'
+SonarQube task '45f10ae8-2893-4c69-9e54-99c1025981d5' completed. Quality gate is 'OK'
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Terraform EKS validate)
+Stage "Terraform EKS validate" skipped due to when conditional
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Terraform EKS plan)
+Stage "Terraform EKS plan" skipped due to when conditional
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Terraform EKS approval and apply)
+Stage "Terraform EKS approval and apply" skipped due to when conditional
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Check EKS delivery access)
+Stage "Check EKS delivery access" skipped due to when conditional
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Package)
+[Pipeline] sh
++ mvn -B package
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< tn.esprit:eventsProject >-----------------------
+[INFO] Building eventsProject 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (default) @ eventsProject ---
+[INFO] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/var/jenkins_home/workspace/tache-ci/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.2.0:resources (default-resources) @ eventsProject ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ eventsProject ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.2.0:testResources (default-testResources) @ eventsProject ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /var/jenkins_home/workspace/tache-ci/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.10.1:testCompile (default-testCompile) @ eventsProject ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ eventsProject ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-31 02:23:54 -  INFO - tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest - Starting EventRestControllerCompatibilityTest using Java 17.0.15 on 3c8d8f5aea52 with PID 4968 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-31 02:23:54 -  INFO - tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-31 02:23:58 -  INFO - org.springframework.boot.test.mock.web.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet '' 
+=2026-10-31 02:23:58 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Initializing Servlet '' 
+=2026-10-31 02:23:58 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Completed initialization in 3 ms 
+=2026-10-31 02:23:58 -  INFO - tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest - Started EventRestControllerCompatibilityTest in 4.782 seconds (JVM running for 8.059) 
+=2026-10-31 02:23:59 -  WARN - org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `tn.esprit.eventsproject.entities.Tache` from String "UNKNOWN": not one of the values accepted for Enum class: [INVITE, SERVEUR, ANIMATEUR, ORGANISATEUR]; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `tn.esprit.eventsproject.entities.Tache` from String "UNKNOWN": not one of the values accepted for Enum class: [INVITE, SERVEUR, ANIMATEUR, ORGANISATEUR]<EOL> at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 10] (through reference chain: tn.esprit.eventsproject.controllers.dto.EventRequests$ParticipantCreateRequest["tache"])] 
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.407 s - in tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest
+[INFO] Running tn.esprit.eventsproject.controllers.TacheRestControllerTest
+=2026-10-31 02:23:59 -  INFO - org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [tn.esprit.eventsproject.controllers.TacheRestControllerTest], using SpringBootContextLoader 
+=2026-10-31 02:23:59 -  INFO - org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [tn.esprit.eventsproject.controllers.TacheRestControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}. 
+=2026-10-31 02:23:59 -  INFO - org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [tn.esprit.eventsproject.controllers.TacheRestControllerTest]: TacheRestControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration. 
+=2026-10-31 02:23:59 -  INFO - org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration tn.esprit.eventsproject.EventsProjectApplication for test class tn.esprit.eventsproject.controllers.TacheRestControllerTest 
+=2026-10-31 02:23:59 -  INFO - org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener] 
+=2026-10-31 02:23:59 -  INFO - org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@39506f12, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@74baaba6, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@56e4f071, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@3fc0f3c2, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@5d233d7, org.springframework.test.context.support.DirtiesContextTestExecutionListener@24945f50, org.springframework.test.context.transaction.TransactionalTestExecutionListener@550244cb, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@6de4e34a, org.springframework.test.context.event.EventPublishingTestExecutionListener@79bc29aa, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@7f549712, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@38b7b02f, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@7203fac0, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@6a6a7c53, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@31dd8a0b, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@346e62d7] 
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-31 02:23:59 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - Starting TacheRestControllerTest using Java 17.0.15 on 3c8d8f5aea52 with PID 4968 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-31 02:23:59 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-31 02:23:59 -  INFO - org.springframework.boot.test.mock.web.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet '' 
+=2026-10-31 02:23:59 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Initializing Servlet '' 
+=2026-10-31 02:23:59 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Completed initialization in 2 ms 
+=2026-10-31 02:23:59 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - Started TacheRestControllerTest in 0.853 seconds (JVM running for 9.853) 
+=2026-10-31 02:23:59 -  ERROR- tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role operation failed exceptionType=IllegalStateException 
+=2026-10-31 02:24:00 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:24:00 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:24:00 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:24:00 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:24:00 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.063 s - in tn.esprit.eventsproject.controllers.TacheRestControllerTest
+[INFO] Running tn.esprit.eventsproject.controllers.EventResponsesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.07 s - in tn.esprit.eventsproject.controllers.EventResponsesTest
+[INFO] Running tn.esprit.eventsproject.controllers.EventRequestsTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.095 s - in tn.esprit.eventsproject.controllers.EventRequestsTest
+[INFO] Running tn.esprit.eventsproject.services.TachePersistenceTest
+=2026-10-31 02:24:00 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [tn.esprit.eventsproject.services.TachePersistenceTest], using SpringBootContextLoader 
+=2026-10-31 02:24:00 -  INFO - org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [tn.esprit.eventsproject.services.TachePersistenceTest]: no resource found for suffixes {-context.xml, Context.groovy}. 
+=2026-10-31 02:24:00 -  INFO - org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [tn.esprit.eventsproject.services.TachePersistenceTest]: TachePersistenceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration. 
+=2026-10-31 02:24:00 -  INFO - org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration tn.esprit.eventsproject.EventsProjectApplication for test class tn.esprit.eventsproject.services.TachePersistenceTest 
+=2026-10-31 02:24:00 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener] 
+=2026-10-31 02:24:00 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@120e3ebb, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@753f1c3e, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@5e9af5d4, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@6fd2b939, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@c4aa99e, org.springframework.test.context.support.DirtiesContextTestExecutionListener@1199ac5, org.springframework.test.context.transaction.TransactionalTestExecutionListener@824eb67, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@72c5902b, org.springframework.test.context.event.EventPublishingTestExecutionListener@2b9ac1b4, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@6618b9b0, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@49c819c7, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@17d28c1d, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@6ab86832, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@49ce89ec, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@4041b733] 
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-31 02:24:00 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - Starting TachePersistenceTest using Java 17.0.15 on 3c8d8f5aea52 with PID 4968 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-31 02:24:00 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-31 02:24:00 -  INFO - org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+=2026-10-31 02:24:00 -  INFO - org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 62 ms. Found 3 JPA repository interfaces. 
+=2026-10-31 02:24:00 -  INFO - org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor - Replacing 'dataSource' DataSource bean with embedded version 
+=2026-10-31 02:24:00 -  INFO - org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory - Starting embedded database: url='jdbc:h2:mem:71c87869-7874-4c6a-a69b-5104eee805c2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa' 
+=2026-10-31 02:24:01 -  INFO - org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default] 
+=2026-10-31 02:24:01 -  INFO - org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.14.Final 
+=2026-10-31 02:24:01 -  INFO - org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final} 
+=2026-10-31 02:24:02 -  INFO - org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect 
+Hibernate: drop table if exists event CASCADE 
+Hibernate: drop table if exists event_logistics CASCADE 
+Hibernate: drop table if exists logistics CASCADE 
+Hibernate: drop table if exists participant CASCADE 
+Hibernate: drop table if exists participant_events CASCADE 
+Hibernate: create table event (id_event integer generated by default as identity, cout float not null, date_debut date, date_fin date, description varchar(255), primary key (id_event))
+Hibernate: create table event_logistics (event_id_event integer not null, logistics_id_log integer not null, primary key (event_id_event, logistics_id_log))
+Hibernate: create table logistics (id_log integer generated by default as identity, description varchar(255), prix_unit float not null, quantite integer not null, reserve boolean not null, primary key (id_log))
+Hibernate: create table participant (id_part integer generated by default as identity, nom varchar(255), prenom varchar(255), tache varchar(255), primary key (id_part))
+Hibernate: create table participant_events (participants_id_part integer not null, events_id_event integer not null, primary key (participants_id_part, events_id_event))
+Hibernate: alter table event_logistics add constraint UK_hnhwi2rcis5h2gj0dvn0u21r unique (logistics_id_log)
+Hibernate: alter table event_logistics add constraint FK99lhmi6kdm74hjpsiaco1g3hd foreign key (logistics_id_log) references logistics
+Hibernate: alter table event_logistics add constraint FKjayu5dxqe4kbmonbtku21asqk foreign key (event_id_event) references event
+Hibernate: alter table participant_events add constraint FKjjnljm4c6ne60i0j1qqta2dxq foreign key (events_id_event) references event
+Hibernate: alter table participant_events add constraint FKqycnk1hsme42y3jxjuxtxknln foreign key (participants_id_part) references participant
+=2026-10-31 02:24:03 -  INFO - org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform] 
+=2026-10-31 02:24:03 -  INFO - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default' 
+=2026-10-31 02:24:04 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - Started TachePersistenceTest in 4.103 seconds (JVM running for 14.377) 
+=2026-10-31 02:24:04 -  INFO - org.springframework.test.context.transaction.TransactionContext - Began transaction (1) for test context [DefaultTestContext@104802af testClass = TachePersistenceTest, testInstance = tn.esprit.eventsproject.services.TachePersistenceTest@37c34207, testMethod = persistsReadsReplacesAndClearsRoleWithoutRemovingParticipant@TachePersistenceTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@7e9d1a4c testClass = TachePersistenceTest, locations = '{}', classes = '{class tn.esprit.eventsproject.EventsProjectApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{spring.jpa.hibernate.ddl-auto=create-drop, spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect, org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper=true}', contextCustomizers = set[[ImportsContextCustomizer@749c9289 key = [tn.esprit.eventsproject.services.TacheService, org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration, org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration, org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration, org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration, org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration, org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration, org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration, org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration, org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManagerAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@550de6b8, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@594d9f07, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@7bf01cb, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@42505474, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@351584c0, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@228213f, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@b67cc70, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@0], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@6e7b53df]; rollback [true] 
+Hibernate: insert into participant (id_part, nom, prenom, tache) values (default, ?, ?, ?)
+=2026-10-31 02:24:04 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=1 previous=null role=ORGANISATEUR 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+Hibernate: select tache from participant where id_part = ?
+=2026-10-31 02:24:04 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=1 previous=ORGANISATEUR role=SERVEUR 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+=2026-10-31 02:24:04 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=1 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+=2026-10-31 02:24:04 -  INFO - org.springframework.test.context.transaction.TransactionContext - Rolled back transaction for test: [DefaultTestContext@104802af testClass = TachePersistenceTest, testInstance = tn.esprit.eventsproject.services.TachePersistenceTest@37c34207, testMethod = persistsReadsReplacesAndClearsRoleWithoutRemovingParticipant@TachePersistenceTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@7e9d1a4c testClass = TachePersistenceTest, locations = '{}', classes = '{class tn.esprit.eventsproject.EventsProjectApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{spring.jpa.hibernate.ddl-auto=create-drop, spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect, org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper=true}', contextCustomizers = set[[ImportsContextCustomizer@749c9289 key = [tn.esprit.eventsproject.services.TacheService, org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration, org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration, org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration, org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration, org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration, org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration, org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration, org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration, org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManagerAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@550de6b8, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@594d9f07, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@7bf01cb, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@42505474, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@351584c0, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@228213f, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@b67cc70, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@0], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.487 s - in tn.esprit.eventsproject.services.TachePersistenceTest
+[INFO] Running tn.esprit.eventsproject.services.TacheServiceTest
+=2026-10-31 02:24:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=7 
+=2026-10-31 02:24:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=7 
+=2026-10-31 02:24:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=INVITE 
+=2026-10-31 02:24:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=ORGANISATEUR 
+=2026-10-31 02:24:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=SERVEUR 
+=2026-10-31 02:24:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=ANIMATEUR 
+=2026-10-31 02:24:05 -  WARN - tn.esprit.eventsproject.services.TacheService - Role operation rejected participantId=7 reason=participant_not_found 
+=2026-10-31 02:24:05 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=INVITE role=ORGANISATEUR 
+=2026-10-31 02:24:05 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=7 reason=missing_role 
+=2026-10-31 02:24:05 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=0 reason=invalid_id 
+=2026-10-31 02:24:05 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=-1 reason=invalid_id 
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.231 s - in tn.esprit.eventsproject.services.TacheServiceTest
+=2026-10-31 02:24:05 -  INFO - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default' 
+=2026-10-31 02:24:05 -  INFO - org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down' 
+Hibernate: drop table if exists event CASCADE 
+Hibernate: drop table if exists event_logistics CASCADE 
+Hibernate: drop table if exists logistics CASCADE 
+Hibernate: drop table if exists participant CASCADE 
+Hibernate: drop table if exists participant_events CASCADE 
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 46, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.12:report (report) @ eventsProject ---
+[INFO] Loading execution data file /var/jenkins_home/workspace/tache-ci/target/jacoco.exec
+[INFO] Analyzed bundle 'eventsProject' with 27 classes
+[INFO] 
+[INFO] --- jar:3.2.2:jar (default-jar) @ eventsProject ---
+[INFO] Building jar: /var/jenkins_home/workspace/tache-ci/target/eventsProject-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:2.7.6:repackage (repackage) @ eventsProject ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  20.467 s
+[INFO] Finished at: 2026-10-31T02:24:07Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Publish Nexus)
+[Pipeline] withCredentials
+Masking supported pattern matches of $NEXUS_PASSWORD
+[Pipeline] {
+[Pipeline] sh
++ mvn -B -s ci/settings.xml deploy
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< tn.esprit:eventsProject >-----------------------
+[INFO] Building eventsProject 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (default) @ eventsProject ---
+[INFO] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/var/jenkins_home/workspace/tache-ci/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.2.0:resources (default-resources) @ eventsProject ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ eventsProject ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.2.0:testResources (default-testResources) @ eventsProject ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /var/jenkins_home/workspace/tache-ci/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.10.1:testCompile (default-testCompile) @ eventsProject ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ eventsProject ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-31 02:24:17 -  INFO - tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest - Starting EventRestControllerCompatibilityTest using Java 17.0.15 on 3c8d8f5aea52 with PID 5115 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-31 02:24:17 -  INFO - tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-31 02:24:20 -  INFO - org.springframework.boot.test.mock.web.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet '' 
+=2026-10-31 02:24:20 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Initializing Servlet '' 
+=2026-10-31 02:24:20 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Completed initialization in 2 ms 
+=2026-10-31 02:24:20 -  INFO - tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest - Started EventRestControllerCompatibilityTest in 4.572 seconds (JVM running for 7.554) 
+=2026-10-31 02:24:21 -  WARN - org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `tn.esprit.eventsproject.entities.Tache` from String "UNKNOWN": not one of the values accepted for Enum class: [INVITE, SERVEUR, ANIMATEUR, ORGANISATEUR]; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `tn.esprit.eventsproject.entities.Tache` from String "UNKNOWN": not one of the values accepted for Enum class: [INVITE, SERVEUR, ANIMATEUR, ORGANISATEUR]<EOL> at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 10] (through reference chain: tn.esprit.eventsproject.controllers.dto.EventRequests$ParticipantCreateRequest["tache"])] 
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.98 s - in tn.esprit.eventsproject.controllers.EventRestControllerCompatibilityTest
+[INFO] Running tn.esprit.eventsproject.controllers.TacheRestControllerTest
+=2026-10-31 02:24:21 -  INFO - org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [tn.esprit.eventsproject.controllers.TacheRestControllerTest], using SpringBootContextLoader 
+=2026-10-31 02:24:21 -  INFO - org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [tn.esprit.eventsproject.controllers.TacheRestControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}. 
+=2026-10-31 02:24:21 -  INFO - org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [tn.esprit.eventsproject.controllers.TacheRestControllerTest]: TacheRestControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration. 
+=2026-10-31 02:24:21 -  INFO - org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration tn.esprit.eventsproject.EventsProjectApplication for test class tn.esprit.eventsproject.controllers.TacheRestControllerTest 
+=2026-10-31 02:24:21 -  INFO - org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener] 
+=2026-10-31 02:24:21 -  INFO - org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@74baaba6, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@56e4f071, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@3fc0f3c2, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5d233d7, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@24945f50, org.springframework.test.context.support.DirtiesContextTestExecutionListener@550244cb, org.springframework.test.context.transaction.TransactionalTestExecutionListener@6de4e34a, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@79bc29aa, org.springframework.test.context.event.EventPublishingTestExecutionListener@7f549712, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@38b7b02f, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@7203fac0, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@6a6a7c53, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@31dd8a0b, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@346e62d7, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@59d64b60] 
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-31 02:24:21 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - Starting TacheRestControllerTest using Java 17.0.15 on 3c8d8f5aea52 with PID 5115 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-31 02:24:21 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-31 02:24:22 -  INFO - org.springframework.boot.test.mock.web.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet '' 
+=2026-10-31 02:24:22 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Initializing Servlet '' 
+=2026-10-31 02:24:22 -  INFO - org.springframework.test.web.servlet.TestDispatcherServlet - Completed initialization in 1 ms 
+=2026-10-31 02:24:22 -  INFO - tn.esprit.eventsproject.controllers.TacheRestControllerTest - Started TacheRestControllerTest in 0.744 seconds (JVM running for 9.152) 
+=2026-10-31 02:24:22 -  ERROR- tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role operation failed exceptionType=IllegalStateException 
+=2026-10-31 02:24:22 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:24:22 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:24:22 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:24:22 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+=2026-10-31 02:24:22 -  WARN - tn.esprit.eventsproject.controllers.TacheExceptionHandler - Role request rejected reason=invalid_input 
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.924 s - in tn.esprit.eventsproject.controllers.TacheRestControllerTest
+[INFO] Running tn.esprit.eventsproject.controllers.EventResponsesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 s - in tn.esprit.eventsproject.controllers.EventResponsesTest
+[INFO] Running tn.esprit.eventsproject.controllers.EventRequestsTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 s - in tn.esprit.eventsproject.controllers.EventRequestsTest
+[INFO] Running tn.esprit.eventsproject.services.TachePersistenceTest
+=2026-10-31 02:24:22 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [tn.esprit.eventsproject.services.TachePersistenceTest], using SpringBootContextLoader 
+=2026-10-31 02:24:22 -  INFO - org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [tn.esprit.eventsproject.services.TachePersistenceTest]: no resource found for suffixes {-context.xml, Context.groovy}. 
+=2026-10-31 02:24:22 -  INFO - org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [tn.esprit.eventsproject.services.TachePersistenceTest]: TachePersistenceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration. 
+=2026-10-31 02:24:22 -  INFO - org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration tn.esprit.eventsproject.EventsProjectApplication for test class tn.esprit.eventsproject.services.TachePersistenceTest 
+=2026-10-31 02:24:22 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener] 
+=2026-10-31 02:24:22 -  INFO - org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@753f1c3e, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5e9af5d4, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@6fd2b939, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@c4aa99e, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1199ac5, org.springframework.test.context.support.DirtiesContextTestExecutionListener@824eb67, org.springframework.test.context.transaction.TransactionalTestExecutionListener@72c5902b, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@2b9ac1b4, org.springframework.test.context.event.EventPublishingTestExecutionListener@6618b9b0, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@49c819c7, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@17d28c1d, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@6ab86832, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@49ce89ec, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@4041b733, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@43f06942] 
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.6)
+
+=2026-10-31 02:24:22 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - Starting TachePersistenceTest using Java 17.0.15 on 3c8d8f5aea52 with PID 5115 (started by jenkins in /var/jenkins_home/workspace/tache-ci) 
+=2026-10-31 02:24:22 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - No active profile set, falling back to 1 default profile: "default" 
+=2026-10-31 02:24:23 -  INFO - org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+=2026-10-31 02:24:23 -  INFO - org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 66 ms. Found 3 JPA repository interfaces. 
+=2026-10-31 02:24:23 -  INFO - org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor - Replacing 'dataSource' DataSource bean with embedded version 
+=2026-10-31 02:24:23 -  INFO - org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory - Starting embedded database: url='jdbc:h2:mem:3314bae3-6234-4658-aa32-7ca17c09e751;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa' 
+=2026-10-31 02:24:24 -  INFO - org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default] 
+=2026-10-31 02:24:24 -  INFO - org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.14.Final 
+=2026-10-31 02:24:24 -  INFO - org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final} 
+=2026-10-31 02:24:24 -  INFO - org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect 
+Hibernate: drop table if exists event CASCADE 
+Hibernate: drop table if exists event_logistics CASCADE 
+Hibernate: drop table if exists logistics CASCADE 
+Hibernate: drop table if exists participant CASCADE 
+Hibernate: drop table if exists participant_events CASCADE 
+Hibernate: create table event (id_event integer generated by default as identity, cout float not null, date_debut date, date_fin date, description varchar(255), primary key (id_event))
+Hibernate: create table event_logistics (event_id_event integer not null, logistics_id_log integer not null, primary key (event_id_event, logistics_id_log))
+Hibernate: create table logistics (id_log integer generated by default as identity, description varchar(255), prix_unit float not null, quantite integer not null, reserve boolean not null, primary key (id_log))
+Hibernate: create table participant (id_part integer generated by default as identity, nom varchar(255), prenom varchar(255), tache varchar(255), primary key (id_part))
+Hibernate: create table participant_events (participants_id_part integer not null, events_id_event integer not null, primary key (participants_id_part, events_id_event))
+Hibernate: alter table event_logistics add constraint UK_hnhwi2rcis5h2gj0dvn0u21r unique (logistics_id_log)
+Hibernate: alter table event_logistics add constraint FK99lhmi6kdm74hjpsiaco1g3hd foreign key (logistics_id_log) references logistics
+Hibernate: alter table event_logistics add constraint FKjayu5dxqe4kbmonbtku21asqk foreign key (event_id_event) references event
+Hibernate: alter table participant_events add constraint FKjjnljm4c6ne60i0j1qqta2dxq foreign key (events_id_event) references event
+Hibernate: alter table participant_events add constraint FKqycnk1hsme42y3jxjuxtxknln foreign key (participants_id_part) references participant
+=2026-10-31 02:24:26 -  INFO - org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform] 
+=2026-10-31 02:24:26 -  INFO - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default' 
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TachePersistenceTest - Started TachePersistenceTest in 4.151 seconds (JVM running for 13.646) 
+=2026-10-31 02:24:27 -  INFO - org.springframework.test.context.transaction.TransactionContext - Began transaction (1) for test context [DefaultTestContext@546bdc1a testClass = TachePersistenceTest, testInstance = tn.esprit.eventsproject.services.TachePersistenceTest@104802af, testMethod = persistsReadsReplacesAndClearsRoleWithoutRemovingParticipant@TachePersistenceTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@37c34207 testClass = TachePersistenceTest, locations = '{}', classes = '{class tn.esprit.eventsproject.EventsProjectApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{spring.jpa.hibernate.ddl-auto=create-drop, spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect, org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper=true}', contextCustomizers = set[[ImportsContextCustomizer@7e9d1a4c key = [tn.esprit.eventsproject.services.TacheService, org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration, org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration, org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration, org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration, org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration, org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration, org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration, org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration, org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManagerAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@550de6b8, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@594d9f07, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@7bf01cb, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@42505474, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@351584c0, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@228213f, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@b67cc70, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@0], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@2560a086]; rollback [true] 
+Hibernate: insert into participant (id_part, nom, prenom, tache) values (default, ?, ?, ?)
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=1 previous=null role=ORGANISATEUR 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+Hibernate: select tache from participant where id_part = ?
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=1 previous=ORGANISATEUR role=SERVEUR 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=1 
+Hibernate: update participant set nom=?, prenom=?, tache=? where id_part=?
+Hibernate: select participan0_.id_part as id_part1_3_0_, participan0_.nom as nom2_3_0_, participan0_.prenom as prenom3_3_0_, participan0_.tache as tache4_3_0_ from participant participan0_ where participan0_.id_part=?
+=2026-10-31 02:24:27 -  INFO - org.springframework.test.context.transaction.TransactionContext - Rolled back transaction for test: [DefaultTestContext@546bdc1a testClass = TachePersistenceTest, testInstance = tn.esprit.eventsproject.services.TachePersistenceTest@104802af, testMethod = persistsReadsReplacesAndClearsRoleWithoutRemovingParticipant@TachePersistenceTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@37c34207 testClass = TachePersistenceTest, locations = '{}', classes = '{class tn.esprit.eventsproject.EventsProjectApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{spring.jpa.hibernate.ddl-auto=create-drop, spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect, org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper=true}', contextCustomizers = set[[ImportsContextCustomizer@7e9d1a4c key = [tn.esprit.eventsproject.services.TacheService, org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration, org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration, org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration, org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration, org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration, org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration, org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration, org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration, org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManagerAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@550de6b8, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@594d9f07, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@7bf01cb, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@42505474, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@351584c0, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@228213f, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@b67cc70, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@0], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.524 s - in tn.esprit.eventsproject.services.TachePersistenceTest
+[INFO] Running tn.esprit.eventsproject.services.TacheServiceTest
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=7 
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TacheService - Role cleared participantId=7 
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=INVITE 
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=ORGANISATEUR 
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=SERVEUR 
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=null role=ANIMATEUR 
+=2026-10-31 02:24:27 -  WARN - tn.esprit.eventsproject.services.TacheService - Role operation rejected participantId=7 reason=participant_not_found 
+=2026-10-31 02:24:27 -  INFO - tn.esprit.eventsproject.services.TacheService - Role assigned participantId=7 previous=INVITE role=ORGANISATEUR 
+=2026-10-31 02:24:27 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=7 reason=missing_role 
+=2026-10-31 02:24:27 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=0 reason=invalid_id 
+=2026-10-31 02:24:27 -  WARN - tn.esprit.eventsproject.services.TacheService - Role validation failed participantId=-1 reason=invalid_id 
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.316 s - in tn.esprit.eventsproject.services.TacheServiceTest
+=2026-10-31 02:24:27 -  INFO - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default' 
+=2026-10-31 02:24:27 -  INFO - org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down' 
+Hibernate: drop table if exists event CASCADE 
+Hibernate: drop table if exists event_logistics CASCADE 
+Hibernate: drop table if exists logistics CASCADE 
+Hibernate: drop table if exists participant CASCADE 
+Hibernate: drop table if exists participant_events CASCADE 
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 46, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.12:report (report) @ eventsProject ---
+[INFO] Loading execution data file /var/jenkins_home/workspace/tache-ci/target/jacoco.exec
+[INFO] Analyzed bundle 'eventsProject' with 27 classes
+[INFO] 
+[INFO] --- jar:3.2.2:jar (default-jar) @ eventsProject ---
+[INFO] 
+[INFO] --- spring-boot:2.7.6:repackage (repackage) @ eventsProject ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] 
+[INFO] --- install:2.5.2:install (default-install) @ eventsProject ---
+[INFO] Installing /var/jenkins_home/workspace/tache-ci/target/eventsProject-1.0.0-SNAPSHOT.jar to /var/jenkins_home/.m2/repository/tn/esprit/eventsProject/1.0.0-SNAPSHOT/eventsProject-1.0.0-SNAPSHOT.jar
+[INFO] Installing /var/jenkins_home/workspace/tache-ci/pom.xml to /var/jenkins_home/.m2/repository/tn/esprit/eventsProject/1.0.0-SNAPSHOT/eventsProject-1.0.0-SNAPSHOT.pom
+[INFO] 
+[INFO] --- deploy:2.8.2:deploy (default-deploy) @ eventsProject ---
+[INFO] Downloading from nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/1.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Downloaded from nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/1.0.0-SNAPSHOT/maven-metadata.xml (772 B at 480 B/s)
+[INFO] Uploading to nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/1.0.0-SNAPSHOT/eventsProject-1.0.0-20261031.022410-9.jar
+[INFO] Uploaded to nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/1.0.0-SNAPSHOT/eventsProject-1.0.0-20261031.022410-9.jar (43 MB at 16 MB/s)
+[INFO] Uploading to nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/1.0.0-SNAPSHOT/eventsProject-1.0.0-20261031.022410-9.pom
+[INFO] Uploaded to nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/1.0.0-SNAPSHOT/eventsProject-1.0.0-20261031.022410-9.pom (5.4 kB at 10 kB/s)
+[INFO] Downloading from nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/maven-metadata.xml
+[INFO] Downloaded from nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/maven-metadata.xml (282 B at 5.0 kB/s)
+[INFO] Uploading to nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/1.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Uploaded to nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/1.0.0-SNAPSHOT/maven-metadata.xml (772 B at 7.8 kB/s)
+[INFO] Uploading to nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/maven-metadata.xml
+[INFO] Uploaded to nexus-snapshots: http://nexus:8081/repository/maven-snapshots/tn/esprit/eventsProject/maven-metadata.xml (282 B at 4.2 kB/s)
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  24.660 s
+[INFO] Finished at: 2026-10-31T02:24:35Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker image)
+[Pipeline] sh
++ docker build -t events-tache:tache-fee07badffc6-14 .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 433B 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/eclipse-temurin:17-jre-jammy@sha256:c35794d1348777e6bc310b9b7f420098ef8f37e988199549b545fded79a895a2
+#2 DONE 1.2s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 102B 0.0s done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 ...
+
+#5 [1/4] FROM docker.io/library/eclipse-temurin:17-jre-jammy@sha256:c35794d1348777e6bc310b9b7f420098ef8f37e988199549b545fded79a895a2
+#5 resolve docker.io/library/eclipse-temurin:17-jre-jammy@sha256:c35794d1348777e6bc310b9b7f420098ef8f37e988199549b545fded79a895a2 0.0s done
+#5 DONE 0.1s
+
+#4 [internal] load build context
+#4 transferring context: 42.52MB 2.1s done
+#4 DONE 2.1s
+
+#6 [2/4] WORKDIR /app
+#6 CACHED
+
+#7 [3/4] RUN groupadd --gid 10001 app && useradd --uid 10001 --gid app --no-create-home app
+#7 CACHED
+
+#8 [4/4] COPY --chown=app:app target/eventsProject-1.0.0-SNAPSHOT.jar app.jar
+#8 DONE 2.2s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 3.6s done
+#9 exporting manifest sha256:6c723858016a5628a5dfa96ed52616aec7820eb00d9a36c5debc027359591d78 0.0s done
+#9 exporting config sha256:60e4e467f9b385d3cc29b8502d58be7af9d248dc3309d419fffcbb3b8f92db4f 0.0s done
+#9 exporting attestation manifest sha256:6815cf62f8eda4ab9b627f1235383c97256207d0a4a322d0f3b07e9fe17b29d0 0.1s done
+#9 exporting manifest list sha256:f8870f21786368981a55273990d1926cabdbef6751b731d9fd5c643352681374
+#9 exporting manifest list sha256:f8870f21786368981a55273990d1926cabdbef6751b731d9fd5c643352681374 0.0s done
+#9 naming to docker.io/library/events-tache:tache-fee07badffc6-14 done
+#9 unpacking to docker.io/library/events-tache:tache-fee07badffc6-14
+#9 unpacking to docker.io/library/events-tache:tache-fee07badffc6-14 0.4s done
+#9 DONE 4.2s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Publish Docker image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_PASSWORD
+[Pipeline] {
+[Pipeline] sh
++ set +x
+
+WARNING! Your credentials are stored unencrypted in '/tmp/tmp.0V6TRdi1Zt/config.json'.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/go/credential-store/
+
+Login Succeeded
+60e4e467f9b3 registry verified digest
+0626d3cc316c already present
+958cbad593b0 already present
+cf7e722f8b08 already present
+69c4feeb20a6 already present
+8b667949b7bc already present
+a5718ceda600 already present
+032669c20cfd already present
+c28d5b266e6a accepted 4194304/38017678
+c28d5b266e6a accepted 8388608/38017678
+c28d5b266e6a accepted 12582912/38017678
+c28d5b266e6a accepted 16777216/38017678
+c28d5b266e6a accepted 20971520/38017678
+c28d5b266e6a accepted 25165824/38017678
+c28d5b266e6a accepted 29360128/38017678
+c28d5b266e6a accepted 33554432/38017678
+c28d5b266e6a accepted 37748736/38017678
+c28d5b266e6a registry verified digest
+Published and verified ayyoub1/events-tache:tache-fee07badffc6-14 @ sha256:6c723858016a5628a5dfa96ed52616aec7820eb00d9a36c5debc027359591d78
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy AWS EKS)
+Stage "Deploy AWS EKS" skipped due to when conditional
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify AWS application)
+Stage "Verify AWS application" skipped due to when conditional
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] sh
++ set -eu
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

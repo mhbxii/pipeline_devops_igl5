@@ -1,0 +1,268 @@
+{
+  "number": 14,
+  "url": "http://localhost:8080/job/tache-ci/14",
+  "result": "SUCCESS",
+  "durationMillis": 592292,
+  "timestampMillis": 1793413344422,
+  "stages": {
+    "_links": {
+      "self": {
+        "href": "/job/tache-ci/14/wfapi/describe"
+      },
+      "changesets": {
+        "href": "/job/tache-ci/14/wfapi/changesets"
+      },
+      "artifacts": {
+        "href": "/job/tache-ci/14/wfapi/artifacts"
+      }
+    },
+    "id": "14",
+    "name": "#14",
+    "status": "SUCCESS",
+    "startTimeMillis": 1793413344455,
+    "endTimeMillis": 1793413936747,
+    "durationMillis": 592292,
+    "queueDurationMillis": 33,
+    "pauseDurationMillis": 0,
+    "stages": [
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/10/wfapi/describe"
+          }
+        },
+        "id": "10",
+        "name": "Validate configuration",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413350970,
+        "durationMillis": 394,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/18/wfapi/describe"
+          }
+        },
+        "id": "18",
+        "name": "Checkout",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413351416,
+        "durationMillis": 2251,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/28/wfapi/describe"
+          }
+        },
+        "id": "28",
+        "name": "Compile",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413353712,
+        "durationMillis": 8305,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/33/wfapi/describe"
+          }
+        },
+        "id": "33",
+        "name": "Tests and coverage",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413362061,
+        "durationMillis": 24938,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/40/wfapi/describe"
+          }
+        },
+        "id": "40",
+        "name": "SonarQube analysis",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413387064,
+        "durationMillis": 30108,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/53/wfapi/describe"
+          }
+        },
+        "id": "53",
+        "name": "Quality gate",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413417247,
+        "durationMillis": 6617,
+        "pauseDurationMillis": 6023
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/62/wfapi/describe"
+          }
+        },
+        "id": "62",
+        "name": "Terraform EKS validate",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793413423920,
+        "durationMillis": 146,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/67/wfapi/describe"
+          }
+        },
+        "id": "67",
+        "name": "Terraform EKS plan",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793413424131,
+        "durationMillis": 176,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/72/wfapi/describe"
+          }
+        },
+        "id": "72",
+        "name": "Terraform EKS approval and apply",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793413424368,
+        "durationMillis": 157,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/77/wfapi/describe"
+          }
+        },
+        "id": "77",
+        "name": "Check EKS delivery access",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793413424592,
+        "durationMillis": 163,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/82/wfapi/describe"
+          }
+        },
+        "id": "82",
+        "name": "Package",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413424810,
+        "durationMillis": 23202,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/87/wfapi/describe"
+          }
+        },
+        "id": "87",
+        "name": "Publish Nexus",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413448081,
+        "durationMillis": 27885,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/96/wfapi/describe"
+          }
+        },
+        "id": "96",
+        "name": "Build Docker image",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413476032,
+        "durationMillis": 11582,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/101/wfapi/describe"
+          }
+        },
+        "id": "101",
+        "name": "Publish Docker image",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413487705,
+        "durationMillis": 447191,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/114/wfapi/describe"
+          }
+        },
+        "id": "114",
+        "name": "Deploy AWS EKS",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793413934964,
+        "durationMillis": 192,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/119/wfapi/describe"
+          }
+        },
+        "id": "119",
+        "name": "Verify AWS application",
+        "execNode": "",
+        "status": "NOT_EXECUTED",
+        "startTimeMillis": 1793413935221,
+        "durationMillis": 150,
+        "pauseDurationMillis": 0
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/job/tache-ci/14/execution/node/124/wfapi/describe"
+          }
+        },
+        "id": "124",
+        "name": "Declarative: Post Actions",
+        "execNode": "",
+        "status": "SUCCESS",
+        "startTimeMillis": 1793413935449,
+        "durationMillis": 960,
+        "pauseDurationMillis": 0
+      }
+    ]
+  }
+}

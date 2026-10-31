@@ -1,0 +1,73 @@
+{
+  "jenkinsBuild": 14,
+  "analysisStatus": "SUCCESS",
+  "qualityGate": {
+    "status": "OK",
+    "conditions": [
+      {
+        "status": "OK",
+        "metricKey": "new_coverage",
+        "comparator": "LT",
+        "errorThreshold": "80",
+        "actualValue": "88.3"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_duplicated_lines_density",
+        "comparator": "GT",
+        "errorThreshold": "3",
+        "actualValue": "0.0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_violations",
+        "comparator": "GT",
+        "errorThreshold": "0",
+        "actualValue": "0"
+      }
+    ],
+    "ignoredConditions": false,
+    "period": {
+      "mode": "PREVIOUS_VERSION",
+      "date": "2026-10-29T10:22:20+0000"
+    },
+    "caycStatus": "compliant"
+  },
+  "measures": [
+    {
+      "metric": "coverage",
+      "value": "62.7",
+      "bestValue": false
+    },
+    {
+      "metric": "bugs",
+      "value": "1",
+      "bestValue": false
+    },
+    {
+      "metric": "code_smells",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "branch_coverage",
+      "value": "36.1",
+      "bestValue": false
+    },
+    {
+      "metric": "vulnerabilities",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "line_coverage",
+      "value": "66.7",
+      "bestValue": false
+    },
+    {
+      "metric": "security_hotspots",
+      "value": "0",
+      "bestValue": true
+    }
+  ]
+}

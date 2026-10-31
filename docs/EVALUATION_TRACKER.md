@@ -2,10 +2,12 @@
 
 ## Revue du 31 octobre 2026
 
-DTO explicites en entrée et sortie : voir DTO_API.md. Maven verify : 46 tests
+DTO explicites en entrée et sortie : voir DTO_API.md. Maven verify final : 52 tests
 réussis, rapports JaCoCo produits. HTTP réel sur le JAR contre MySQL : routes
 historiques, rôles, cas 400/404, readiness et export Prometheus validés.
-Preuves actuelles : 16-readiness/baseline-readiness.json et legacy-dto-api.json.
+Preuves finales locales : 16-readiness/final-baseline-readiness.json et
+final-legacy-dto-api.json. Jenkins #14 SUCCESS (46 tests) prouve les publications ;
+la correction du NPE historique attend sa nouvelle vérification CI/Sonar.
 Le redémarrage AWS reste bloqué par la policy voc-cancel-cred du lab ; aucune
 nouvelle disponibilité EKS/Grafana/Prometheus n'est annoncée.
 

@@ -86,3 +86,10 @@ une nouvelle revue et un accord. La vérification est en lecture seule : cluster
 EC2, ASG, launch template, volumes, interfaces réseau, security group et state.
 Le job EKS est désactivé après la démo et son credential temporaire supprimé ;
 Configure-EksJenkins.py renouvelle uniquement le credential de tache-ci après recréation.
+
+## Accès public supplémentaire vérifié le 31 octobre 2026
+
+Le Service events-public est maintenant actif sans remplacement de pod. L'URL et
+la preuve HTTP sont dans evidence/18-eks-public-access/verification.json ; voir
+AWS_EKS_PUBLIC_ACCESS.md pour l'activation volontaire et les frais supplémentaires.
+Les tunnels et le Service interne restent actifs.

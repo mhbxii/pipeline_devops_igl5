@@ -12,6 +12,13 @@
 Image : `ayyoub1/events-tache:tache-4dd4e988e514-20`. Snapshot Nexus : `1.0.0-20261031.080707-11`.
 Preuves actuelles : `evidence/17-terraform-pipeline/`.
 
+## Accès public AWS vérifié
+
+http://a5c49085a99274081beb23415906953b-415643546.us-east-1.elb.amazonaws.com/events/taches
+
+HTTP 200, readiness UP ; quatre workloads conservés sans redémarrage. Cet accès
+HTTP de démonstration expose l'API actuelle sans authentification. Voir AWS_EKS_PUBLIC_ACCESS.md.
+
 ## Accès via tunnels locaux
 
 - Jenkins : http://localhost:8080/job/tache-ci/20/
@@ -21,7 +28,7 @@ Preuves actuelles : `evidence/17-terraform-pipeline/`.
 
 ## Exploitation
 
-Le cluster reste actif : estimation environ 0,16 USD/h jusqu'au nettoyage.
+Le cluster reste actif : estimation environ 0,19 USD/h avec le load balancer public, hors trafic.
 Renouveler le profil lab et exécuter Configure-AwsTerraformJenkins.py pour vérifier
 le compte et actualiser les /32. Si le plan change, le revoir avant approbation.
 Renouveler eks-kubeconfig via Configure-EksJenkins.py (token de deux heures).

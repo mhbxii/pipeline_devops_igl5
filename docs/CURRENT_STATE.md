@@ -1,3 +1,18 @@
+# Accès public AWS vérifié — 31 octobre 2026
+
+URL : http://a5c49085a99274081beb23415906953b-415643546.us-east-1.elb.amazonaws.com/events/taches
+Autorisation : accès AWS sans arrêter les services. Le nouveau Service events-public
+expose seulement l'API via un Classic Load Balancer internet-facing dans une AZ.
+HTTP externe 200 ; readiness UP ; backend AWS InService. Les quatre pods sont
+Ready et leurs UID/compteurs de redémarrage sont identiques avant et après.
+API, Jenkins, Grafana et Prometheus restent accessibles localement : HTTP 200.
+Aucun Deployment modifié ni apply Terraform. Coût supplémentaire estimé : environ
+0,03 USD/h puis trafic ; total indicatif 0,19 USD/h hors trafic. Cluster conservé.
+Preuves : docs/evidence/18-eks-public-access/verification.json et public-api.png.
+Exploitation : docs/AWS_EKS_PUBLIC_ACCESS.md. L'API est publique en HTTP, sans
+nouvelle authentification ni certificat. Aucun autre service exposé par cet ajout.
+Les sections suivantes retracent les étapes antérieures.
+
 # Pipeline complet EKS vérifié — 31 octobre 2026
 
 Jenkins #19 SUCCESS : plan revu et approuvé, quatre ressources AWS créées.

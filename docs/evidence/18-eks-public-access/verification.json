@@ -1,0 +1,37 @@
+{
+  "verifiedAt": "2026-10-31T08:43:04.266962+00:00",
+  "apiUrl": "http://a5c49085a99274081beb23415906953b-415643546.us-east-1.elb.amazonaws.com/events/taches",
+  "healthHttp": 200,
+  "healthStatus": "UP",
+  "apiHttp": 200,
+  "existingWorkloadsUnchanged": true,
+  "workloads": {
+    "events-tache/events-68f8c68db-vkzp9": {
+      "uid": "d71ba727-233b-4623-bb19-2016185550a1",
+      "restarts": 0
+    },
+    "events-tache/mysql-6dcc5bd495-x7qpw": {
+      "uid": "878ed370-db6d-4c77-97d4-e36da5a2abd3",
+      "restarts": 0
+    },
+    "events-monitoring/prometheus-6c8d7d79d5-fbsj2": {
+      "uid": "27ac7711-8fba-41af-af4b-8c3f26d6ac9f",
+      "restarts": 0
+    },
+    "events-grafana/grafana-86dc75dd8f-8x2xv": {
+      "uid": "2b14311a-20da-4d94-b892-d162236f8f67",
+      "restarts": 0
+    }
+  },
+  "service": "events-tache/events-public",
+  "loadBalancerType": "classic",
+  "publicPort": 80,
+  "workerAz": "us-east-1a",
+  "terraformApply": false,
+  "existingLocalAccessHttp": {
+    "api": 200,
+    "jenkins": 200,
+    "grafana": 200,
+    "prometheus": 200
+  }
+}

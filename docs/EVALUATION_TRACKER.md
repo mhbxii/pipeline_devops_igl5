@@ -1,5 +1,28 @@
 # Suivi du barème — résultats vérifiés
 
+## Revue du 31 octobre 2026
+
+DTO explicites en entrée et sortie : voir DTO_API.md. Maven verify : 46 tests
+réussis, rapports JaCoCo produits. HTTP réel sur le JAR contre MySQL : routes
+historiques, rôles, cas 400/404, readiness et export Prometheus validés.
+Preuves actuelles : 16-readiness/baseline-readiness.json et legacy-dto-api.json.
+Le redémarrage AWS reste bloqué par la policy voc-cancel-cred du lab ; aucune
+nouvelle disponibilité EKS/Grafana/Prometheus n'est annoncée.
+
+## Réactivation du 30 octobre 2026
+
+| Outil demandé | Vérification actuelle | Preuve |
+| --- | --- | --- |
+| JaCoCo | Plugin Maven 0.8.12 ; HTML/XML réels dans Jenkins #13 ; 38 tests réussis, couverture lignes 59,7 % | 15-eks-reactivation/coverage-and-monitoring-readiness.json et jacoco-build-13.png |
+| Prometheus | Deployment, Service, PVC 1 Gio et scrape Actuator présents dans le rendu Kustomize EKS | k8s/eks/prometheus.yaml ; vérification runtime après recréation |
+| Grafana | Deployment, Service, PVC 1 Gio, datasource Prometheus et dashboard provisionnés par les manifests/scripts | k8s/grafana.yaml, monitoring/grafana-dashboard.json ; vérification runtime après recréation |
+
+Le cluster précédent est supprimé. Les preuves historiques ci-dessous restent
+valides pour cette démonstration passée ; elles ne prouvent pas la disponibilité
+du nouveau cluster. JaCoCo est explicitement vérifié sans inventer de point au barème.
+
+## Démonstration précédente
+
 | Critère | Points | Statut | Fichiers et vérification | Preuve et slides | Question / réponse |
 |---|---:|---|---|---|---|
 | Jenkins | 2 | Chaîne publique vérifiée | Jenkinsfile, ci/ ; #9 automatique SUCCESS ; GitHub, tests, gate, Nexus, image publique, rollout et HTTP | 08-jenkins ; 8, 12 et 13 | Un échec bloque-t-il le rollout ? Oui, #5 le démontre. |

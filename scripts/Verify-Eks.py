@@ -1,11 +1,29 @@
 """Verify the real EKS release and collect public, credential-free evidence."""
+import argparse
+import hashlib
 import json
 import subprocess
 from datetime import datetime, timezone
 import requests
-from local_ci import ROOT, environment
+from local_ci import ROOT, Jenkins, environment
 
-OUT = ROOT / 'docs/evidence/14-aws-eks'
+parser = argparse.ArgumentParser()
+parser.add_argument('--build', type=int, required=True, help='Successful unified tache-ci build deployed to EKS')
+args = parser.parse_args()
+api = Jenkins()
+response = api.session.get(f'{api.url}/job/tache-ci/{args.build}/api/json', timeout=30)
+response.raise_for_status()
+build = response.json()
+assert build['result'] == 'SUCCESS' and not build['building'], 'Upstream build must be complete and successful'
+revisions = [a['lastBuiltRevision']['SHA1'] for a in build.get('actions', []) if a.get('lastBuiltRevision')]
+assert revisions, 'Missing SCM revision in upstream build'
+expected_image = f'ayyoub1/events-tache:tache-{revisions[-1][:12]}-{args.build}'
+jars = [a for a in build['artifacts'] if a['relativePath'].endswith('.jar')]
+assert len(jars) == 1, 'Expected one archived application JAR'
+response = api.session.get(f"{api.url}/job/tache-ci/{args.build}/artifact/{jars[0]['relativePath']}", timeout=90)
+response.raise_for_status()
+expected_jar_hash = hashlib.sha256(response.content).hexdigest()
+OUT = ROOT / 'docs/evidence/15-eks-reactivation'
 OUT.mkdir(parents=True, exist_ok=True)
 K = [str(ROOT / '.local/tools/kubectl-eks.exe'), '--kubeconfig',
      str(ROOT / '.local/kubeconfig-eks'), '--context', 'events-tache-eks']
@@ -52,9 +70,9 @@ ebs = json.loads(subprocess.check_output(['aws', '--profile', 'events-tache-lab'
 assert len(ebs) == 3 and all(v['Encrypted'] and v['VolumeType'] == 'gp3' for v in ebs)
 (ROOT / '.local/aws-preflight/workload-volume-ids.json').write_text(json.dumps(volume_ids), encoding='utf-8')
 image = next(r for r in resources if r['deployment'] == 'events')['images'][0]
-assert image == 'ayyoub1/events-tache@sha256:abd5ce51159c9588d7f863c5a9682c0c0f7da7e19b16f6f45bda9719458d182c'
+assert image == expected_image, 'EKS image differs from selected unified build'
 jar_hash = kubectl('-n', 'events-tache', 'exec', 'deployment/events', '--', 'sha256sum', '/app/app.jar').split()[0]
-assert jar_hash == '46b9ea9cc5fb3cffc5b284d57e184ea5b8b9e4729edf26eca426ef077efaa284'
+assert jar_hash == expected_jar_hash, 'EKS JAR differs from Jenkins artifact'
 prom = requests.get('http://localhost:19190/api/v1/targets', timeout=20).json()
 targets = prom['data']['activeTargets']
 assert len(targets) == 1 and targets[0]['health'] == 'up'
@@ -84,7 +102,7 @@ proof = {'verifiedAt': datetime.now(timezone.utc).isoformat(), 'cluster': 'event
          'region': 'us-east-1', 'node': {'instanceType': 't3.medium', 'ready': True,
          'kubeletVersion': node['status']['nodeInfo']['kubeletVersion']},
          'deployments': resources, 'volumes': volumes, 'readiness': health,
-         'jarSha256': jar_hash, 'upstreamJenkinsBuild': 9,
+         'jarSha256': jar_hash, 'upstreamJenkinsBuild': args.build,
          'prometheusTarget': targets[0]['health'], 'grafanaVersion': g_health['version'],
          'grafanaQueries': queries}
 (OUT / 'verification.json').write_text(json.dumps(proof, indent=2), encoding='utf-8')
@@ -93,7 +111,7 @@ lines = ['EKS events-tache-ayyoub / us-east-1 / verified ' + proof['verifiedAt']
 lines += [r['namespace'] + ' / ' + r['deployment'] + ': 1/1 Ready' for r in resources]
 lines += [v['claim'] + ': Bound / encrypted gp3 / ' + v['size'] for v in volumes]
 lines += ['HTTP readiness: UP; MySQL-backed role lifecycle: see api-success.txt',
-          'JAR SHA256 matches Jenkins #9 and Nexus:', jar_hash,
+          f'JAR SHA256 matches Jenkins #{args.build} artifact:', jar_hash,
           'Prometheus: 1/1 UP; Grafana: healthy, four nonempty queries']
 (OUT / 'resources.txt').write_text('\n'.join(lines) + '\n', encoding='utf-8')
 print('\n'.join(lines))

@@ -1,0 +1,17 @@
+{
+  "job": "tache-ci",
+  "sourceUrl": "https://github.com/mhbxii/pipeline_devops_igl5.git",
+  "branch": "*/Tache",
+  "scriptPath": "Jenkinsfile",
+  "excludedRegions": "docs/.*",
+  "polling": "H/5 * * * *",
+  "disabled": true,
+  "anonymousSourceRead": true,
+  "parameters": {
+    "RUN_SONAR": true,
+    "PUBLISH_NEXUS": true,
+    "PUBLISH_IMAGE": true,
+    "NEXUS_URL": "http://nexus:8081",
+    "DOCKER_REPOSITORY": "ayyoub1/events-tache"
+  }
+}

@@ -27,6 +27,10 @@ def parameters = (job.getProperty(ParametersDefinitionProperty)?.parameterDefini
     if (parameter.name == 'DOCKER_REPOSITORY') return new StringParameterDefinition(parameter.name, 'ayyoub1/events-tache', parameter.description)
     return parameter
 }
+// WorkflowJob can retain duplicate properties after scripted migrations.
+while (job.getProperty(ParametersDefinitionProperty) != null) {
+    job.removeProperty(ParametersDefinitionProperty)
+}
 job.addProperty(new ParametersDefinitionProperty(parameters))
 job.addTrigger(new SCMTrigger('H/5 * * * *'))
 if (input.enable) job.setDisabled(false)
@@ -46,5 +50,7 @@ println(groovy.json.JsonOutput.toJson([
 ]))
 """
 proof = json.loads(Jenkins().groovy(script, {"enable": args.enable}).strip())
-(ROOT / "docs/evidence/08-jenkins/github-scm-config.json").write_text(json.dumps(proof, indent=2), encoding="utf-8")
+evidence = ROOT / "docs/evidence/15-eks-reactivation"
+evidence.mkdir(parents=True, exist_ok=True)
+(evidence / "github-scm-config.json").write_text(json.dumps(proof, indent=2), encoding="utf-8")
 print(json.dumps(proof, indent=2))

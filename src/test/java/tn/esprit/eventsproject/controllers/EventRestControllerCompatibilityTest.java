@@ -92,4 +92,29 @@ class EventRestControllerCompatibilityTest {
         mvc.perform(get("/event/getLogs/2026-11-05/2026-11-06")).andExpect(status().isOk()).andExpect(content().json("[]"));
         verify(service).getLogisticsDates(start,end);
     }
+
+    @Test void cyclicEntityResponseIsSerializedAsBoundedDto() throws Exception {
+        Participant participant = new Participant();
+        participant.setIdPart(7);
+        participant.setNom("Demo");
+        Event event = new Event();
+        event.setIdEvent(10);
+        event.setParticipants(Collections.singleton(participant));
+        participant.setEvents(Collections.singleton(event));
+        when(service.addParticipant(any())).thenReturn(participant);
+        mvc.perform(post("/event/addPart").contentType(MediaType.APPLICATION_JSON)
+            .content("{\"nom\":\"Demo\"}"))
+            .andExpect(status().isOk()).andExpect(jsonPath("$.idPart").value(7))
+            .andExpect(jsonPath("$.events[0].idEvent").value(10))
+            .andExpect(jsonPath("$.events[0].participants").doesNotExist());
+    }
+
+    @Test void dateQueryReturnsLogisticsDtoFields() throws Exception {
+        when(service.getLogisticsDates(any(), any()))
+            .thenReturn(Collections.singletonList(new Logistics(12, "Chairs", true, 12.5f, 4)));
+        mvc.perform(get("/event/getLogs/2026-11-05/2026-11-06"))
+            .andExpect(status().isOk()).andExpect(jsonPath("$[0].idLog").value(12))
+            .andExpect(jsonPath("$[0].reserve").value(true))
+            .andExpect(jsonPath("$[0].prixUnit").value(12.5));
+    }
 }

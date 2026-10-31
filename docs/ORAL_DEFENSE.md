@@ -164,3 +164,13 @@ plan exact et une confirmation Jenkins. Secrets et plans ne sont pas archivés.
 Le bootstrap initial reste opérateur : le token de livraison ne peut créer les
 namespaces ou Secrets. Cette nouvelle CI n'est pas encore démontrée sur AWS.
 Voir JENKINS_TERRAFORM.md pour les prérequis et limites.
+
+# Revue DTO du 31 octobre 2026
+
+Les requêtes n'acceptent que les champs modifiables et des références par ID ;
+un client ne peut imposer l'identifiant généré ou le coût calculé. Les réponses
+sont aussi des DTO : les relations restent des IDs pour empêcher les cycles
+de sérialisation JPA. RoleRequest/RoleResponse sont dans controllers/dto.
+DTO et entité ont des responsabilités différentes : contrat HTTP et persistance.
+Les noms scalaires et routes restent identiques ; le détail imbriqué des entités
+n'est plus exposé. Voir DTO_API.md et les tests de sérialisation cyclique.

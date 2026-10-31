@@ -1,0 +1,35 @@
+{
+  "jenkinsBuild": 13,
+  "tests": {
+    "passed": 38,
+    "failed": 0
+  },
+  "jacocoCounters": {
+    "INSTRUCTION": {
+      "covered": 643,
+      "missed": 574
+    },
+    "BRANCH": {
+      "covered": 10,
+      "missed": 52
+    },
+    "LINE": {
+      "covered": 123,
+      "missed": 83
+    },
+    "COMPLEXITY": {
+      "covered": 107,
+      "missed": 63
+    },
+    "METHOD": {
+      "covered": 102,
+      "missed": 37
+    },
+    "CLASS": {
+      "covered": 18,
+      "missed": 2
+    }
+  },
+  "eksMonitoringManifestsRendered": true,
+  "eksMonitoringLive": false
+}

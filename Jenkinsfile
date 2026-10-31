@@ -40,7 +40,13 @@ pipeline {
         }
         stage('Compile') { steps { sh 'mvn -B clean compile' } }
         stage('Tests and coverage') {
-            steps { sh 'mvn -B test' }
+            steps {
+                sh '''set -eu
+                    mvn -B test
+                    test -s target/site/jacoco/index.html
+                    test -s target/site/jacoco/jacoco.xml
+                '''
+            }
             post {
                 always {
                     junit 'target/surefire-reports/TEST-*.xml'

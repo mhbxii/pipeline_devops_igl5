@@ -1,11 +1,12 @@
 package tn.esprit.eventsproject.controllers;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.eventsproject.entities.Tache;
 import tn.esprit.eventsproject.services.TacheService;
+import tn.esprit.eventsproject.controllers.dto.RoleRequest;
+import tn.esprit.eventsproject.controllers.dto.RoleResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,13 +31,4 @@ public class TacheRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void clear(@PathVariable int id) { service.clearRole(id); }
 
-    @Data
-    public static class RoleRequest { private Tache tache; }
-
-    @Data
-    @RequiredArgsConstructor
-    public static class RoleResponse {
-        private final int participantId;
-        private final Tache tache;
-    }
 }

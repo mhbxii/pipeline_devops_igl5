@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-31",
+  "maven": "verify SUCCESS",
+  "junit": {
+    "tests": 46,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "jacocoCounters": {
+    "INSTRUCTION": {
+      "covered": 916,
+      "missed": 389
+    },
+    "BRANCH": {
+      "covered": 13,
+      "missed": 23
+    },
+    "LINE": {
+      "covered": 162,
+      "missed": 81
+    },
+    "COMPLEXITY": {
+      "covered": 143,
+      "missed": 39
+    },
+    "METHOD": {
+      "covered": 137,
+      "missed": 27
+    },
+    "CLASS": {
+      "covered": 25,
+      "missed": 2
+    }
+  },
+  "mysqlReadiness": "UP",
+  "legacyDtoHttp": "PASS",
+  "roleLifecycleHttp": "PASS",
+  "prometheusExporter": "JVM and HTTP metrics present",
+  "jarSha256": "4cacdb70da0cf04cb8981e2d114f49a42920942d2a8de7dc1e1a233627c2963c",
+  "eksLive": false
+}

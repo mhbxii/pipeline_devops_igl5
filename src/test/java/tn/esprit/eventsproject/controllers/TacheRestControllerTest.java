@@ -1,6 +1,8 @@
 package tn.esprit.eventsproject.controllers;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,6 +35,25 @@ class TacheRestControllerTest {
         when(service.assignRole(7,Tache.SERVEUR)).thenReturn(Tache.SERVEUR);
         mvc.perform(put("/taches/participants/7").contentType(MediaType.APPLICATION_JSON).content("{\"tache\":\"SERVEUR\"}"))
             .andExpect(status().isOk()).andExpect(jsonPath("$.tache").value("SERVEUR"));
+    }
+    @ParameterizedTest @ValueSource(strings={"{}", "{\"tache\":null}"})
+    void missingRoleIsBadRequest(String body) throws Exception {
+        when(service.assignRole(7, null)).thenThrow(new IllegalArgumentException("A role is required"));
+        mvc.perform(put("/taches/participants/7").contentType(MediaType.APPLICATION_JSON).content(body))
+            .andExpect(status().isBadRequest());
+    }
+    @Test void jsonNullBodyIsBadRequestWithoutCallingService() throws Exception {
+        mvc.perform(put("/taches/participants/7").contentType(MediaType.APPLICATION_JSON).content("null"))
+            .andExpect(status().isBadRequest());
+        verifyNoInteractions(service);
+    }
+    @Test void roleAssignmentDoesNotBindParticipantFields() throws Exception {
+        when(service.assignRole(7,Tache.SERVEUR)).thenReturn(Tache.SERVEUR);
+        mvc.perform(put("/taches/participants/7").contentType(MediaType.APPLICATION_JSON)
+            .content("{\"participantId\":999,\"nom\":\"untrusted\",\"tache\":\"SERVEUR\"}"))
+            .andExpect(status().isOk()).andExpect(jsonPath("$.participantId").value(7))
+            .andExpect(jsonPath("$.nom").doesNotExist());
+        verify(service).assignRole(7,Tache.SERVEUR);
     }
     @Test void unknownEnumIsBadRequestWithoutCallingService() throws Exception {
         mvc.perform(put("/taches/participants/7").contentType(MediaType.APPLICATION_JSON).content("{\"tache\":\"UNKNOWN\"}"))

@@ -1,4 +1,40 @@
+# Revue DTO et préparation finale — 31 octobre 2026
+
+Continuation demandée : vérifier les DTO et la préparation complète. DTO de
+requête existants confirmés. Ajout local de DTO de réponse explicites pour les
+routes historiques (champs scalaires conservés, relations limitées aux identifiants
+pour éviter la récursion) ; DTO rôle déplacés dans controllers/dto.
+Vérification Maven verify réussie : 46 tests, aucun échec/erreur/skipped. Rapports
+JaCoCo HTML/XML produits. JAR lancé temporairement sur 127.0.0.1:18099 contre le
+MySQL dédié : quatre routes historiques, cycle rôle complet, erreurs 400/404,
+readiness UP et métriques Prometheus JVM/HTTP vérifiés. Processus de vérification
+arrêté ensuite. Preuves : docs/evidence/16-readiness/. Contrats : docs/DTO_API.md.
+Hash provider Linux corrigé, activation Jenkins à reprendre avec les sources publiées.
+Blocage AWS actuel : STS répond, mais EKS ListClusters est explicitement refusé
+par la policy de lab voc-cancel-cred. Redémarrage du lab et renouvellement du
+profil demandés. Aucun contournement IAM ni apply effectué.
+
 # Pipeline unique EKS — 30 octobre 2026
+
+Reconstruction Jenkins effectuée après demande utilisateur : Terraform 1.17.1,
+kubectl 1.36.6 et state AWS lisible/inscriptible vérifiés dans le nouveau conteneur.
+Le téléchargement kubectl Docker a échoué (unexpected EOF) ; repli via binaire
+local vérifié SHA-256 et plugins existants, contexte ignoré .local/jenkins-cached-build.
+Jenkins recréé, historique conservé, ancien job EKS désactivé. Session lab renouvelée
+après ExpiredToken ; STS et compte attendu validés. Credentials Terraform configurés.
+API CIDR privé actualisé vers la sortie /32 commune hôte/Jenkins. Inventaire EKS vide.
+Plan local privé aws-eks-reactivation.tfplan : 4 créations, 0 modification/suppression.
+Pipeline unique réactivé ; build infrastructure demandé avec publications et
+livraison désactivées, attente d'approbation prévue avant tout apply. Aucun apply effectué.
+Grille : JaCoCo vérifié sur les artefacts réels Jenkins #13, 38 tests réussis,
+0 échec ; couverture lignes 59,7 %, instructions 52,8 %. HTML/XML deviennent
+obligatoires dans le Jenkinsfile local. Prometheus/Grafana présents dans le rendu
+Kustomize EKS ; leur disponibilité réelle attend la recréation du cluster.
+Preuve : docs/evidence/15-eks-reactivation/coverage-and-monitoring-readiness.json.
+Capture authentique : docs/evidence/15-eks-reactivation/jacoco-build-13.png.
+Build #13 : tests/gate réussis mais Terraform validate bloqué par le hash Linux
+absent du lockfile AWS créé sous Windows. Hash linux_amd64 obtenu via terraform
+providers lock (signature HashiCorp vérifiée), hashes Windows conservés.
 
 Sources sur Tache : Jenkinsfile unique pour CI, Terraform AWS/EKS et
 livraison de l'image du build courant vers EKS. ci/Jenkinsfile.eks supprimé ;

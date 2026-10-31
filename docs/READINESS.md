@@ -1,5 +1,9 @@
 # Préparation de la démonstration — 31 octobre 2026
 
+Support actuel : [PowerPoint de soutenance](presentation/eventsProject-Tache-Soutenance.pptx)
+et [PDF](presentation/eventsProject-Tache-Soutenance.pdf). 26 slides françaises
+validées, aucune note orateur ; les captures AWS historiques sont explicitement datées.
+
 ## Application et DTO
 
 - Requêtes : listes explicites de champs modifiables, relations par ID positif.

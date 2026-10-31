@@ -174,3 +174,12 @@ de sérialisation JPA. RoleRequest/RoleResponse sont dans controllers/dto.
 DTO et entité ont des responsabilités différentes : contrat HTTP et persistance.
 Les noms scalaires et routes restent identiques ; le détail imbriqué des entités
 n'est plus exposé. Voir DTO_API.md et les tests de sérialisation cyclique.
+
+# Support de soutenance actuel
+
+Utiliser eventsProject-Tache-Soutenance.pptx ou son PDF : 26 slides françaises,
+descriptions et réponses visibles, aucune note PowerPoint. DTO en 6–7, validation
+en 8, JUnit en 9, JaCoCo en 10, Sonar en 11, pipeline unique en 13 et plan/apply
+en 14. Les slides 20–23 portent les preuves AWS du 29 octobre ; annoncer leur date
+et le nettoyage effectué. La slide 24 décrit la réactivation restante du lab.
+Le build #15 prouve CI/publication et runtime Docker/MySQL, pas un nouveau rollout EKS.

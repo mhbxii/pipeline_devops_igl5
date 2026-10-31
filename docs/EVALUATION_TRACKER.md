@@ -1,5 +1,11 @@
 # Suivi du barème — résultats vérifiés
 
+Support actuel : eventsProject-Tache-Soutenance.pptx, 26 diapositives ; voir
+presentation/presentation-plan.md et presentation/screenshots-index.md.
+Les renvois du tableau historique ci-dessous concernent les anciens decks.
+Le support actuel place JUnit en 9, JaCoCo en 10, Sonar en 11, Jenkins en 13,
+Terraform en 14, Nexus en 15, Docker en 16–17 et les preuves monitoring en 21–22.
+
 ## Revue du 31 octobre 2026
 
 DTO explicites en entrée et sortie : voir DTO_API.md. Maven verify final : 52 tests

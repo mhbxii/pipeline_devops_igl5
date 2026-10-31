@@ -1,3 +1,15 @@
+# Présentation prête — 31 octobre 2026
+
+Nouvelle soutenance : docs/presentation/eventsProject-Tache-Soutenance.pptx et PDF
+du même nom. 26 diapositives françaises, descriptions visibles, aucune note
+orateur. DTO entrée/sortie, 52 tests, JaCoCo, Sonar, pipeline unique et release #15
+actualisés. Les preuves EKS/Prometheus/Grafana du 29 octobre sont explicitement
+datées ; la réactivation actuelle reste indiquée en attente du lab.
+Validation : contenu XML exact, 26 pages PDF, aucun débordement de texte, exports
+complets et contrôle visuel des slides. Anciennes présentations et fichier ouvert
+conservés. Génération : Build-ReadyPresentation.ps1 ; validation : Validate-ReadyPresentation.py.
+Sources : slides-ready.json ; plan et index des preuves mis à jour.
+
 # Revue DTO et préparation finale — 31 octobre 2026
 
 Continuation demandée : vérifier les DTO et la préparation complète. DTO de

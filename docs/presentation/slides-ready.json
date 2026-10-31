@@ -1,0 +1,614 @@
+[
+  {
+    "section": "SOUTENANCE",
+    "layout": "cover",
+    "status": "verified",
+    "title": "eventsProject",
+    "description": "Gestion des rôles Participant et chaîne DevOps vers AWS EKS.",
+    "cards": [
+      {
+        "title": "52",
+        "body": "tests réussis"
+      },
+      {
+        "title": "#15",
+        "body": "Jenkins SUCCESS"
+      },
+      {
+        "title": "72,3 %",
+        "body": "couverture des lignes"
+      },
+      {
+        "title": "0",
+        "body": "bug Sonar"
+      }
+    ],
+    "evidence": "État vérifié le 31 octobre 2026 • Source testée : 8a5a96f"
+  },
+  {
+    "section": "APPLICATION",
+    "layout": "cards",
+    "status": "verified",
+    "title": "Un périmètre métier précis",
+    "description": "Tache décrit le rôle d'un participant dans un événement. Le modèle partagé du projet est conservé.",
+    "cards": [
+      {
+        "title": "Un enum",
+        "body": "INVITE, ORGANISATEUR, SERVEUR et ANIMATEUR."
+      },
+      {
+        "title": "Un participant",
+        "body": "Lire, affecter, remplacer ou retirer son rôle sans supprimer le participant."
+      },
+      {
+        "title": "Un module intégré",
+        "body": "Contrôleurs, services et repositories existants ; aucune entité de tâche indépendante."
+      }
+    ],
+    "evidence": "entities/Tache.java • services/TacheService.java"
+  },
+  {
+    "section": "ARCHITECTURE",
+    "layout": "flow",
+    "status": "verified",
+    "title": "Du code au déploiement EKS",
+    "description": "Jenkins, SonarQube et Nexus restent locaux ; la destination Kubernetes du pipeline unique est AWS EKS.",
+    "cards": [
+      {
+        "title": "1 · GitHub / Tache",
+        "body": "Source versionnée et checkout du commit."
+      },
+      {
+        "title": "2 · Jenkins",
+        "body": "Compilation, tests et rapports JaCoCo."
+      },
+      {
+        "title": "3 · SonarQube",
+        "body": "Analyse et quality gate bloquant."
+      },
+      {
+        "title": "4 · Terraform AWS",
+        "body": "Plan puis apply optionnel après revue."
+      },
+      {
+        "title": "5 · Nexus / Docker Hub",
+        "body": "JAR et image publiés et vérifiés."
+      },
+      {
+        "title": "6 · AWS EKS",
+        "body": "Rollout et HTTP après réactivation du lab."
+      }
+    ],
+    "evidence": "Jenkinsfile • Étapes AWS désactivées dans le build #15"
+  },
+  {
+    "section": "MODÈLE",
+    "layout": "code",
+    "status": "verified",
+    "title": "Persister un rôle, conserver le modèle",
+    "description": "Le rôle reste une valeur de Participant, enregistrée en chaîne dans MySQL.",
+    "code": "public enum Tache {\n    INVITE, ORGANISATEUR,\n    SERVEUR, ANIMATEUR\n}\n\n// Participant.java\n@Enumerated(EnumType.STRING)\nTache tache;",
+    "cards": [
+      {
+        "title": "Lisibilité",
+        "body": "La base contient le nom du rôle, pas sa position dans l'enum."
+      },
+      {
+        "title": "Intégrité",
+        "body": "Le participant existe avant toute affectation ; les valeurs inconnues sont rejetées."
+      }
+    ],
+    "evidence": "entities/Tache.java • entities/Participant.java"
+  },
+  {
+    "section": "API MÉTIER",
+    "layout": "flow",
+    "status": "verified",
+    "title": "Un cycle de rôle vérifié par HTTP",
+    "description": "Le JAR et l'image finale ont été testés contre le MySQL dédié, en complément des tests automatisés.",
+    "cards": [
+      {
+        "title": "GET /taches",
+        "body": "Consulter les quatre rôles possibles."
+      },
+      {
+        "title": "POST /event/addPart",
+        "body": "Créer un participant avec un ID généré."
+      },
+      {
+        "title": "PUT /taches/participants/{id}",
+        "body": "Affecter ou remplacer le rôle."
+      },
+      {
+        "title": "GET /taches/participants/{id}",
+        "body": "Relire le rôle réellement persisté."
+      },
+      {
+        "title": "DELETE /taches/participants/{id}",
+        "body": "Retirer le rôle ; réponse HTTP 204."
+      },
+      {
+        "title": "Le participant reste",
+        "body": "Le retrait du rôle ne supprime pas sa fiche."
+      }
+    ],
+    "evidence": "16-readiness/final-baseline-readiness.json"
+  },
+  {
+    "section": "DTO",
+    "layout": "code",
+    "status": "verified",
+    "title": "Limiter les champs reçus par l'API",
+    "description": "Les DTO de requête définissent les champs modifiables. Les relations entrantes acceptent uniquement des IDs positifs.",
+    "code": "@Getter\n@Setter\npublic class RoleRequest {\n    private Tache tache;\n}\n\n// Le participant vient du chemin HTTP :\nservice.assignRole(id, request.getTache());",
+    "cards": [
+      {
+        "title": "Créations protégées",
+        "body": "ParticipantCreateRequest, EventCreateRequest et LogisticsCreateRequest."
+      },
+      {
+        "title": "Champs réservés",
+        "body": "Un client ne peut imposer l'ID généré ni le coût calculé."
+      }
+    ],
+    "evidence": "controllers/dto/RoleRequest.java • EventRequests.java"
+  },
+  {
+    "section": "DTO",
+    "layout": "code",
+    "status": "verified",
+    "title": "Des réponses sans graphe JPA récursif",
+    "description": "Les DTO de réponse conservent les champs scalaires ; leurs relations exposent des identifiants.",
+    "code": "{\n  \"idPart\": 7,\n  \"nom\": \"Demo\",\n  \"tache\": \"SERVEUR\",\n  \"events\": [{ \"idEvent\": 10 }]\n}\n\n// Rôle : participantId + tache",
+    "cards": [
+      {
+        "title": "Sérialisation bornée",
+        "body": "Évite Participant → Event → Participant dans les réponses JSON."
+      },
+      {
+        "title": "Contrat explicite",
+        "body": "URLs et champs scalaires conservés ; détail imbriqué remplacé par des références ID."
+      }
+    ],
+    "evidence": "Exemple de JSON conforme au DTO • EventResponses.java • docs/DTO_API.md"
+  },
+  {
+    "section": "VALIDATION",
+    "layout": "cards",
+    "status": "verified",
+    "title": "Rejeter les erreurs avant la persistance",
+    "description": "Le NPE historique sur une référence absente est corrigé ; les erreurs attendues sont contrôlées.",
+    "cards": [
+      {
+        "title": "HTTP 400",
+        "body": "Identifiant nul ou négatif, enum inconnu, rôle manquant ou référence invalide."
+      },
+      {
+        "title": "HTTP 404",
+        "body": "Participant absent ou événement introuvable pour l'affectation logistique."
+      },
+      {
+        "title": "HTTP 204",
+        "body": "Retrait du rôle réussi, sans suppression du participant."
+      }
+    ],
+    "evidence": "EventReferenceValidationTest • TacheRestControllerTest • HTTP/MySQL réel"
+  },
+  {
+    "section": "TESTS",
+    "layout": "image",
+    "status": "verified",
+    "title": "52 tests automatisés réussis",
+    "description": "Jenkins #15 : zéro échec, zéro erreur et aucun test ignoré.",
+    "screenshot": "16-readiness/junit-build-15.png",
+    "cards": [
+      {
+        "title": "Service / Mockito",
+        "body": "Règles de rôle et références manquantes."
+      },
+      {
+        "title": "HTTP / DTO",
+        "body": "Contrats, allowlists et sérialisation cyclique."
+      },
+      {
+        "title": "JPA / H2",
+        "body": "Persistance réelle ; MySQL vérifié séparément."
+      }
+    ],
+    "evidence": "Jenkins #15 • Rapport JUnit authentique"
+  },
+  {
+    "section": "COUVERTURE",
+    "layout": "image",
+    "status": "verified",
+    "title": "JaCoCo : une couverture mesurée",
+    "description": "Les rapports HTML et XML sont produits par Maven, archivés dans Jenkins et consommés par SonarQube.",
+    "screenshot": "16-readiness/jacoco-build-15.png",
+    "cards": [
+      {
+        "title": "72,3 %",
+        "body": "Couverture globale des lignes."
+      },
+      {
+        "title": "45,0 %",
+        "body": "Couverture globale des branches."
+      },
+      {
+        "title": "Rapports obligatoires",
+        "body": "Le build vérifie la présence des fichiers HTML et XML."
+      }
+    ],
+    "evidence": "pom.xml • Jenkinsfile • 16-readiness/sonar-build-15.json"
+  },
+  {
+    "section": "QUALITÉ",
+    "layout": "cards",
+    "status": "verified",
+    "title": "Un quality gate réellement évalué",
+    "description": "SonarQube #15 : gate OK, conditions évaluées, aucune violation nouvelle.",
+    "cards": [
+      {
+        "title": "0",
+        "body": "Bug, vulnérabilité, code smell et security hotspot."
+      },
+      {
+        "title": "87,9 %",
+        "body": "Couverture du nouveau code, seuil du gate : 80 %."
+      },
+      {
+        "title": "Périmètres distincts",
+        "body": "Couverture globale Sonar : 68,5 % ; couverture des lignes : 72,3 %."
+      }
+    ],
+    "evidence": "16-readiness/sonar-build-15.json"
+  },
+  {
+    "section": "GIT",
+    "layout": "code",
+    "status": "verified",
+    "title": "Tracer les changements sur Tache",
+    "description": "Branche dédiée, commits réels et historique préservé. Les modifications de documentation sont exclues du polling.",
+    "code": "fee07ba  DTO et préparation du pipeline EKS\n8a5a96f  Validation des références absentes\n7b7f585  Preuves et blocage du Learner Lab\n\nSource testée par Jenkins #15 :\n8a5a96f28c1e9d1fd2aa14146af43c6efcfd7bfe",
+    "cards": [
+      {
+        "title": "Reproductibilité",
+        "body": "Le tag d'image reprend le commit et le numéro de build."
+      },
+      {
+        "title": "Traçabilité",
+        "body": "Chaque résultat possède un journal, un rapport ou une capture authentique."
+      }
+    ],
+    "evidence": "Jalons Git, résumés des commits • Source du build #15"
+  },
+  {
+    "section": "JENKINS",
+    "layout": "flow",
+    "status": "verified",
+    "title": "Un seul pipeline, une release actuelle",
+    "description": "tache-ci #15 SUCCESS. L'ancien job de promotion est désactivé ; son historique est conservé.",
+    "cards": [
+      {
+        "title": "Compiler et tester",
+        "body": "52 tests et rapports JaCoCo obligatoires."
+      },
+      {
+        "title": "Analyser",
+        "body": "SonarQube et gate OK avant publication."
+      },
+      {
+        "title": "Préparer AWS",
+        "body": "Terraform : validation, plan et approbation."
+      },
+      {
+        "title": "Publier",
+        "body": "Nexus et Docker Hub réellement exécutés."
+      },
+      {
+        "title": "Déployer EKS",
+        "body": "Image du build courant, plus de dépendance au build #9."
+      },
+      {
+        "title": "Contrôler",
+        "body": "Rollout et HTTP ; étapes AWS ignorées dans #15."
+      }
+    ],
+    "evidence": "08-jenkins/build-15-summary.json • Jenkinsfile"
+  },
+  {
+    "section": "TERRAFORM",
+    "layout": "code",
+    "status": "pending",
+    "title": "Un plan avant toute création AWS",
+    "description": "Le module terraform/aws-eks partage le state AWS canonique ; le state local de supervision reste séparé.",
+    "code": "RUN_TERRAFORM = true\n    fmt → init → validate → plan\n\nAPPLY_TERRAFORM = false // par défaut\n    revue du plan et du coût\n    approbation manuelle dans Jenkins\n    apply du plan sauvegardé exact",
+    "cards": [
+      {
+        "title": "Garde-fous",
+        "body": "Compte attendu, profil lab dédié et accès API limité aux IPv4 /32."
+      },
+      {
+        "title": "Statut actuel",
+        "body": "Hash provider Linux corrigé ; nouveau plan requis après réactivation du lab."
+      }
+    ],
+    "evidence": "terraform/aws-eks/ • docs/JENKINS_TERRAFORM.md"
+  },
+  {
+    "section": "NEXUS",
+    "layout": "cards",
+    "status": "verified",
+    "title": "Le même JAR dans toute la chaîne",
+    "description": "Le SHA-256 du JAR Jenkins #15 est identique à celui téléchargé de Nexus et à celui présent dans l'image Docker.",
+    "cards": [
+      {
+        "title": "Jenkins",
+        "body": "JAR archivé après le build réussi."
+      },
+      {
+        "title": "Nexus",
+        "body": "Snapshot 1.0.0-20261031.023455-10."
+      },
+      {
+        "title": "Docker",
+        "body": "/app/app.jar vérifié dans le conteneur de test."
+      }
+    ],
+    "evidence": "16-readiness/release-15-verification.json"
+  },
+  {
+    "section": "DOCKER",
+    "layout": "cards",
+    "status": "verified",
+    "title": "Une image publique vérifiée",
+    "description": "Le manifeste distant est accessible sans compte et identique au manifeste linux/amd64 local.",
+    "cards": [
+      {
+        "title": "Dépôt",
+        "body": "ayyoub1/events-tache"
+      },
+      {
+        "title": "Tag livré",
+        "body": "tache-8a5a96f28c1e-15"
+      },
+      {
+        "title": "Intégrité",
+        "body": "HTTP 200 anonyme ; digest SHA-256 local/distant identique."
+      }
+    ],
+    "evidence": "Digest : 5c4ff54095b9ae76… • 16-readiness/release-15-verification.json"
+  },
+  {
+    "section": "RUNTIME",
+    "layout": "cards",
+    "status": "verified",
+    "title": "Tester l'image réellement construite",
+    "description": "L'image #15 a été lancée temporairement contre MySQL, puis le conteneur de test a été supprimé.",
+    "cards": [
+      {
+        "title": "Readiness UP",
+        "body": "Application et connexion MySQL opérationnelles."
+      },
+      {
+        "title": "Métier et métriques",
+        "body": "DTO, affectation du rôle, 404 attendu et export Prometheus vérifiés."
+      },
+      {
+        "title": "Utilisateur 10001",
+        "body": "Exécution non-root, confirmée dans le conteneur."
+      }
+    ],
+    "evidence": "16-readiness/docker-image-15-smoke.json"
+  },
+  {
+    "section": "OBSERVABILITÉ",
+    "layout": "code",
+    "status": "verified",
+    "title": "Des logs et des métriques exploitables",
+    "description": "L'application expose des métriques Actuator ; Prometheus collecte et Grafana visualise.",
+    "code": "/events/actuator/health/readiness\n/events/actuator/prometheus\n\nDEBUG  lecture du rôle\nINFO   affectation / retrait\nWARN   entrée invalide / participant absent\nERROR  incident inattendu, sans secret",
+    "cards": [
+      {
+        "title": "Export vérifié",
+        "body": "Métriques JVM et requêtes HTTP présentes dans le runtime testé."
+      },
+      {
+        "title": "Collecte EKS",
+        "body": "Manifests et dashboard prêts ; vérification live après réactivation."
+      }
+    ],
+    "evidence": "application.properties • TacheService.java • TacheExceptionHandler.java"
+  },
+  {
+    "section": "AWS EKS",
+    "layout": "cards",
+    "status": "pending",
+    "title": "Une infrastructure de démonstration maîtrisée",
+    "description": "La configuration AWS vise us-east-1 et réutilise le VPC, les subnets et LabRole du laboratoire.",
+    "cards": [
+      {
+        "title": "Quatre ressources",
+        "body": "Cluster EKS, launch template, node group et add-on EBS CSI."
+      },
+      {
+        "title": "Un worker",
+        "body": "t3.medium fixe ; disque système gp3 chiffré de 20 Gio."
+      },
+      {
+        "title": "Stockage applicatif",
+        "body": "MySQL 4 Gio, Prometheus 1 Gio, Grafana 1 Gio ; accès par tunnels authentifiés."
+      }
+    ],
+    "evidence": "terraform/aws-eks/ • k8s/eks/ • Création actuelle en attente de revue"
+  },
+  {
+    "section": "PREUVE AWS",
+    "layout": "image",
+    "status": "historical",
+    "title": "EKS : démonstration réalisée le 29 octobre",
+    "description": "Le déploiement précédent a été vérifié sur AWS puis supprimé après accord ; cette capture ne décrit pas un cluster actif aujourd'hui.",
+    "screenshot": "14-aws-eks/resources.png",
+    "cards": [
+      {
+        "title": "1 worker Ready",
+        "body": "Un nœud t3.medium disponible."
+      },
+      {
+        "title": "4 deployments",
+        "body": "Application, MySQL, Prometheus et Grafana."
+      },
+      {
+        "title": "3 PVC Bound",
+        "body": "Volumes gp3 chiffrés vérifiés."
+      }
+    ],
+    "evidence": "Capture authentique du 29/10/2026 • Infrastructure ensuite nettoyée"
+  },
+  {
+    "section": "PROMETHEUS",
+    "layout": "image",
+    "status": "historical",
+    "title": "Prometheus : une cible réellement UP",
+    "description": "Lors de la démonstration AWS du 29 octobre, Prometheus collectait les métriques Actuator du Service applicatif.",
+    "screenshot": "14-aws-eks/prometheus-targets.png",
+    "cards": [
+      {
+        "title": "Collecteur",
+        "body": "Scrape toutes les 15 secondes."
+      },
+      {
+        "title": "Cible applicative",
+        "body": "Service events, port 8089, chemin /events/actuator/prometheus."
+      },
+      {
+        "title": "Reprise",
+        "body": "La cible devra redevenir UP dans le nouveau cluster."
+      }
+    ],
+    "evidence": "Capture du 29/10/2026 • k8s/eks/prometheus.yaml"
+  },
+  {
+    "section": "GRAFANA",
+    "layout": "image",
+    "status": "historical",
+    "title": "Grafana : un dashboard provisionné",
+    "description": "La démonstration AWS précédente valide la datasource Prometheus et quatre requêtes non vides.",
+    "screenshot": "14-aws-eks/grafana-dashboard.png",
+    "cards": [
+      {
+        "title": "Quatre vues",
+        "body": "Cible UP, CPU Java, mémoire JVM et débit HTTP."
+      },
+      {
+        "title": "Provisioning",
+        "body": "Datasource et dashboard fournis par la configuration du dépôt."
+      },
+      {
+        "title": "Reprise",
+        "body": "Santé de la datasource et valeurs à vérifier après bootstrap."
+      }
+    ],
+    "evidence": "Capture du 29/10/2026 • monitoring/grafana-dashboard.json"
+  },
+  {
+    "section": "CYCLE DE VIE",
+    "layout": "image",
+    "status": "historical",
+    "title": "Nettoyer après la démonstration",
+    "description": "Le nettoyage précédent a été approuvé et contrôlé : ressources Terraform et volumes de données supprimés.",
+    "screenshot": "14-aws-eks/cleanup-verification.png",
+    "cards": [
+      {
+        "title": "Données d'abord",
+        "body": "Suppression des PVC avant celle du cluster."
+      },
+      {
+        "title": "Plan de destruction",
+        "body": "Revue puis accord avant l'apply destructif."
+      },
+      {
+        "title": "État confirmé",
+        "body": "Cluster précédent absent et volumes EBS supprimés."
+      }
+    ],
+    "evidence": "Preuve historique • 14-aws-eks/cleanup-verification.json"
+  },
+  {
+    "section": "REPRISE AWS",
+    "layout": "flow",
+    "status": "pending",
+    "title": "Les étapes pour relancer la démonstration",
+    "description": "La policy voc-cancel-cred refuse actuellement EKS ; le laboratoire doit être redémarré avant de préparer un nouveau plan.",
+    "cards": [
+      {
+        "title": "1 · Démarrer le lab",
+        "body": "Renouveler les trois credentials du profil dédié."
+      },
+      {
+        "title": "2 · Préparer Jenkins",
+        "body": "Vérifier identité, compte, budget et CIDRs /32 ; renouveler les Secret files."
+      },
+      {
+        "title": "3 · Revoir le plan",
+        "body": "DEPLOY_EKS=false ; approbation explicite avant apply."
+      },
+      {
+        "title": "4 · Bootstrap",
+        "body": "Namespaces, Secrets, MySQL, monitoring et RBAC."
+      },
+      {
+        "title": "5 · Livrer",
+        "body": "Renouveler le token EKS ; lancer le pipeline avec DEPLOY_EKS=true."
+      },
+      {
+        "title": "6 · Prouver",
+        "body": "HTTP/MySQL, PVC, cible UP, datasource et dashboard."
+      }
+    ],
+    "evidence": "docs/AWS_EKS_OPERATIONS.md • docs/JENKINS_TERRAFORM.md"
+  },
+  {
+    "section": "BILAN",
+    "layout": "cards",
+    "status": "verified",
+    "title": "Des résultats vérifiés, une reprise documentée",
+    "description": "La release applicative et ses preuves sont prêtes ; la nouvelle activation AWS dépend du Learner Lab.",
+    "cards": [
+      {
+        "title": "Application",
+        "body": "DTO entrée/sortie, 52 tests, HTTP/MySQL et erreurs contrôlées."
+      },
+      {
+        "title": "Chaîne CI",
+        "body": "Jenkins #15, gate OK, JaCoCo, Nexus et Docker Hub vérifiés."
+      },
+      {
+        "title": "Infrastructure",
+        "body": "Preuves AWS historiques conservées ; plan et bootstrap à reprendre après activation du lab."
+      }
+    ],
+    "evidence": "docs/READINESS.md • docs/EVALUATION_TRACKER.md"
+  },
+  {
+    "section": "DÉFENSE DES SOURCES",
+    "layout": "cards",
+    "status": "verified",
+    "title": "Trois choix à expliquer",
+    "description": "Les réponses sont visibles ici ; aucune note orateur n'est ajoutée au fichier PowerPoint.",
+    "cards": [
+      {
+        "title": "Pourquoi un DTO ?",
+        "body": "Définir le contrat HTTP, limiter les champs modifiables et empêcher les cycles JPA."
+      },
+      {
+        "title": "Pourquoi un enum ?",
+        "body": "Tache représente quatre rôles du participant, pas une tâche métier autonome."
+      },
+      {
+        "title": "Pourquoi plan puis apply ?",
+        "body": "Examiner les ressources et le coût avant d'autoriser une modification AWS."
+      }
+    ],
+    "evidence": "docs/ORAL_DEFENSE.md • docs/DTO_API.md"
+  }
+]

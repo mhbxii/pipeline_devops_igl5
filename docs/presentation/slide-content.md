@@ -1,137 +1,332 @@
-# Descriptions visibles dans les diapositives
+# Contenu visible de la soutenance
 
-## 1. Contribution Tache
+Source : slides-ready.json. Aucun de ces textes ne devient une note orateur.
 
-eventsProject : gestion des rôles des participants. Diagnostic, tests et déploiement progressifs.
+## 1. eventsProject
 
-## 2. Un périmètre respecté
+Gestion des rôles Participant et chaîne DevOps vers AWS EKS.
 
-Tache est un enum persisté en chaîne dans Participant ; le modèle partagé est conservé.
+- **52** : tests réussis
+- **#15** : Jenkins SUCCESS
+- **72,3 %** : couverture des lignes
+- **0** : bug Sonar
 
-## 3. Une branche dédiée et synchronisée
+Source visible : État vérifié le 31 octobre 2026 • Source testée : 8a5a96f
 
-Branche Tache publiée sur origin après accord ; historique préservé et révisions locale/distante identiques.
+## 2. Un périmètre métier précis
 
-## 4. Maven et Java
+Tache décrit le rôle d'un participant dans un événement. Le modèle partagé du projet est conservé.
 
-Maven 3.9.14 sélectionné pour la session ; cible Java 8 et runtime Docker Java 17.
+- **Un enum** : INVITE, ORGANISATEUR, SERVEUR et ANIMATEUR.
+- **Un participant** : Lire, affecter, remplacer ou retirer son rôle sans supprimer le participant.
+- **Un module intégré** : Contrôleurs, services et repositories existants ; aucune entité de tâche indépendante.
 
-## 5. La compilation initiale
+Source visible : entities/Tache.java • services/TacheService.java
 
-Journal sauvegardé : BUILD SUCCESS pour les 12 sources du dépôt initial.
+## 3. Du code au déploiement EKS
 
-## 6. Le blocage initial : MySQL
+Jenkins, SonarQube et Nexus restent locaux ; la destination Kubernetes du pipeline unique est AWS EKS.
 
-Journal du diagnostic initial : authentification root refusée et HTTP 500.
+- **1 · GitHub / Tache** : Source versionnée et checkout du commit.
+- **2 · Jenkins** : Compilation, tests et rapports JaCoCo.
+- **3 · SonarQube** : Analyse et quality gate bloquant.
+- **4 · Terraform AWS** : Plan puis apply optionnel après revue.
+- **5 · Nexus / Docker Hub** : JAR et image publiés et vérifiés.
+- **6 · AWS EKS** : Rollout et HTTP après réactivation du lab.
 
-## 7. MySQL : correction vérifiée
+Source visible : Jenkinsfile • Étapes AWS désactivées dans le build #15
 
-Base dédiée sur 3307 : création, affectation, lecture et retrait du rôle réussis.
+## 4. Persister un rôle, conserver le modèle
 
-## 8. 38 tests automatisés
+Le rôle reste une valeur de Participant, enregistrée en chaîne dans MySQL.
 
-Service Mockito, contrats HTTP, JPA/H2 sans mocks et mapping sécurisé des anciennes entrées.
+- **Lisibilité** : La base contient le nom du rôle, pas sa position dans l'enum.
+- **Intégrité** : Le participant existe avant toute affectation ; les valeurs inconnues sont rejetées.
 
-## 9. Sécuriser les entrées existantes
+```text
+public enum Tache {
+    INVITE, ORGANISATEUR,
+    SERVEUR, ANIMATEUR
+}
 
-Quatre entrées utilisent des DTO : identifiants générés et coût calculé protégés ; compatibilité HTTP/MySQL vérifiée.
+// Participant.java
+@Enumerated(EnumType.STRING)
+Tache tache;
+```
 
-## 10. Une analyse Sonar réellement évaluée
+Source visible : entities/Tache.java • entities/Participant.java
 
-Gate OK : nouveau code couvert à 81,9 %, duplication nulle et aucune violation nouvelle.
+## 5. Un cycle de rôle vérifié par HTTP
 
-## 11. Une qualité mesurée sans masquer le périmètre
+Le JAR et l'image finale ont été testés contre le MySQL dédié, en complément des tests automatisés.
 
-Zéro vulnérabilité après correction des quatre entrées ; couverture globale 49,6 %, distincte du nouveau code.
+- **GET /taches** : Consulter les quatre rôles possibles.
+- **POST /event/addPart** : Créer un participant avec un ID généré.
+- **PUT /taches/participants/{id}** : Affecter ou remplacer le rôle.
+- **GET /taches/participants/{id}** : Relire le rôle réellement persisté.
+- **DELETE /taches/participants/{id}** : Retirer le rôle ; réponse HTTP 204.
+- **Le participant reste** : Le retrait du rôle ne supprime pas sa fiche.
 
-## 12. Une chaîne Jenkins exécutée
+Source visible : 16-readiness/final-baseline-readiness.json
 
-Build #9 automatique réussi : 38 tests, gate Sonar, Nexus, image Docker Hub, rollout Kubernetes et vérification HTTP.
+## 6. Limiter les champs reçus par l'API
 
-## 13. GitHub déclenche Jenkins automatiquement
+Les DTO de requête définissent les champs modifiables. Les relations entrantes acceptent uniquement des IDs positifs.
 
-Le polling détecte le commit GitHub f510b9b et lance le build #9 : cause SCM enregistrée, sans lancement manuel.
+- **Créations protégées** : ParticipantCreateRequest, EventCreateRequest et LogisticsCreateRequest.
+- **Champs réservés** : Un client ne peut imposer l'ID généré ni le coût calculé.
 
-## 14. Une couverture métier mesurée
+```text
+@Getter
+@Setter
+public class RoleRequest {
+    private Tache tache;
+}
 
-TacheService : 24 lignes et 4 branches couvertes ; ce résultat concerne ce service.
+// Le participant vient du chemin HTTP :
+service.assignRole(id, request.getTache());
+```
 
-## 15. Des logs utiles
+Source visible : controllers/dto/RoleRequest.java • EventRequests.java
 
-DEBUG, INFO, WARN sur API ; ERROR démontré par une panne simulée dans un test.
+## 7. Des réponses sans graphe JPA récursif
 
-## 16. Application et MySQL en conteneurs
+Les DTO de réponse conservent les champs scalaires ; leurs relations exposent des identifiants.
 
-Cycle HTTP vérifié dans Docker ; readiness UP et utilisateur applicatif non privilégié.
+- **Sérialisation bornée** : Évite Participant → Event → Participant dans les réponses JSON.
+- **Contrat explicite** : URLs et champs scalaires conservés ; détail imbriqué remplacé par des références ID.
 
-## 17. Vérifier les conteneurs
+```text
+{
+  "idPart": 7,
+  "nom": "Demo",
+  "tache": "SERVEUR",
+  "events": [{ "idEvent": 10 }]
+}
 
-Application et base isolées ; volumes persistants et ports liés à localhost.
+// Rôle : participantId + tache
+```
 
-## 18. Une image publique vérifiée
+Source visible : Exemple de JSON conforme au DTO • EventResponses.java • docs/DTO_API.md
 
-ayyoub1/events-tache : manifeste linux/amd64 accessible sans compte et identique à l'image locale du build #9.
+## 8. Rejeter les erreurs avant la persistance
 
-## 19. Un déploiement Kubernetes réel
+Le NPE historique sur une référence absente est corrigé ; les erreurs attendues sont contrôlées.
 
-Pods applicatif et MySQL prêts, Services actifs et volume persistant lié.
+- **HTTP 400** : Identifiant nul ou négatif, enum inconnu, rôle manquant ou référence invalide.
+- **HTTP 404** : Participant absent ou événement introuvable pour l'affectation logistique.
+- **HTTP 204** : Retrait du rôle réussi, sans suppression du participant.
 
-## 20. Vérifier le service métier
+Source visible : EventReferenceValidationTest • TacheRestControllerTest • HTTP/MySQL réel
 
-Le cycle HTTP complet réussit via Kubernetes ; readiness inclut la base MySQL.
+## 9. 52 tests automatisés réussis
 
-## 21. Provisionner avec Terraform
+Jenkins #15 : zéro échec, zéro erreur et aucun test ignoré.
 
-Plan examiné et approuvé : 6 ressources Prometheus créées, aucune destruction.
+- **Service / Mockito** : Règles de rôle et références manquantes.
+- **HTTP / DTO** : Contrats, allowlists et sérialisation cyclique.
+- **JPA / H2** : Persistance réelle ; MySQL vérifié séparément.
 
-## 22. Contrôler la convergence
+Source visible : Jenkins #15 • Rapport JUnit authentique
 
-Un nouveau plan ne détecte aucune différence entre configuration et infrastructure.
+## 10. JaCoCo : une couverture mesurée
 
-## 23. Observer une application réellement collectée
+Les rapports HTML et XML sont produits par Maven, archivés dans Jenkins et consommés par SonarQube.
 
-Prometheus collecte la cible Kubernetes events : 1/1 UP, métriques exposées par Actuator.
+- **72,3 %** : Couverture globale des lignes.
+- **45,0 %** : Couverture globale des branches.
+- **Rapports obligatoires** : Le build vérifie la présence des fichiers HTML et XML.
 
-## 24. Visualiser les métriques dans Grafana
+Source visible : pom.xml • Jenkinsfile • 16-readiness/sonar-build-15.json
 
-Dashboard provisionné : cible UP, CPU Java, mémoire JVM et débit HTTP ; quatre requêtes réelles vérifiées.
+## 11. Un quality gate réellement évalué
 
-## 25. Publier le livrable dans Nexus
+SonarQube #15 : gate OK, conditions évaluées, aucune violation nouvelle.
 
-Le dépôt Maven snapshots contient le JAR et le POM de tn.esprit:eventsProject:1.0.0-SNAPSHOT.
+- **0** : Bug, vulnérabilité, code smell et security hotspot.
+- **87,9 %** : Couverture du nouveau code, seuil du gate : 80 %.
+- **Périmètres distincts** : Couverture globale Sonar : 68,5 % ; couverture des lignes : 72,3 %.
 
-## 26. Relier le build au programme exécuté
+Source visible : 16-readiness/sonar-build-15.json
 
-Même SHA-256 pour le JAR archivé par Jenkins, téléchargé de Nexus et présent dans le pod Kubernetes.
+## 12. Tracer les changements sur Tache
 
-## 27. Créer une infrastructure AWS réelle
+Branche dédiée, commits réels et historique préservé. Les modifications de documentation sont exclues du polling.
 
-Learner Lab personnel, us-east-1 : plan examiné et approuvé, quatre ressources Terraform créées pour EKS, son worker et EBS CSI.
+- **Reproductibilité** : Le tag d'image reprend le commit et le numéro de build.
+- **Traçabilité** : Chaque résultat possède un journal, un rapport ou une capture authentique.
 
-## 28. Exécuter l'application sur EKS
+```text
+fee07ba  DTO et préparation du pipeline EKS
+8a5a96f  Validation des références absentes
+7b7f585  Preuves et blocage du Learner Lab
 
-Un worker t3.medium Ready, quatre deployments disponibles et trois volumes EBS gp3 chiffrés : MySQL 4 Gio, Prometheus et Grafana 1 Gio chacun.
+Source testée par Jenkins #15 :
+8a5a96f28c1e9d1fd2aa14146af43c6efcfd7bfe
+```
 
-## 29. Vérifier le métier et la persistance AWS
+Source visible : Jalons Git, résumés des commits • Source du build #15
 
-Lecture, affectation, remplacement et retrait du rôle vérifiés par HTTP ; le participant et son rôle survivent au remplacement du pod MySQL.
+## 13. Un seul pipeline, une release actuelle
 
-## 30. Promouvoir la release avec Jenkins vers EKS
+tache-ci #15 SUCCESS. L'ancien job de promotion est désactivé ; son historique est conservé.
 
-tache-eks-delivery #2 SUCCESS : image vérifiée du build CI #9, déployée par digest ; nouveau rollout et contrôles HTTP depuis Jenkins.
+- **Compiler et tester** : 52 tests et rapports JaCoCo obligatoires.
+- **Analyser** : SonarQube et gate OK avant publication.
+- **Préparer AWS** : Terraform : validation, plan et approbation.
+- **Publier** : Nexus et Docker Hub réellement exécutés.
+- **Déployer EKS** : Image du build courant, plus de dépendance au build #9.
+- **Contrôler** : Rollout et HTTP ; étapes AWS ignorées dans #15.
 
-## 31. Collecter les métriques dans AWS
+Source visible : 08-jenkins/build-15-summary.json • Jenkinsfile
 
-Prometheus tourne sur EKS et collecte réellement les métriques Actuator du Service applicatif : une cible, état UP.
+## 14. Un plan avant toute création AWS
 
-## 32. Observer le déploiement EKS dans Grafana
+Le module terraform/aws-eks partage le state AWS canonique ; le state local de supervision reste séparé.
 
-Dashboard provisionné sur AWS : cible UP, CPU Java, mémoire JVM et débit HTTP ; datasource saine et quatre requêtes non vides.
+- **Garde-fous** : Compte attendu, profil lab dédié et accès API limité aux IPv4 /32.
+- **Statut actuel** : Hash provider Linux corrigé ; nouveau plan requis après réactivation du lab.
 
-## 33. Contrôler la convergence et les coûts
+```text
+RUN_TERRAFORM = true
+    fmt → init → validate → plan
 
-Le plan suivant ne détecte aucun changement. Estimation en activité : 0,16 USD/h ; les volumes puis le cluster ont été supprimés après accord.
+APPLY_TERRAFORM = false // par défaut
+    revue du plan et du coût
+    approbation manuelle dans Jenkins
+    apply du plan sauvegardé exact
+```
 
-## 34. Terminer le cycle de vie AWS
+Source visible : terraform/aws-eks/ • docs/JENKINS_TERRAFORM.md
 
-Nettoyage approuvé et vérifié : cluster supprimé, worker terminé, quatre volumes EBS absents ; captures et livrables conservés, kind toujours disponible.
+## 15. Le même JAR dans toute la chaîne
+
+Le SHA-256 du JAR Jenkins #15 est identique à celui téléchargé de Nexus et à celui présent dans l'image Docker.
+
+- **Jenkins** : JAR archivé après le build réussi.
+- **Nexus** : Snapshot 1.0.0-20261031.023455-10.
+- **Docker** : /app/app.jar vérifié dans le conteneur de test.
+
+Source visible : 16-readiness/release-15-verification.json
+
+## 16. Une image publique vérifiée
+
+Le manifeste distant est accessible sans compte et identique au manifeste linux/amd64 local.
+
+- **Dépôt** : ayyoub1/events-tache
+- **Tag livré** : tache-8a5a96f28c1e-15
+- **Intégrité** : HTTP 200 anonyme ; digest SHA-256 local/distant identique.
+
+Source visible : Digest : 5c4ff54095b9ae76… • 16-readiness/release-15-verification.json
+
+## 17. Tester l'image réellement construite
+
+L'image #15 a été lancée temporairement contre MySQL, puis le conteneur de test a été supprimé.
+
+- **Readiness UP** : Application et connexion MySQL opérationnelles.
+- **Métier et métriques** : DTO, affectation du rôle, 404 attendu et export Prometheus vérifiés.
+- **Utilisateur 10001** : Exécution non-root, confirmée dans le conteneur.
+
+Source visible : 16-readiness/docker-image-15-smoke.json
+
+## 18. Des logs et des métriques exploitables
+
+L'application expose des métriques Actuator ; Prometheus collecte et Grafana visualise.
+
+- **Export vérifié** : Métriques JVM et requêtes HTTP présentes dans le runtime testé.
+- **Collecte EKS** : Manifests et dashboard prêts ; vérification live après réactivation.
+
+```text
+/events/actuator/health/readiness
+/events/actuator/prometheus
+
+DEBUG  lecture du rôle
+INFO   affectation / retrait
+WARN   entrée invalide / participant absent
+ERROR  incident inattendu, sans secret
+```
+
+Source visible : application.properties • TacheService.java • TacheExceptionHandler.java
+
+## 19. Une infrastructure de démonstration maîtrisée
+
+La configuration AWS vise us-east-1 et réutilise le VPC, les subnets et LabRole du laboratoire.
+
+- **Quatre ressources** : Cluster EKS, launch template, node group et add-on EBS CSI.
+- **Un worker** : t3.medium fixe ; disque système gp3 chiffré de 20 Gio.
+- **Stockage applicatif** : MySQL 4 Gio, Prometheus 1 Gio, Grafana 1 Gio ; accès par tunnels authentifiés.
+
+Source visible : terraform/aws-eks/ • k8s/eks/ • Création actuelle en attente de revue
+
+## 20. EKS : démonstration réalisée le 29 octobre
+
+Le déploiement précédent a été vérifié sur AWS puis supprimé après accord ; cette capture ne décrit pas un cluster actif aujourd'hui.
+
+- **1 worker Ready** : Un nœud t3.medium disponible.
+- **4 deployments** : Application, MySQL, Prometheus et Grafana.
+- **3 PVC Bound** : Volumes gp3 chiffrés vérifiés.
+
+Source visible : Capture authentique du 29/10/2026 • Infrastructure ensuite nettoyée
+
+## 21. Prometheus : une cible réellement UP
+
+Lors de la démonstration AWS du 29 octobre, Prometheus collectait les métriques Actuator du Service applicatif.
+
+- **Collecteur** : Scrape toutes les 15 secondes.
+- **Cible applicative** : Service events, port 8089, chemin /events/actuator/prometheus.
+- **Reprise** : La cible devra redevenir UP dans le nouveau cluster.
+
+Source visible : Capture du 29/10/2026 • k8s/eks/prometheus.yaml
+
+## 22. Grafana : un dashboard provisionné
+
+La démonstration AWS précédente valide la datasource Prometheus et quatre requêtes non vides.
+
+- **Quatre vues** : Cible UP, CPU Java, mémoire JVM et débit HTTP.
+- **Provisioning** : Datasource et dashboard fournis par la configuration du dépôt.
+- **Reprise** : Santé de la datasource et valeurs à vérifier après bootstrap.
+
+Source visible : Capture du 29/10/2026 • monitoring/grafana-dashboard.json
+
+## 23. Nettoyer après la démonstration
+
+Le nettoyage précédent a été approuvé et contrôlé : ressources Terraform et volumes de données supprimés.
+
+- **Données d'abord** : Suppression des PVC avant celle du cluster.
+- **Plan de destruction** : Revue puis accord avant l'apply destructif.
+- **État confirmé** : Cluster précédent absent et volumes EBS supprimés.
+
+Source visible : Preuve historique • 14-aws-eks/cleanup-verification.json
+
+## 24. Les étapes pour relancer la démonstration
+
+La policy voc-cancel-cred refuse actuellement EKS ; le laboratoire doit être redémarré avant de préparer un nouveau plan.
+
+- **1 · Démarrer le lab** : Renouveler les trois credentials du profil dédié.
+- **2 · Préparer Jenkins** : Vérifier identité, compte, budget et CIDRs /32 ; renouveler les Secret files.
+- **3 · Revoir le plan** : DEPLOY_EKS=false ; approbation explicite avant apply.
+- **4 · Bootstrap** : Namespaces, Secrets, MySQL, monitoring et RBAC.
+- **5 · Livrer** : Renouveler le token EKS ; lancer le pipeline avec DEPLOY_EKS=true.
+- **6 · Prouver** : HTTP/MySQL, PVC, cible UP, datasource et dashboard.
+
+Source visible : docs/AWS_EKS_OPERATIONS.md • docs/JENKINS_TERRAFORM.md
+
+## 25. Des résultats vérifiés, une reprise documentée
+
+La release applicative et ses preuves sont prêtes ; la nouvelle activation AWS dépend du Learner Lab.
+
+- **Application** : DTO entrée/sortie, 52 tests, HTTP/MySQL et erreurs contrôlées.
+- **Chaîne CI** : Jenkins #15, gate OK, JaCoCo, Nexus et Docker Hub vérifiés.
+- **Infrastructure** : Preuves AWS historiques conservées ; plan et bootstrap à reprendre après activation du lab.
+
+Source visible : docs/READINESS.md • docs/EVALUATION_TRACKER.md
+
+## 26. Trois choix à expliquer
+
+Les réponses sont visibles ici ; aucune note orateur n'est ajoutée au fichier PowerPoint.
+
+- **Pourquoi un DTO ?** : Définir le contrat HTTP, limiter les champs modifiables et empêcher les cycles JPA.
+- **Pourquoi un enum ?** : Tache représente quatre rôles du participant, pas une tâche métier autonome.
+- **Pourquoi plan puis apply ?** : Examiner les ressources et le coût avant d'autoriser une modification AWS.
+
+Source visible : docs/ORAL_DEFENSE.md • docs/DTO_API.md

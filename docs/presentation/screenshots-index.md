@@ -1,38 +1,33 @@
-# Index des captures et diapositives
+# Index des preuves de la soutenance actuelle
 
-| Slide | Titre | Preuve |
-| --- | --- | --- |
-| 1 | Contribution Tache | Ouverture |
-| 2 | Un périmètre respecté | 01-project-setup/setup-02-tache-model.png |
-| 3 | Une branche dédiée et synchronisée | 05-git/git-01-branch-history.png |
-| 4 | Maven et Java | 02-maven/maven-01-toolchain.png |
-| 5 | La compilation initiale | 02-maven/maven-02-baseline-build.png |
-| 6 | Le blocage initial : MySQL | 01-project-setup/setup-03-database-blocker.png |
-| 7 | MySQL : correction vérifiée | 01-project-setup/mysql-api-success.png |
-| 8 | 38 tests automatisés | 08-jenkins/jenkins-tests.png |
-| 9 | Sécuriser les entrées existantes | 12-final-validation/legacy-dto-api.png |
-| 10 | Une analyse Sonar réellement évaluée | 06-sonarqube/sonar-final-new-code.png |
-| 11 | Une qualité mesurée sans masquer le périmètre | 06-sonarqube/sonar-final-dashboard.png |
-| 12 | Une chaîne Jenkins exécutée | 08-jenkins/jenkins-pipeline-overview.png |
-| 13 | GitHub déclenche Jenkins automatiquement | 08-jenkins/github-trigger.png |
-| 14 | Une couverture métier mesurée | 04-unit-tests/coverage-service.png |
-| 15 | Des logs utiles | 03-logging/tache-levels.png |
-| 16 | Application et MySQL en conteneurs | 09-docker/docker-api-success.png |
-| 17 | Vérifier les conteneurs | 09-docker/docker-containers.png |
-| 18 | Une image publique vérifiée | 09-docker/dockerhub-repository.png |
-| 19 | Un déploiement Kubernetes réel | 10-kubernetes/kubernetes-resources.png |
-| 20 | Vérifier le service métier | 10-kubernetes/kubernetes-api-success.png |
-| 21 | Provisionner avec Terraform | 11-terraform/terraform-apply.png |
-| 22 | Contrôler la convergence | 11-terraform/terraform-no-drift.png |
-| 23 | Observer une application réellement collectée | 13-monitoring/prometheus-targets.png |
-| 24 | Visualiser les métriques dans Grafana | 13-monitoring/grafana-dashboard.png |
-| 25 | Publier le livrable dans Nexus | 07-nexus/nexus-repository.png |
-| 26 | Relier le build au programme exécuté | 12-final-validation/local-delivery.png |
-| 27 | Créer une infrastructure AWS réelle | 14-aws-eks/terraform-apply.png |
-| 28 | Exécuter l'application sur EKS | 14-aws-eks/resources.png |
-| 29 | Vérifier le métier et la persistance AWS | 14-aws-eks/api-success.png |
-| 30 | Promouvoir la release avec Jenkins vers EKS | 14-aws-eks/jenkins-eks-stages.png |
-| 31 | Collecter les métriques dans AWS | 14-aws-eks/prometheus-targets.png |
-| 32 | Observer le déploiement EKS dans Grafana | 14-aws-eks/grafana-dashboard.png |
-| 33 | Contrôler la convergence et les coûts | 14-aws-eks/terraform-no-drift.png |
-| 34 | Terminer le cycle de vie AWS | 14-aws-eks/cleanup-verification.png |
+Fichier courant : eventsProject-Tache-Soutenance.pptx ; sources : slides-ready.json.
+Les captures AWS historiques sont explicitement datées du 29 octobre sur chaque slide.
+
+| Slide | Sujet | Nature | Preuve |
+| --- | --- | --- | --- |
+| 1 | eventsProject | Vérifié au 31/10 | État vérifié le 31 octobre 2026 • Source testée : 8a5a96f |
+| 2 | Un périmètre métier précis | Vérifié au 31/10 | entities/Tache.java • services/TacheService.java |
+| 3 | Du code au déploiement EKS | Vérifié au 31/10 | Jenkinsfile • Étapes AWS désactivées dans le build #15 |
+| 4 | Persister un rôle, conserver le modèle | Vérifié au 31/10 | entities/Tache.java • entities/Participant.java |
+| 5 | Un cycle de rôle vérifié par HTTP | Vérifié au 31/10 | 16-readiness/final-baseline-readiness.json |
+| 6 | Limiter les champs reçus par l'API | Vérifié au 31/10 | controllers/dto/RoleRequest.java • EventRequests.java |
+| 7 | Des réponses sans graphe JPA récursif | Vérifié au 31/10 | Exemple de JSON conforme au DTO • EventResponses.java • docs/DTO_API.md |
+| 8 | Rejeter les erreurs avant la persistance | Vérifié au 31/10 | EventReferenceValidationTest • TacheRestControllerTest • HTTP/MySQL réel |
+| 9 | 52 tests automatisés réussis | Vérifié au 31/10 | [Capture authentique](../evidence/16-readiness/junit-build-15.png) |
+| 10 | JaCoCo : une couverture mesurée | Vérifié au 31/10 | [Capture authentique](../evidence/16-readiness/jacoco-build-15.png) |
+| 11 | Un quality gate réellement évalué | Vérifié au 31/10 | 16-readiness/sonar-build-15.json |
+| 12 | Tracer les changements sur Tache | Vérifié au 31/10 | Jalons Git, résumés des commits • Source du build #15 |
+| 13 | Un seul pipeline, une release actuelle | Vérifié au 31/10 | 08-jenkins/build-15-summary.json • Jenkinsfile |
+| 14 | Un plan avant toute création AWS | Reprise AWS à effectuer | terraform/aws-eks/ • docs/JENKINS_TERRAFORM.md |
+| 15 | Le même JAR dans toute la chaîne | Vérifié au 31/10 | 16-readiness/release-15-verification.json |
+| 16 | Une image publique vérifiée | Vérifié au 31/10 | Digest : 5c4ff54095b9ae76… • 16-readiness/release-15-verification.json |
+| 17 | Tester l'image réellement construite | Vérifié au 31/10 | 16-readiness/docker-image-15-smoke.json |
+| 18 | Des logs et des métriques exploitables | Vérifié au 31/10 | application.properties • TacheService.java • TacheExceptionHandler.java |
+| 19 | Une infrastructure de démonstration maîtrisée | Reprise AWS à effectuer | terraform/aws-eks/ • k8s/eks/ • Création actuelle en attente de revue |
+| 20 | EKS : démonstration réalisée le 29 octobre | Historique du 29/10 | [Capture authentique](../evidence/14-aws-eks/resources.png) |
+| 21 | Prometheus : une cible réellement UP | Historique du 29/10 | [Capture authentique](../evidence/14-aws-eks/prometheus-targets.png) |
+| 22 | Grafana : un dashboard provisionné | Historique du 29/10 | [Capture authentique](../evidence/14-aws-eks/grafana-dashboard.png) |
+| 23 | Nettoyer après la démonstration | Historique du 29/10 | [Capture authentique](../evidence/14-aws-eks/cleanup-verification.png) |
+| 24 | Les étapes pour relancer la démonstration | Reprise AWS à effectuer | docs/AWS_EKS_OPERATIONS.md • docs/JENKINS_TERRAFORM.md |
+| 25 | Des résultats vérifiés, une reprise documentée | Vérifié au 31/10 | docs/READINESS.md • docs/EVALUATION_TRACKER.md |
+| 26 | Trois choix à expliquer | Vérifié au 31/10 | docs/ORAL_DEFENSE.md • docs/DTO_API.md |
